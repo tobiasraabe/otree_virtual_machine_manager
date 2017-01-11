@@ -33,7 +33,7 @@ setup(
                  'otree_ubuntu_server_manager'},
     entry_points={
         'console_scripts': [
-            'otree_ubuntu_server_manager=otree_ubuntu_server_manager.cli:main'
+            'otree_ubuntu_server_manager=otree_ubuntu_server_manager.cli:cli'
         ]
     },
     include_package_data=True,
