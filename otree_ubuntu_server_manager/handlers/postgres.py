@@ -200,7 +200,7 @@ class PostgreSQLDatabaseHandler(object):
         conn.close()
 
         click.secho('User {} was successfully removed from postgres server.'
-                   .format(user_name), fg='green')
+                    .format(user_name), fg='green')
 
         return int(http_port), int(ssl_port)
 

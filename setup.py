@@ -10,8 +10,9 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'Click>=6.0',
-    # TODO: put package requirements here
+    'Click >= 6.0',
+    'psycopg2 >= 2.6.2',
+    'plumbum >= 1.6.3',
 ]
 
 test_requirements = [
