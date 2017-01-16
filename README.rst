@@ -1,6 +1,6 @@
-===============================
+===========================
 oTree Ubuntu Server Manager
-===============================
+===========================
 
 
 .. image:: https://img.shields.io/pypi/v/otree_ubuntu_server_manager.svg
@@ -25,13 +25,26 @@ oTree Ubuntu Server Manager helps to manage user accounts.
 * Documentation: https://otree-ubuntu-server-manager.readthedocs.io.
 
 
+Overview
+--------
+
+*oTree Virtual Machine Manager* is a useful extension to the *oTree Virtual
+Machine Image* provided by Felix Albrecht and Holger Gerhardt. It automates
+many tasks for an administrator (e.g. setting up user accounts) which involve
+many steps and flawless integration into the existing configuration.
+
+
 Features
 --------
 
-* TODO
+- [x] Managing a database of account configurations
+- [x] Adding a new experimenter account
+- [x] Deleting an existing experimenter account
+- [x] Backup functionality for experimenter account (for now only database)
+
 
 Credits
----------
+-------
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 

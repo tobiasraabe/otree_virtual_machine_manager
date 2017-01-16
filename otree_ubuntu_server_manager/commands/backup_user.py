@@ -1,32 +1,27 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-""" This script makes a database backup for a specific user. The
-following steps are executed:
-
-    - [X] Create directory in otree-admin
-    - [X] Output database in ``user_db_backups/``
-
-"""
 
 import click
 import os
 import time
+
+from . import HOME
 from ..prompts.defaults import get_add_default
-from plumbum import local
 from plumbum.cmd import pg_dump
-from plumbum.cmd import su
 from plumbum.cmd import sudo
 
 
-zipper = local['7z']
-
-ADMIN_DIRECTORY = 'user_db_backups/'
-
-
 def backup_user(user_name=None):
-    """For a given user name, the function backups the user's database to a
-    folder in the administrator's directory."""
+    """This command performs a database backup for ``user_name``.
+
+    - *parameters*::
+        :user_name: Name of the user whose data is backed up
+
+    - The following steps are performed::
+        :1: If no user_name is provided, ask for it
+        :2: If no folder for backups exists, create it
+        :3: Save the database to backup folder
+
+    """
 
     click.echo('{:-^60}\n'.format(' Process: back_user '))
 
@@ -35,12 +30,12 @@ def backup_user(user_name=None):
         user_name = click.prompt(
             'Which user do you want to backup?', default=default['user_name'])
 
-    if not os.path.exists(ADMIN_DIRECTORY):
-        os.makedirs(ADMIN_DIRECTORY)
+    if not os.path.exists(HOME + '/ousm/user_backups'):
+        os.makedirs(HOME + '/ousm/user_backups')
 
-    timestr = time.strftime('%Y-%m-%d_%H-%M-%S')
-    (sudo[su['-', 'postgres', '-c', pg_dump[user_name]]] >
-     'user_db_backups/' + user_name + '_db_dump_' + timestr + '.sql')()
+    tim = time.strftime('%Y-%m-%d_%H-%M-%S')
+    (sudo['u-', 'postgres', '-c', pg_dump[user_name]] >
+     (HOME + '/ousm/user_backups/' + user_name + '_db_dump_' + tim + '.sql'))()
 
     click.secho(
         "A backup of user's database was successfully created", fg='green')

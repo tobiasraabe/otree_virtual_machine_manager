@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-
-"""This document contains everything related to Nginx operations.
-
-"""
+# -*- coding: utf-8 -*-
 
 import click
 import sys
@@ -15,24 +11,19 @@ from plumbum.cmd import sudo
 
 
 class NginxConfigHandler():
-    """This class contains all operations related to Nginx configuration.
-
-        The functions are::
-
-            :__init__:          Verifies integrity of existing nginx config
-            :check_integrity:   Verifies integrity of existing nginx config
-            :add_user:          Adds new user to nginx config
-            :delete_user:       Deletes a user from nginx config
+    """This class contains a handler for Nginx configurations.
 
     """
 
     def __init__(self):
-        """Checks integrity of nginx config in advance"""
 
         self.check_integrity()
 
     def check_integrity(self):
-        """Integrity check for nginx configuration."""
+        """This functions performs an integrity check of the nginx
+        configuration.
+
+        """
 
         try:
             a = sudo[nginx['-s', 'reload']].run()
@@ -45,7 +36,17 @@ class NginxConfigHandler():
             click.secho('The nginx configuration is fine.', fg='green')
 
     def add_user(self, dict_user):
-        """Adds a user entry to nginx configuration"""
+        """This functions adds a new user to the nginx configuration.
+
+        This function creates a configuration file in
+        ``/etc/nginx/sites-available/`` and symlinks the file to
+        ``/etc/nginx/sites-enabled/``. After that, it calls
+        ``def check_integrity``.
+
+        - *parameters*::
+            :dict_user: A dict of user information containing port number
+
+        """
 
         with open('/etc/nginx/sites-available/{user_name}'
                   .format(**dict_user), 'w') as file:

@@ -5,6 +5,7 @@ Credits
 Development Lead
 ----------------
 
+* Felix Albrecht <f.albrecht@uni-bonn.com>
 * Tobias Raabe <tobiasraabe@uni-bonn.de>
 
 Contributors

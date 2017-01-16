@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """This script executes the function `list_user()` of
@@ -11,6 +10,11 @@ from ..handlers.postgres import PostgreSQLDatabaseHandler
 
 
 def list_user():
+    """This command queries user names from the user database and echoes them
+    to shell.
+
+    """
+
     print('\n{:-^60}'.format(' Process: List Users '))
     postgres = PostgreSQLDatabaseHandler()
     postgres.list_user()

@@ -1,21 +1,8 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-"""This scripts removes a user from the otree-server configuration. Every step
-is written inside a try-except block which continues in case of an error.
-The steps are:
-
-    - [X] Look up user name in PSQL database, get http_port for ufw, delete
-          entry
-    - [X] Remove Ubuntu user with home directory
-    - [X] Remove nginx configuration
-    - [X] Close open ports
-    - [X] Delete Samba configuration
-
-"""
 
 import click
 
+from . import HOME
 from ..handlers.nginx import NginxConfigHandler
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 from ..handlers.samba import SambaConfigHandler
@@ -27,6 +14,19 @@ from plumbum.cmd import userdel
 
 
 def delete_user():
+    """This command removes a user existing in the user database.
+
+    - The following steps are performed::
+        :1: Look up a user name in the user database
+        :2: Ask whether a backup should be made (calls ``def backup_user``)
+        :3: Remove Ubuntu user with home directory
+        :4: Remove nginx configuration
+        :5: Close open ports
+        :6: Delete Samba configuration
+        :7: Remove user config in ``/ousm/user_configs/``
+
+    """
+
     http_port = None
 
     click.echo('\n{:-^60}'.format(' Process: Delete User '))
@@ -70,7 +70,7 @@ def delete_user():
         pass
 
     try:
-        sudo['rm', 'user_configs/{}'.format(user_name)]
+        sudo['rm', HOME + '/ousm/user_configs/{}'.format(user_name)]
     except:
         pass
 

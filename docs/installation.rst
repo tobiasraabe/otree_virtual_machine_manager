@@ -4,6 +4,11 @@
 Installation
 ============
 
+Requirements
+------------
+
+As *oTree Ubuntu Server Manager* provides helpful commands to administrators of the *oTree Virtual Machine Image*, it needs ``sudo`` access to perform its actions. Please, choose an appropriate account to install the package.
+
 
 Stable release
 --------------
@@ -14,7 +19,7 @@ To install oTree Ubuntu Server Manager, run this command in your terminal:
 
     $ pip install otree_ubuntu_server_manager
 
-This is the preferred method to install oTree Ubuntu Server Manager, as it will always install the most recent stable release. 
+This is the preferred method to install oTree Ubuntu Server Manager, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
