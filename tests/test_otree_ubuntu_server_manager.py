@@ -5,7 +5,7 @@
 test_otree_ubuntu_server_manager
 ----------------------------------
 
-Tests for `otree_ubuntu_server_manager` module.
+Tests for `ovmm` module.
 """
 
 import pytest
@@ -13,8 +13,8 @@ import pytest
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from otree_ubuntu_server_manager import otree_ubuntu_server_manager
-from otree_ubuntu_server_manager import cli
+from ovmm import ovmm
+from ovmm import cli
 
 
 @pytest.fixture

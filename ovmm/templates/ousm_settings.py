@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 OUSM_SETTINGS = '''
-"""This is the settings file for oTree Ubuntu Server Manager.
+"""This is the settings file for oTree Virtual Machine Manager.
 
 """
 

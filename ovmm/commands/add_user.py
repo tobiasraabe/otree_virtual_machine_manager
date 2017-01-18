@@ -43,7 +43,7 @@ def add_user():
         :9: Create samba configuration
         :10: Add alias to .profile
         :11: Set user's default shell to bash
-        :12: Write user_config to ``ousm/user_configs/``
+        :12: Write user_config to ``ovmm/user_configs/``
 
     """
 
@@ -83,7 +83,7 @@ def add_user():
 
     # Unpack additional files to user directory
     data = pkg_resources.resource_filename(
-        'otree_ubuntu_server_manager', 'static/exp_env.7z')
+        'ovmm', 'static/exp_env.7z')
     sudo['-u', '{user_name}'.format(**dict_user), '7z', 'x', data,
          '-o/home/{user_name}'.format(**dict_user), '-y']()
 
@@ -127,7 +127,7 @@ def add_user():
     sudo[usermod['-s', '/bin/bash', '{user_name}'.format(**dict_user)]]()
 
     # create output
-    path = HOME + '/ousm/user_configs'
+    path = HOME + '/ovmm/user_configs'
     if not os.path.exists(path):
         os.makedirs(path)
     with open(path + '/{user_name}.txt'.format(**dict_user), 'w') as file:
