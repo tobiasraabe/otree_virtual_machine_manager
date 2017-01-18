@@ -8,9 +8,9 @@ Usage
 General usage
 -------------
 
-Always run ``otree_ubuntu_server_manager`` with ``sudo`` or some commands might not work.
+Always run ``ovmm`` with ``sudo`` or some commands might not work.
 
-If you need more information on the commands, run ``otree_ubuntu_server_manager --help``
+If you need more information on the commands, run ``ovmm --help``
 
 
 .. _first_run:
@@ -18,14 +18,14 @@ If you need more information on the commands, run ``otree_ubuntu_server_manager 
 First run
 ---------
 
-When using ``otree_ubuntu_server_manager`` for the first time, run ``sudo otree_ubuntu_server_manager initialise`` to set up you system.
+When using ``ovmm`` for the first time, run ``sudo ovmm initialise`` to set up you system.
 
 The command performs the following actions:
 
 - Installing Ubuntu dependencies
 - Installing a settings file
 
-After running the command, there is a folder called ``/home/<user>/ousm/`` which contains ``ousm_settings.py``. Perform two checks: first, check whether the login information for the PostgreSQL database is correctly set. Next, define the ranges of port numbers in ``POSTGRES_MISC``. The dictionary keys contain python lists. Insert distinct values or use list comprehension for bigger ranges.
+After running the command, there is a folder called ``/home/<user>/ovmm/`` which contains ``ovmm_settings.py``. Perform two checks: first, check whether the login information for the PostgreSQL database is correctly set. Next, define the ranges of port numbers in ``POSTGRES_MISC``. The dictionary keys contain python lists. Insert distinct values or use list comprehension for bigger ranges.
 
 
 .. _commands:
@@ -33,20 +33,20 @@ After running the command, there is a folder called ``/home/<user>/ousm/`` which
 Commands
 --------
 
-.. automodule:: otree_ubuntu_server_manager.commands.initialise
+.. automodule:: ovmm.commands.initialise
     :members:
 
-.. automodule:: otree_ubuntu_server_manager.commands.add_user
+.. automodule:: ovmm.commands.add_user
     :members:
 
-.. automodule:: otree_ubuntu_server_manager.commands.backup_user
+.. automodule:: ovmm.commands.backup_user
     :members:
 
-.. automodule:: otree_ubuntu_server_manager.commands.count_user
+.. automodule:: ovmm.commands.count_user
     :members:
 
-.. automodule:: otree_ubuntu_server_manager.commands.delete_user
+.. automodule:: ovmm.commands.delete_user
     :members:
 
-.. automodule:: otree_ubuntu_server_manager.commands.list_user
+.. automodule:: ovmm.commands.list_user
     :members:

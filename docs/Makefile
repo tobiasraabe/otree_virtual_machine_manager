@@ -85,17 +85,17 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/otree_ubuntu_server_manager.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/ovmm.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/otree_ubuntu_server_manager.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/ovmm.qhc"
 
 devhelp:
 	$(SPHINXBUILD) -b devhelp $(ALLSPHINXOPTS) $(BUILDDIR)/devhelp
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/otree_ubuntu_server_manager"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/otree_ubuntu_server_manager"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/ovmm"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/ovmm"
 	@echo "# devhelp"
 
 epub:

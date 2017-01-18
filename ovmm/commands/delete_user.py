@@ -23,7 +23,7 @@ def delete_user():
         :4: Remove nginx configuration
         :5: Close open ports
         :6: Delete Samba configuration
-        :7: Remove user config in ``/ousm/user_configs/``
+        :7: Remove user config in ``/ovmm/user_configs/``
 
     """
 
@@ -70,7 +70,7 @@ def delete_user():
         pass
 
     try:
-        sudo['rm', HOME + '/ousm/user_configs/{}'.format(user_name)]
+        sudo['rm', HOME + '/ovmm/user_configs/{}'.format(user_name)]
     except:
         pass
 

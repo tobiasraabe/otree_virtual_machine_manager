@@ -1,5 +1,5 @@
-Welcome to oTree Ubuntu Server Manager's documentation!
-=======================================================
+Welcome to oTree Virtual Machine Manager's documentation!
+=========================================================
 
 Contents:
 

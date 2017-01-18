@@ -28,5 +28,5 @@ deploy:
     secure: PLEASE_REPLACE_ME
   on:
     tags: true
-    repo: tobiasraabe/otree_ubuntu_server_manager
+    repo: tobiasraabe/ovmm
     condition: $TOXENV == py27

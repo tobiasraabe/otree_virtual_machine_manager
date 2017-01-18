@@ -5,8 +5,8 @@ import psycopg2
 import sys
 
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from ousm_settings import POSTGRES_CONNECTION as psql_conn
-from ousm_settings import POSTGRES_MISC as psql_misc
+from ovmm_settings import POSTGRES_CONNECTION as psql_conn
+from ovmm_settings import POSTGRES_MISC as psql_misc
 
 
 class PostgreSQLDatabaseHandler(object):
@@ -109,7 +109,7 @@ class PostgreSQLDatabaseHandler(object):
         return ports_arr
 
     def _get_free_ports(self, port_name):
-        """Compares ports from user table with ports from ``ousm_settings.py``
+        """Compares ports from user table with ports from ``ovmm_settings.py``
         and returns a list of free ports for a given ``port_name``.
 
         - **parameters**::
