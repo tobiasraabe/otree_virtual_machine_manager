@@ -7,19 +7,19 @@ Installation
 Requirements
 ------------
 
-As *oTree Ubuntu Server Manager* provides helpful commands to administrators of the *oTree Virtual Machine Image*, it needs ``sudo`` access to perform its actions. Please, choose an appropriate account to install the package.
+As *oTree Virtual Machine Manager* provides helpful commands to administrators of the *oTree Virtual Machine Image*, it needs ``sudo`` access to perform its actions. Please, choose an appropriate account to install the package.
 
 
 Stable release
 --------------
 
-To install oTree Ubuntu Server Manager, run this command in your terminal:
+To install oTree Virtual Machine Manager, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install otree_ubuntu_server_manager
+    $ pip install ovmm
 
-This is the preferred method to install oTree Ubuntu Server Manager, as it will always install the most recent stable release.
+This is the preferred method to install oTree Virtual Machine Manager, as it will always install the most recent stable release.
 
 If you don't have `pip`_ installed, this `Python installation guide`_ can guide
 you through the process.
@@ -31,19 +31,19 @@ you through the process.
 From sources
 ------------
 
-The sources for oTree Ubuntu Server Manager can be downloaded from the `Github repo`_.
+The sources for oTree Virtual Machine Manager can be downloaded from the `Github repo`_.
 
 You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/tobiasraabe/otree_ubuntu_server_manager
+    $ git clone git://github.com/tobiasraabe/ovmm
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/tobiasraabe/otree_ubuntu_server_manager/tarball/master
+    $ curl  -OL https://github.com/tobiasraabe/ovmm/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -52,5 +52,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/tobiasraabe/otree_ubuntu_server_manager
-.. _tarball: https://github.com/tobiasraabe/otree_ubuntu_server_manager/tarball/master
+.. _Github repo: https://github.com/tobiasraabe/ovmm
+.. _tarball: https://github.com/tobiasraabe/ovmm/tarball/master

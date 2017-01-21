@@ -20,33 +20,33 @@ test_requirements = [
 ]
 
 setup(
-    name='otree_ubuntu_server_manager',
+    name='ovmm',
     version='0.1.0',
-    description="oTree Ubuntu Server Manager helps to manage user accounts.",
+    description="oTree Virtual Machine Manager helps to manage user accounts.",
     long_description=readme + '\n\n' + history,
     author='Tobias Raabe',
     author_email='tobiasraabe@uni-bonn.de',
-    url='https://github.com/tobiasraabe/otree_ubuntu_server_manager',
+    url='https://github.com/tobiasraabe/ovmm',
     packages=[
-        'otree_ubuntu_server_manager',
-        'otree_ubuntu_server_manager.commands',
-        'otree_ubuntu_server_manager.handlers',
-        'otree_ubuntu_server_manager.prompts',
-        'otree_ubuntu_server_manager.templates',
+        'ovmm',
+        'ovmm.commands',
+        'ovmm.handlers',
+        'ovmm.prompts',
+        'ovmm.templates',
     ],
-    package_dir={'otree_ubuntu_server_manager':
-                 'otree_ubuntu_server_manager'},
+    package_dir={'ovmm':
+                 'ovmm'},
     entry_points={
         'console_scripts': [
-            # 'otree_ubuntu_server_manager=otree_ubuntu_server_manager.cli:main',
-            'otree_ubuntu_server_manager=otree_ubuntu_server_manager.cli:cli'
+            # 'ovmm=ovmm.cli:main',
+            'ovmm=ovmm.cli:cli'
         ]
     },
     include_package_data=True,
     install_requires=requirements,
     license='MIT license',
     zip_safe=False,
-    keywords='otree_ubuntu_server_manager',
+    keywords='ovmm',
     classifiers=[
         # As from http://pypi.python.org/pypi?%3Aaction=list_classifiers
         # 'Development Status :: 1 - Planning',

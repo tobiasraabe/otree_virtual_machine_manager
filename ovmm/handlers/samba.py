@@ -15,29 +15,23 @@ from plumbum.cmd import testparm
 class SambaConfigHandler():
     """This class contains all operations related to Samba configuration.
 
-        The functions are::
-
-            :__init__:          Verifies integrity of existing smb.conf and
-                                creates backup
-            :check_integrity:   Verifies integrity of existing smb.conf
-            :make_backup:       Makes backup of smb.conf
-            :restore_backup:    Restores backup from smb.conf.bak
-            :add_user:          Adds new user to smb.conf
-            :delete_user:       Deletes a user from smb.conf
-
     """
 
     path = '/etc/samba/smb.conf'
 
     def __init__(self):
         """Checks integrity and performs a backup of current smb.conf in
-        advance of further actions."""
+        advance of further actions.
+
+        """
 
         self.check_integrity()
         self.make_backup()
 
     def check_integrity(self):
-        """Checks integrity after transaction."""
+        """Checks integrity after transaction.
+
+        """
 
         try:
             a = testparm.run()
@@ -46,8 +40,10 @@ class SambaConfigHandler():
             self.restore_backup()
             sys.exit(0)
         if not a[0] == 0:
-            sys.exit('Unfortunately, smb.conf is corrupt. Run "testparm" to '
-                     'check validity or inspect file manually.')
+            click.secho(
+                'Unfortunately, smb.conf is corrupt. Run "testparm" to check\n'
+                'validity and inspect file manually.', fg='red')
+            sys.exit(0)
             self.restore_backup()
         else:
             click.secho('The smb.conf is working properly.', fg='green')
@@ -56,7 +52,7 @@ class SambaConfigHandler():
         """Creates a backup of `smb.conf` named `smb.conf.bak`"""
 
         try:
-            print('Make backup of current smb.conf.')
+            click.secho('Make backup of current smb.conf.', fg='yellow')
             cp.run((self.path, self.path + '.bak'))
         except Exception as e:
             raise e
@@ -80,10 +76,24 @@ class SambaConfigHandler():
                         fg='green')
 
     def add_user(self, dict_user):
-        """Adds a user entry at the end of smb.conf"""
+        """Adds a user entry at the end of smb.conf.
+
+        A user is added in the following form:
+
+        ``
+        [user_name]
+            path = /home/user_name
+            valid users = user_name
+            read only = no
+        ``
+
+        - **parameters**::
+            :dict_user: A dict of user information containing port number
+
+        """
 
         try:
-            with open('/etc/samba/smb.conf', 'a') as file:
+            with open(self.path, 'a') as file:
                 file.write('\n[{user_name}]\n'.format(**dict_user))
                 file.write('\tpath = /home/{user_name}/\n'.format(**dict_user))
                 file.write('\tvalid users = {user_name}\n'.format(**dict_user))
@@ -98,7 +108,13 @@ class SambaConfigHandler():
                 'The user was successfully added to smb.conf.', fg='green')
 
     def delete_user(self, user_name):
-        """Deletes a user entry from smb.conf"""
+        """Deletes a user entry from smb.conf by writing a new file which skips
+        all lines related to distinct ``user_name``.
+
+        - **parameters**::
+            :user_name: name of user account
+
+        """
 
         arr = []
         with open(self.path, 'r') as input_file:

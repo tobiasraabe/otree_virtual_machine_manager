@@ -21,7 +21,7 @@ class NginxConfigHandler():
 
     def check_integrity(self):
         """This functions performs an integrity check of the nginx
-        configuration.
+        configuration by calling ``sudo nginx -s reload``.
 
         """
 
@@ -43,7 +43,7 @@ class NginxConfigHandler():
         ``/etc/nginx/sites-enabled/``. After that, it calls
         ``def check_integrity``.
 
-        - *parameters*::
+        - **parameters**::
             :dict_user: A dict of user information containing port number
 
         """
@@ -67,7 +67,12 @@ class NginxConfigHandler():
         self.check_integrity()
 
     def delete_user(self, user_name):
-        """Deletes a user entry from nginx configuration."""
+        """Deletes a user entry from nginx configuration.
+
+        - **parameters**:
+            :user_name: Name of a user account
+
+        """
 
         sudo[rm['/etc/nginx/sites-enabled/{}'.format(user_name)]]()
         sudo[rm['/etc/nginx/sites-available/{}'.format(user_name)]]()

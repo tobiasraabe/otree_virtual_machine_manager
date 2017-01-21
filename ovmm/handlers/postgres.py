@@ -1,72 +1,56 @@
-#!/usr/bin/env python3
-
-"""This document contains everything related to PSQL operations.
-
-- **Critical parts**:
-    - every function tries to establish its own connection. I'm sure that this
-    is cleaner to some extend since one can use the `with`-statement and
-    `connect`. If a with statement exits without errors, the changes are
-    automatically committed and the connection is closed. If an error occurs,
-    the changes are reverted.
-    - add last_activity to the user_database and other keys (paper)
-    - `dict_login` can be written into the main file
-
-"""
+# -*- coding: utf-8 -*-
 
 import click
 import psycopg2
 import sys
 
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from ousm_settings import POSTGRES_CONNECTION as psql_conn
-from ousm_settings import POSTGRES_MISC as psql_misc
+from ovmm_settings import POSTGRES_CONNECTION as psql_conn
+from ovmm_settings import POSTGRES_MISC as psql_misc
 
 
 class PostgreSQLDatabaseHandler(object):
     """This class contains all functions related to the PostgreSQL database
     containing information about users.
 
-    - The functions are::
+    The PostgreSQL database is needed to store information about user account.
+    The main points are port handling so that every user receives distinct
+    ports and, second, user information.
 
-        :__init__:          Checks if connection to database is successful. If
-                            the database does not exist, it is created.
-        :_check_connection: Check connection to postgres and user table
-        :_create_table:     Creates table for user accounts
-        :_get_used_ports:   Returns a list of all ports, already in use
-        :_get_free_ports:   Returns the lowest daphne port number which is not
-                            already used.
-        :count_user:        Returns the number of entries in the table.
-        :create_user:       Creates a new entry in the table for user accounts
-        :delete_user:       Deletes a user from user table
+    It contains the following entries::
+        :name: full name of user
+        :user_name: name of the account
+        :email: email address of user
+        :telephone: telephone number of user
+        :password: password of user account (PostgreSQL, Samba)
+        :daphne_port: daphne port
+        :http_port: http port
+        :ssl_port: ssl port
+        :redis_port: redis port
 
     """
 
     def __init__(self):
         """Tries to connect to database to test the connection. If the user
-        table does not exist, it is created."""
+        table does not exist, it is created.
+
+        """
+
         try:
-            click.echo('Trying to connect to the database and user table')
             self._check_connection()
-        except psycopg2.OperationalError:
+        except psycopg2.OperationalError as e:
+            click.secho(e, fg='red')
             click.secho('Cannot connect to PostgreSQL server! You better '
                         'check the connection manually!', fg='red')
             sys.exit(0)
         except psycopg2.ProgrammingError as e:
-            click.secho(
-                'The user table does not exist! This happens usually if '
-                'you run the script for the first time. If you want to '
-                'include existing user with the user database, check out '
-                '[placeholder] script.', fg='red')
+            click.secho(e, fg='red')
+            click.secho('The user table does not exist!\n\n{}', fg='red')
             try:
                 self._create_table()
                 self._check_connection()
             except Exception as e:
-                click.secho(
-                    'SCRIPT EXITED HERE BECAUSE OF:\n{}\n\n'
-                    'This happens sometimes, e.g. if you have changed the\n'
-                    'configuration of the user table in postgres.py, but did\n'
-                    'not drop the old table. Currently, there is no function\n'
-                    'to convert tables. DIY!', fg='red')
+                click.secho(e, fg='red')
                 sys.exit(0)
         else:
             click.secho(
@@ -74,9 +58,11 @@ class PostgreSQLDatabaseHandler(object):
                 fg='green')
 
     def _check_connection(self):
-        """The function tries to connect to the postgres database and to write
-        a test entry. This test covers the case where `user_table` is defined
-        but it is not properly set up."""
+        """The function tries to connect to the PostgreSQL database and write
+        a test entry. This test covers the case where ``user_table`` is defined
+        but it is not properly set up.
+
+        """
 
         with psycopg2.connect(**psql_conn) as conn:
             cur = conn.cursor()
@@ -87,7 +73,10 @@ class PostgreSQLDatabaseHandler(object):
         conn.close()
 
     def _create_table(self):
-        """Creates user table in the postgres database"""
+        """Creates user table in the postgres database with entries mentioned
+        in the class docstring.
+
+        """
 
         with psycopg2.connect(**psql_conn) as conn:
             cur = conn.cursor()
@@ -102,7 +91,12 @@ class PostgreSQLDatabaseHandler(object):
         conn.close()
 
     def _get_used_ports(self, port_name):
-        """Returns a list of all ports for *port_name* from table."""
+        """Returns a list of all used ports for ``port_name`` from table.
+
+        - **parameters**:
+            :port_name: one of the port names described in class docstring
+
+        """
 
         ports_arr = None
         with psycopg2.connect(**psql_conn) as conn:
@@ -115,8 +109,13 @@ class PostgreSQLDatabaseHandler(object):
         return ports_arr
 
     def _get_free_ports(self, port_name):
-        """Compares ports from user table with ports from ousm_settings.py
-        and returns a list of free ports for a given *port_name*."""
+        """Compares ports from user table with ports from ``ovmm_settings.py``
+        and returns a list of free ports for a given ``port_name``.
+
+        - **parameters**::
+            :port_name: one of the port names described in class docstring
+
+        """
 
         arr = self._get_used_ports(port_name)
         ports_arr = [int(i[0]) for i in arr]
@@ -126,7 +125,10 @@ class PostgreSQLDatabaseHandler(object):
         return free_ports_arr
 
     def count_user(self):
-        """Returns the number of entries in the table."""
+        """Returns the number of existing user accounts and the number of
+        possible additional accounts.
+
+        """
 
         num_free_ports = 10000
         num_max_ports = 10000
@@ -146,7 +148,12 @@ class PostgreSQLDatabaseHandler(object):
             click.secho('It is not possible to add more users!', fg='red')
 
     def create_user(self, dict_user):
-        """Creates a user and adds information to user database"""
+        """Creates a user and adds information to user database.
+
+        - **parameters**::
+            :dict_user: A dict of user information containing port number
+
+        """
 
         for port_name in ['daphne_port', 'http_port', 'ssl_port',
                           'redis_port']:
@@ -181,7 +188,13 @@ class PostgreSQLDatabaseHandler(object):
 
     def delete_user(self, user_name):
         """Deletes a user's database, role and removes the entry from the user
-        database. Returns the http_port variable to deny access to ports."""
+        database. Returns the http_port variable to deny access to ports.
+
+        - **parameters**, **return**::
+            :user_name: name of user account
+            :return: ``http_port`` and ``ssl_port``
+
+        """
 
         http_port = None
         ssl_port = None
@@ -205,6 +218,10 @@ class PostgreSQLDatabaseHandler(object):
         return int(http_port), int(ssl_port)
 
     def list_user(self):
+        """This functions echoes a list of user names to shell.
+
+        """
+
         with psycopg2.connect(**psql_conn) as conn:
             cur = conn.cursor()
             cur.execute("""SELECT user_name FROM {table};"""

@@ -12,4 +12,4 @@ recursive-exclude * *.py[co]
 
 recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif
 
-include otree_ubuntu_server_manager/static/*
+include ovmm/static/*

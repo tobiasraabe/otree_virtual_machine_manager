@@ -13,7 +13,7 @@ from plumbum.cmd import sudo
 def backup_user(user_name=None):
     """This command performs a database backup for ``user_name``.
 
-    - *parameters*::
+    - **parameters**::
         :user_name: Name of the user whose data is backed up
 
     - The following steps are performed::
@@ -30,12 +30,12 @@ def backup_user(user_name=None):
         user_name = click.prompt(
             'Which user do you want to backup?', default=default['user_name'])
 
-    if not os.path.exists(HOME + '/ousm/user_backups'):
-        os.makedirs(HOME + '/ousm/user_backups')
+    if not os.path.exists(HOME + '/ovmm/user_backups'):
+        os.makedirs(HOME + '/ovmm/user_backups')
 
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
-    (sudo['u-', 'postgres', '-c', pg_dump[user_name]] >
-     (HOME + '/ousm/user_backups/' + user_name + '_db_dump_' + tim + '.sql'))()
+    (sudo['su', '-', 'postgres', '-c', pg_dump[user_name]] >
+     (HOME + '/ovmm/user_backups/' + user_name + '_db_dump_' + tim + '.sql'))()
 
     click.secho(
         "A backup of user's database was successfully created", fg='green')

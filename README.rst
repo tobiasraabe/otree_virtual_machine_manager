@@ -1,35 +1,35 @@
-===========================
-oTree Ubuntu Server Manager
-===========================
+=============================
+oTree Virtual Machine Manager
+=============================
 
 
-.. image:: https://img.shields.io/pypi/v/otree_ubuntu_server_manager.svg
-        :target: https://pypi.python.org/pypi/otree_ubuntu_server_manager
+.. image:: https://img.shields.io/pypi/v/otree_virtual_machine_manager.svg
+        :target: https://pypi.python.org/pypi/otree_virtual_machine_manager
 
-.. image:: https://img.shields.io/travis/tobiasraabe/otree_ubuntu_server_manager.svg
-        :target: https://travis-ci.org/tobiasraabe/otree_ubuntu_server_manager
+.. image:: https://img.shields.io/travis/tobiasraabe/otree_virtual_machine_manager.svg
+        :target: https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager
 
-.. image:: https://readthedocs.org/projects/otree-ubuntu-server-manager/badge/?version=latest
-        :target: https://otree-ubuntu-server-manager.readthedocs.io/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/otree-virtual-machine-manager/badge/?version=latest
+        :target: https://otree-virtual-machine-manager.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/tobiasraabe/otree_ubuntu_server_manager/shield.svg
-     :target: https://pyup.io/repos/github/tobiasraabe/otree_ubuntu_server_manager/
+.. image:: https://pyup.io/repos/github/tobiasraabe/otree_virtual_machine_manager/shield.svg
+     :target: https://pyup.io/repos/github/tobiasraabe/otree_virtual_machine_manager/
      :alt: Updates
 
 
-oTree Ubuntu Server Manager helps to manage user accounts.
+oTree Virtual Machine Manager helps to manage user accounts.
 
 
 * Free software: MIT license
-* Documentation: https://otree-ubuntu-server-manager.readthedocs.io.
+* Documentation: https://otree-virtual-machine-manager.readthedocs.io.
 
 
 Overview
 --------
 
-*oTree Virtual Machine Manager* is a useful extension to the *oTree Virtual
-Machine Image* provided by Felix Albrecht and Holger Gerhardt. It automates
+**oTree Virtual Machine Manager** is a useful extension to the **oTree Virtual
+Machine Image** provided by Felix Albrecht and Holger Gerhardt. It automates
 many tasks for an administrator (e.g. setting up user accounts) which involve
 many steps and flawless integration into the existing configuration.
 

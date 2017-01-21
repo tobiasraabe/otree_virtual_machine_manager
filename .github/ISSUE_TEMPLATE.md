@@ -1,4 +1,4 @@
-* oTree Ubuntu Server Manager version:
+* oTree Virtual Machine Manager version:
 * Python version:
 * Operating System:
 
