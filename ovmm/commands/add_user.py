@@ -118,6 +118,11 @@ def add_user():
             file.write(
                 '\nalias run_prodserver="screen -S otree -m otree '
                 'runprodserver --port {daphne_port}"'.format(**dict_user))
+            file.write(
+                '\nalias run_mail_prodserver="screen -S otree -m otree '
+                'runprodserver --port {daphne_port} '
+                '&& mail -s "oTree stopped" {user_email} '
+                '<<< "Warning your otree on port {daphne_port} has stopped."'.format(**dict_user))
     except Exception as e:
         raise e
         click.secho('The alias for running a session could not be set.\n'
