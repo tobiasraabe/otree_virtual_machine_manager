@@ -4,7 +4,7 @@ deploy:
   user: brimborium6
   provider: pypi
   on:
-    condition: $TOXENV == py35
+    condition: $TOXENV == py36 && $TOXENV == py35 && $TOXENV == py34 && $TOXENV == linters
     repo: tobiasraabe/otree_virtual_machine_manager
     tags: true
   password:
@@ -25,7 +25,7 @@ env:
 - TOXENV=py36
 - TOXENV=py35
 - TOXENV=py34
-- TOXENV=pypy
+- TOXENV=linters
 install: pip install -U tox
 language: python
 python: 3.5
