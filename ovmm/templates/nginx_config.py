@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 NGINX_CONF = """
-map $http_upgrade $connection_upgrade { # Some variables for configuring the protocol switch
+map $http_upgrade $connection_upgrade { # Some variables for configuring the protocol switch # noqa: 501
         default upgrade;
         ''      close;
     }
@@ -13,7 +13,7 @@ server {
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
 
-# replace the 2 lines below with your own ssl certificates using e.g. letsencrypt (installed on system)
+# replace the 2 lines below with your own ssl certificates using e.g. letsencrypt (installed on system) # noqa: 501
     ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
     ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
 
@@ -39,7 +39,7 @@ server {
             proxy_pass http://127.0.0.1:DAPHNEPORT;
             proxy_http_version 1.1; # protocol switch needed
             proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection $connection_upgrade; # End of the configuration for oTree
+            proxy_set_header Connection $connection_upgrade; # End of the configuration for oTree # noqa: 501
 # add ssl port to all server addresses
             proxy_set_header HOST $host:SSLPORT;
             proxy_set_header X-Real-Ip $remote_addr;

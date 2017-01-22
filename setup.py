@@ -26,7 +26,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='Tobias Raabe',
     author_email='tobiasraabe@uni-bonn.de',
-    url='https://github.com/tobiasraabe/ovmm',
+    url='https://github.com/tobiasraabe/otree_virtual_machine_manager',
     packages=[
         'ovmm',
         'ovmm.commands',
@@ -38,8 +38,7 @@ setup(
                  'ovmm'},
     entry_points={
         'console_scripts': [
-            # 'ovmm=ovmm.cli:main',
-            'ovmm=ovmm.cli:cli'
+            'ovmm=ovmm.cli:main',
         ]
     },
     include_package_data=True,

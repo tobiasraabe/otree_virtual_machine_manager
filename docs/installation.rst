@@ -7,7 +7,9 @@ Installation
 Requirements
 ------------
 
-As *oTree Virtual Machine Manager* provides helpful commands to administrators of the *oTree Virtual Machine Image*, it needs ``sudo`` access to perform its actions. Please, choose an appropriate account to install the package.
+As *oTree Virtual Machine Manager* provides helpful commands to administrators
+of the *oTree Virtual Machine Image*, it needs ``sudo`` access to perform its
+actions. Please, choose an appropriate account to install the package.
 
 
 Stable release
@@ -19,10 +21,11 @@ To install oTree Virtual Machine Manager, run this command in your terminal:
 
     $ pip install ovmm
 
-This is the preferred method to install oTree Virtual Machine Manager, as it will always install the most recent stable release.
+This is the preferred method to install oTree Virtual Machine Manager, as it
+will always install the most recent stable release.
 
-If you don't have `pip`_ installed, this `Python installation guide`_ can guide
-you through the process.
+If you don't have `pip`_ installed, this `Python installation guide`_ can
+guide you through the process.
 
 .. _pip: https://pip.pypa.io
 .. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
@@ -31,7 +34,8 @@ you through the process.
 From sources
 ------------
 
-The sources for oTree Virtual Machine Manager can be downloaded from the `Github repo`_.
+The sources for oTree Virtual Machine Manager can be downloaded from the
+`Github repo`_.
 
 You can either clone the public repository:
 

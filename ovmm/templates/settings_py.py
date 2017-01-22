@@ -113,9 +113,9 @@ ROOMS = [
 
 # from here on are qualifications requirements for workers
 # see description for requirements on Amazon Mechanical Turk website:
-# http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_QualificationRequirementDataStructureArticle.html
+# http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_QualificationRequirementDataStructureArticle.html # noqa: 501
 # and also in docs for boto:
-# https://boto.readthedocs.org/en/latest/ref/mturk.html?highlight=mturk#module-boto.mturk.qualification
+# https://boto.readthedocs.org/en/latest/ref/mturk.html?highlight=mturk#module-boto.mturk.qualification # noqa: 501
 
 mturk_hit_settings = {{
     'keywords': ['easy', 'bonus', 'choice', 'study'],
@@ -125,20 +125,21 @@ mturk_hit_settings = {{
     'preview_template': 'global/MTurkPreview.html',
     'minutes_allotted_per_assignment': 60,
     'expiration_hours': 7*24, # 7 days
-    #'grant_qualification_id': 'YOUR_QUALIFICATION_ID_HERE',# to prevent retakes
+    #'grant_qualification_id': 'YOUR_QUALIFICATION_ID_HERE',# to prevent
+    # retakes
     'qualification_requirements': [
         # qualification.LocaleRequirement("EqualTo", "US"),
-        # qualification.PercentAssignmentsApprovedRequirement("GreaterThanOrEqualTo", 50),
-        # qualification.NumberHitsApprovedRequirement("GreaterThanOrEqualTo", 5),
-        # qualification.Requirement('YOUR_QUALIFICATION_ID_HERE', 'DoesNotExist')
+        # qualification.PercentAssignmentsApprovedRequirement("GreaterThanOrEqualTo", 50), # noqa: 501
+        # qualification.NumberHitsApprovedRequirement("GreaterThanOrEqualTo", 5), # noqa: 501
+        # qualification.Requirement('YOUR_QUALIFICATION_ID_HERE', 'DoesNotExist') # noqa: 501
     ]
 }}
 
 
-# if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
-# in SESSION_CONFIGS, except those that explicitly override it.
-# the session config can be accessed from methods in your apps as self.session.config,
-# e.g. self.session.config['participation_fee']
+# if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all
+# configs in SESSION_CONFIGS, except those that explicitly override it.
+# the session config can be accessed from methods in your apps as
+# self.session.config, e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = {{
     'real_world_currency_per_point': 0.00,

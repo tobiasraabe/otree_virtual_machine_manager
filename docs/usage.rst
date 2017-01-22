@@ -18,14 +18,20 @@ If you need more information on the commands, run ``ovmm --help``
 First run
 ---------
 
-When using ``ovmm`` for the first time, run ``sudo ovmm initialise`` to set up you system.
+When using ``ovmm`` for the first time, run ``sudo ovmm initialise`` to set up
+you system.
 
 The command performs the following actions:
 
 - Installing Ubuntu dependencies
 - Installing a settings file
 
-After running the command, there is a folder called ``/home/<user>/ovmm/`` which contains ``ovmm_settings.py``. Perform two checks: first, check whether the login information for the PostgreSQL database is correctly set. Next, define the ranges of port numbers in ``POSTGRES_MISC``. The dictionary keys contain python lists. Insert distinct values or use list comprehension for bigger ranges.
+After running the command, there is a folder called ``/home/<user>/ovmm/``
+which contains ``ovmm_settings.py``. Perform two checks: first, check whether
+the login information for the PostgreSQL database is correctly set. Next,
+define the ranges of port numbers in ``POSTGRES_MISC``. The dictionary keys
+contain python lists. Insert distinct values or use list comprehension for
+bigger ranges.
 
 
 .. _commands:

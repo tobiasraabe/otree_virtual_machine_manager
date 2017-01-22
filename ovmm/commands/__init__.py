@@ -1,17 +1,22 @@
 # -*- coding: utf-8 -*-
 
-import sys
-import os
 import click
+import importlib
+import os
+import sys
 
 
 # Include ovmm in PYTHONPATH
 sys.path.insert(1, os.path.expanduser('~') + '/ovmm')
 # Checks whether the ovmm_settings.py exists
 try:
-    from ovmm_settings import POSTGRES_CONNECTION
-    from ovmm_settings import POSTGRES_MISC
-except ImportError:
+    psql_conn = importlib.util.find_spec(
+        'POSTGRES_CONNECTION', package='ovmm_settings')
+    psql_misc = importlib.util.find_spec(
+        'POSTGRES_MISC', package='ovmm_settings')
+except Exception as e:
+    raise e
+if (psql_conn is None) | (psql_misc is None):
     click.secho(
         'The ovmm_settings file could not be imported. This is probably the\n'
         'first run. Please run `ovmm initialise` to configure your machine',
