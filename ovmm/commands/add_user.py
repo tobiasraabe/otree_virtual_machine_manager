@@ -31,19 +31,21 @@ EXP_ENV = 'exp_env.7z'
 def add_user():
     """This command creates a new user.
 
-    - The following steps are performed::
-        :1: User information is generated
-        :2: Add user to PSQL database (checks whether user already exists)
-        :3: Create user and home directory, set password expiration date to now
-        :4: Unpack additional files to user's home directory
-        :5: Create otree project folder
-        :6: Set database information in settings.py
-        :7: Set nginx configuration file
-        :8: Allow access to ports via ufw
-        :9: Create samba configuration
-        :10: Add alias to .profile
-        :11: Set user's default shell to bash
-        :12: Write user_config to ``ovmm/user_configs/``
+    .. note::
+        The following steps are performed.
+
+        #. User information is generated
+        #. Add user to PSQL database (checks whether user already exists)
+        #. Create user and home directory, set password expiration date to now
+        #. Unpack additional files to user's home directory
+        #. Create otree project folder
+        #. Set database information in settings.py
+        #. Set nginx configuration file
+        #. Allow access to ports via ufw
+        #. Create samba configuration
+        #. Add alias to .profile
+        #. Set user's default shell to bash
+        #. Write user_config to ``ovmm/user_configs/``
 
     """
 

@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""This script executes the function `list_user()` of
-`PostgreSQLDatabaseHandler` in `postgres.py`. The user names of all accounts
-are displayed.
-
-"""
-
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 
 

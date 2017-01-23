@@ -21,10 +21,8 @@ First run
 When using ``ovmm`` for the first time, run ``sudo ovmm initialise`` to set up
 you system.
 
-The command performs the following actions:
-
-- Installing Ubuntu dependencies
-- Installing a settings file
+.. automodule:: ovmm.commands.initialise
+    :members:
 
 After running the command, there is a folder called ``/home/<user>/ovmm/``
 which contains ``ovmm_settings.py``. Perform two checks: first, check whether
@@ -39,8 +37,7 @@ bigger ranges.
 Commands
 --------
 
-.. automodule:: ovmm.commands.initialise
-    :members:
+
 
 .. automodule:: ovmm.commands.add_user
     :members:

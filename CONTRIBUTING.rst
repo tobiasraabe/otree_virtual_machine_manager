@@ -15,7 +15,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/tobiasraabe/ovmm/issues.
+Report bugs at https://github.com/tobiasraabe/otree_virtual_machine_manager/issues.
 
 If you are reporting a bug, please include:
 
@@ -42,11 +42,17 @@ oTree Virtual Machine Manager could always use more documentation, whether as
 part of the official oTree Virtual Machine Manager docs, in docstrings, or
 even on the web in blog posts, articles, and such.
 
+If you want to participate by writing docstrings, please, follow the guidelines
+for `NumPy Style Python Docstrings
+<http://www.sphinx-doc.org/en/1.5.2/ext/napoleon.html>`_. For a complete
+example, follow this link (`Example NumPy Docstring
+<http://www.sphinx-doc.org/en/1.5.2/ext/example_numpy.html#example-numpy>`_).
+
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
 The best way to send feedback is to file an issue at
-https://github.com/tobiasraabe/ovmm/issues.
+https://github.com/tobiasraabe/otree_virtual_machine_manager/issues.
 
 If you are proposing a feature:
 
@@ -79,14 +85,26 @@ Ready to contribute? Here's how to set up `ovmm` for local development.
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and
-   the tests, including testing other Python versions with tox::
+5. When you're done making changes, check that your changes pass all the tests
+   defined with tox::
 
-    $ flake8 ovmm tests
-    $ python setup.py test or py.test
     $ tox
 
-   To get flake8 and tox, just pip install them into your virtualenv.
+   You can test separately by typing::
+
+    $ tox -e ${TOXENV}
+
+   The following commands test python code and documentation::
+
+    $ tox -e flake8
+    $ tox -e doc8
+
+   If you want to lint code and documentation, type::
+
+    $ tox -e linters
+
+   To get flake8, tox, doc8, restructuredtext_lint just pip install them into
+   your virtualenv.
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -106,7 +124,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 3.4, 3.5 and 3.6, and for PyPy.
-   Check https://travis-ci.org/tobiasraabe/ovmm/pull_requests
+   Check https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
 Tips

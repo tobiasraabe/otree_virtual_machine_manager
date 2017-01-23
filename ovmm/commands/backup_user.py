@@ -13,13 +13,18 @@ from plumbum.cmd import sudo
 def backup_user(user_name=None):
     """This command performs a database backup for ``user_name``.
 
-    - **parameters**::
-        :user_name: Name of the user whose data is backed up
 
-    - The following steps are performed::
-        :1: If no user_name is provided, ask for it
-        :2: If no folder for backups exists, create it
-        :3: Save the database to backup folder
+    Parameters
+    ----------
+    user_name (str): Name of the user whose data is backed up
+
+
+    .. note::
+        The following steps are performed.
+
+        #. If no user_name is provided, ask for it
+        #. If no folder for backups exists, create it
+        #. Save the database to backup folder
 
     """
 

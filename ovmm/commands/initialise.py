@@ -9,14 +9,27 @@ from plumbum.cmd import sudo
 
 
 def initialise():
-    """This command should be executed *in advance* to any use of
-    ``ovmm`` on a new system. It checks whether all
-    dependencies are satisfied. *An internet connection is needed.*
+    """This command prepares the environment for further commands.
 
-    - The following steps are performed::
-        :1: Installing Ubuntu dependencies
-        :2: Installing OVMM related content
-            - write ``ovmm_settings.py``
+
+    This initialisation of the environment is necessary since some of the
+    commands communicate with other parts of the system (e.g.
+    PostgreSQL database) or need information about the infrastructure
+    (e.g. port handling).
+
+
+    Warning
+    -------
+    This command should be executed **in advance** to any use of
+    ``ovmm`` on a new system. It checks whether all
+    dependencies are satisfied. **An internet connection is needed.**
+
+
+    .. note::
+        The following steps are performed.
+
+        #. Installing Ubuntu dependencies
+        #. Installing OVMM related content (e.g. ``ovmm_settings.py``)
 
     """
 
