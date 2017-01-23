@@ -21,7 +21,6 @@ if (psql_conn is None) | (psql_misc is None):
         'The ovmm_settings file could not be imported. This is probably the\n'
         'first run. Please run `ovmm initialise` to configure your machine',
         fg='red')
-    pass
 
 # Sets a variable for the path to user's home directory
 try:
