@@ -23,8 +23,4 @@ if (psql_conn is None) | (psql_misc is None):
         fg='red')
 
 # Sets a variable for the path to user's home directory
-try:
-    HOME = os.path.expanduser('~')
-except Exception as e:
-    raise e
-    click.secho('Home directory could not be found!', fg='red')
+HOME = os.path.expanduser('~')
