@@ -7,6 +7,7 @@ import sys
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
 from ovmm_settings import POSTGRES_MISC as PSQL_MISC
+from typing import List, Tuple
 
 
 class PostgreSQLDatabaseHandler:
@@ -106,7 +107,7 @@ class PostgreSQLDatabaseHandler:
         conn.close()
 
     @staticmethod
-    def get_used_ports(port_name: str) -> list[str]:
+    def get_used_ports(port_name: str) -> List[str]:
         """Returns a list of all used ports for ``port_name`` from table.
 
         Parameters
@@ -130,7 +131,7 @@ class PostgreSQLDatabaseHandler:
 
         return ports_list
 
-    def _get_free_ports(self, port_name: str) -> list[str]:
+    def get_free_ports(self, port_name: str) -> List[str]:
         """Compares ports from user table with ports from ``ovmm_settings.py``
         and returns a list of free ports for a given ``port_name``.
 
@@ -161,7 +162,7 @@ class PostgreSQLDatabaseHandler:
         num_free_ports = 10000
         num_max_ports = 10000
         for port_name in self.port_name_list:
-            num1 = len(self._get_free_ports(port_name))
+            num1 = len(self.get_free_ports(port_name))
             if (num1 < num_free_ports) | (num_free_ports is None):
                 num_free_ports = num1
             num2 = len(PSQL_MISC[port_name])
@@ -192,7 +193,7 @@ class PostgreSQLDatabaseHandler:
         """
 
         for port_name in self.port_name_list:
-            dict_user[port_name] = min(self._get_free_ports(port_name))
+            dict_user[port_name] = min(self.get_free_ports(port_name))
 
         with psycopg2.connect(**PSQL_CONN) as conn:
             conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
@@ -222,7 +223,7 @@ class PostgreSQLDatabaseHandler:
         return dict_user
 
     @staticmethod
-    def delete_user(user_name: str) -> tuple:
+    def delete_user(user_name: str) -> Tuple[int, int]:
         """Deletes a user's database, role and removes the entry from the user
         database. Returns the http_port variable to deny access to ports.
 
