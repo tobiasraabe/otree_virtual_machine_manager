@@ -65,10 +65,11 @@ class SambaConfigHandler:
         """
 
         try:
-            sudo['mv', self.path + '.bak', self.path]()
+            sudo['cp', self.path + '.bak', self.path]()
         except Exception as e:
             click.secho(
-                'Something went wrong during restoration. Upps.', fg='red')
+                'Something went wrong during restoration of smb.conf. Upps.',
+                fg='red')
             raise e
         else:
             click.secho('The backup of smb.conf was successfully restored.',
