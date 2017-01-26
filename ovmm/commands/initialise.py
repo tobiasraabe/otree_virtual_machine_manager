@@ -4,6 +4,7 @@ import click
 import os
 
 from . import HOME
+from . import OVMM_SOURCE_FOLDER as OSF
 from ..templates.ovmm_settings import OVMM_SETTINGS
 from plumbum.cmd import sudo
 
@@ -62,21 +63,21 @@ def initialise():
             sudo['-u', 'postgres', 'psql', '-c',
                  "ALTER ROLE postgres PASSWORD '{}';".format(psql_password)]()
 
-        click.echo('--> The content folder will be created under {}/ovmm'
-                   .format(HOME))
+        click.echo('--> The content folder will be created under {}/{}'
+                   .format(HOME, OSF))
 
-        if os.path.isdir('{}/ovmm'.format(HOME)):
+        if os.path.isdir('{}/{}'.format(HOME, OSF)):
             click.confirm(
-                '{}/ovmm already exists. You could overwrite important '
+                '{}/{} already exists. You could overwrite important '
                 'files. You Do you want to continue?'
-                .format(HOME), abort=True)
+                .format(HOME, OSF), abort=True)
         else:
-            os.mkdir('{}/ovmm'.format(HOME))
+            os.mkdir('{}/{}'.format(HOME, OSF))
         for folder in ['/user_configs', '/user_backups']:
-            if not os.path.isdir('{}/ovmm{}'.format(HOME, folder)):
-                os.mkdir('{}/ovmm{}'.format(HOME, folder))
+            if not os.path.isdir('{}/{}{}'.format(HOME, OSF, folder)):
+                os.mkdir('{}/{}{}'.format(HOME, OSF, folder))
 
-        with open(HOME + '/ovmm/ovmm_settings.py', 'w') as file:
+        with open(HOME + '/{}/ovmm_settings.py'.format(OSF), 'w') as file:
             file.write(OVMM_SETTINGS.replace('_USER_', psql_user)
                                     .replace('_PASSWORD_', psql_password)
                                     .replace('_DATABASE_', psql_database)

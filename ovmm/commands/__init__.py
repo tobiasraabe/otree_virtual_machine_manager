@@ -6,8 +6,11 @@ import os
 import sys
 
 
+OVMM_SOURCE_FOLDER = 'ovmm_sources'
+
+
 # Include ovmm in PYTHONPATH
-sys.path.insert(1, os.path.expanduser('~') + '/ovmm')
+sys.path.append(os.path.expanduser('~') + '/' + OVMM_SOURCE_FOLDER)
 # Checks whether the ovmm_settings.py exists
 try:
     psql_conn = importlib.util.find_spec(
