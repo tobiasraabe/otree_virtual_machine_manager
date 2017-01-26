@@ -16,14 +16,16 @@ from plumbum.cmd import userdel
 def delete_user():
     """This command removes a user existing in the user database.
 
-    - The following steps are performed::
-        :1: Look up a user name in the user database
-        :2: Ask whether a backup should be made (calls ``def backup_user``)
-        :3: Remove Ubuntu user with home directory
-        :4: Remove nginx configuration
-        :5: Close open ports
-        :6: Delete Samba configuration
-        :7: Remove user config in ``/ovmm/user_configs/``
+    .. note::
+        The folowing steps are performed.
+
+        #. Look up a user name in the user database
+        #. Ask whether a backup should be made (calls ``def backup_user``)
+        #. Remove Ubuntu user with home directory
+        #. Remove nginx configuration
+        #. Close open ports
+        #. Delete Samba configuration
+        #. Remove user config in ``/ovmm/user_configs/``
 
     """
 

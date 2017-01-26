@@ -43,8 +43,6 @@ class NginxConfigHandler():
         ``/etc/nginx/sites-enabled/``. After that, it calls
         ``def check_integrity``.
 
-        - **parameters**::
-            :dict_user: A dict of user information containing port number
 
         """
 
