@@ -32,10 +32,10 @@ class SambaConfigHandler:
         """
 
         try:
-            test_samba = sudo['testparm']()
+            test_samba = sudo['testparm'].run()
         except Exception as e:
             raise e
-        if not test_samba[0] == 0:
+        if test_samba[0] != 0:
             self.restore_backup()
             click.secho(
                 'Unfortunately, smb.conf was corrupt after the change.\n'
