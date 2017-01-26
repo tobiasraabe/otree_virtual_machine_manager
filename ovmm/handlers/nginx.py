@@ -3,12 +3,17 @@
 import click
 import sys
 
+from plumbum import ProcessExecutionError
+
 from ..templates.nginx_config import NGINX_CONF
 from plumbum.cmd import sudo
 
 
 class NginxConfigHandler:
     """This class contains a handler for Nginx configurations.
+
+    For each user a Nginx configuration file is created with distinct values
+    for ports, etc.
 
     """
 
@@ -17,26 +22,23 @@ class NginxConfigHandler:
 
     @staticmethod
     def check_integrity():
-        """This functions performs an integrity check of the nginx
+        """This functions performs an integrity check of the Nginx
         configuration by calling ``sudo nginx -s reload``.
 
         """
-        # Use plumbum.commands.process.ProcessExecutionError
+
         try:
-            nginx_reload_command = sudo['nginx', '-s', 'reload'].run()
-        except plumbum.commands.process.ProcessExecutionError as e:
-            click.secho('Here!', fg='yellow')
-            raise e
+            sudo['nginx', '-s', 'reload']()
+        except ProcessExecutionError:
+            sys.exit('Unfortunately, nginx configuration is corrupt. Run'
+                     '"sudo nginx -s reload" to locate the error.\n')
         except Exception as e:
-            if nginx_reload_command[0] != 0:
-                sys.exit('Unfortunately, nginx configuration is corrupt. Run'
-                         '"nginx -s reload" to locate the error.\n{}'
-                         .format(e))
+            raise e
         else:
             click.secho('The nginx configuration is fine.', fg='green')
 
-    def add_user(self, dict_user):
-        """This functions adds a new user to the nginx configuration.
+    def add_user(self, dict_user: dict):
+        """This functions adds a new user to the Nginx configuration.
 
         This function creates a configuration file in
         ``/etc/nginx/sites-available/`` and symlinks the file to
@@ -69,8 +71,11 @@ class NginxConfigHandler:
                     fg='green')
         self.check_integrity()
 
-    def delete_user(self, user_name):
-        """Deletes a user entry from nginx configuration.
+    def delete_user(self, user_name: str):
+        """Deletes a user entry from Nginx configuration.
+
+        The Nginx configuration file in
+        ``/etc/nginx/sites_available/<user_name>`` and its symlink is removed.
 
         Parameters
         ----------

@@ -12,7 +12,7 @@ OVMM_SOURCE_FOLDER = 'ovmm_sources'
 sys.path.append(os.path.expanduser('~') + '/' + OVMM_SOURCE_FOLDER)
 # Checks whether the ovmm_settings.py exists
 try:
-    import ovmm_settings
+    import ovmm_settings  # noqa: F401
 except ImportError:
     click.secho(
         'The ovmm_settings file could not be imported. This is probably the\n'

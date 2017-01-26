@@ -17,6 +17,7 @@ def backup_user(user_name: str = None):
     user_name : str
         Name of the user whose data is backed up
 
+
     .. note::
         The following steps are performed.
 

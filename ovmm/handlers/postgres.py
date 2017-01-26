@@ -12,33 +12,37 @@ from typing import List, Tuple
 
 class PostgreSQLDatabaseHandler:
     """This class contains all functions related to the PostgreSQL database
-    containing information about users.
+    which contains information about users.
 
-    The PostgreSQL database is needed to store information about user account.
-    The main points are port handling so that every user receives distinct
+    The main objectives are port handling so that every user receives distinct
     ports and, second, user information.
 
     Note
     ----
     The table contains the following columns:
     name : str
-        full name of user
+        Full name of user
     user_name : str
-        name of the account
+        Name of the account
     email : str
-        email address of user
+        Email address of user
     telephone : str
-        telephone number of user
+        Telephone number of user
     password : str
-        password of user account (PostgreSQL, Samba)
+        Password of user account (PostgreSQL, Samba)
     daphne_port : smallint
-        daphne port
+        Daphne port
     http_port : smallint
-        http port
+        HTTP port
     ssl_port : smallint
-        ssl port
+        SSL port
     redis_port : smallint
-        redis port
+        Redis port
+
+    Attributes
+    ----------
+    port_name_list : List[str]
+        List of variable names for port names in database
 
     """
 
@@ -117,7 +121,7 @@ class PostgreSQLDatabaseHandler:
 
         Returns
         -------
-        ports_list : list[str]
+        ports_list : List[str]
             List of port numbers for a given port name
 
         """
@@ -142,7 +146,7 @@ class PostgreSQLDatabaseHandler:
 
         Returns
         -------
-        free_ports : list[str]
+        free_ports : List[str]
             List of unassigned ports for a given port name
 
         """

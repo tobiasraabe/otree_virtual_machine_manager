@@ -5,13 +5,18 @@
 """
 
 import click
-import sys
 
+from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
 
 class SambaConfigHandler:
     """This class contains all operations related to Samba configuration.
+
+    Attributes
+    ----------
+    path : str
+        Path to samba config
 
     """
 
@@ -32,15 +37,14 @@ class SambaConfigHandler:
         """
 
         try:
-            test_samba = sudo['testparm'].run()
-        except Exception as e:
-            raise e
-        if test_samba[0] != 0:
+            sudo['testparm']()
+        except ProcessExecutionError:
             self.restore_backup()
             click.secho(
                 'Unfortunately, smb.conf was corrupt after the change.\n'
                 'The former configuration was restored.', fg='red')
-            sys.exit(0)
+        except Exception as e:
+            raise e
         else:
             click.secho('The smb.conf is working properly.', fg='green')
 
