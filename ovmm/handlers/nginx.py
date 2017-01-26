@@ -21,9 +21,12 @@ class NginxConfigHandler:
         configuration by calling ``sudo nginx -s reload``.
 
         """
-
+        # Use plumbum.commands.process.ProcessExecutionError
         try:
             nginx_reload_command = sudo['nginx', '-s', 'reload'].run()
+        except plumbum.commands.process.ProcessExecutionError as e:
+            click.secho('Here!', fg='yellow')
+            raise e
         except Exception as e:
             if nginx_reload_command[0] != 0:
                 sys.exit('Unfortunately, nginx configuration is corrupt. Run'
