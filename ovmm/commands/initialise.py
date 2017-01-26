@@ -4,7 +4,7 @@ import click
 import os
 
 from . import HOME
-from ..templates.ovmm_settings import OUSM_SETTINGS
+from ..templates.ovmm_settings import OVMM_SETTINGS
 from plumbum.cmd import sudo
 
 
@@ -77,7 +77,7 @@ def initialise():
                 os.mkdir('{}/ovmm{}'.format(HOME, folder))
 
         with open(HOME + '/ovmm/ovmm_settings.py', 'w') as file:
-            file.write(OUSM_SETTINGS.replace('_USER_', psql_user)
+            file.write(OVMM_SETTINGS.replace('_USER_', psql_user)
                                     .replace('_PASSWORD_', psql_password)
                                     .replace('_DATABASE_', psql_database)
                                     .replace('_HOST_', psql_host)
