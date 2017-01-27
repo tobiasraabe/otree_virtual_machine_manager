@@ -74,9 +74,9 @@ def test_create_user_1():
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
-            """SELECT * FROM {table}
+            """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(**PSQL_MISC, dummy_users['werner']['user_name'])
+            .format(PSQL_MISC['table'], **dummy_users['werner'])
         )
         user = cur.fetchone()
         for i in user:
@@ -95,14 +95,14 @@ def test_count_user_1():
 @pytest.mark.order6
 def test_create_user_2():
     psql = postgres()
-    psql.create_user(dummy_user_2)
+    psql.create_user(dummy_users['max'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
-            """SELECT * FROM {table}
+            """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(**PSQL_MISC, dummy_users['max']['user_name'])
+            .format(PSQL_MISC['table'], **dummy_users['max'])
         )
         user = cur.fetchone()
         for i in user:
@@ -127,16 +127,16 @@ def test_list_user():
 
 @pytest.mark.order9
 def test_delete_user():
-    postgres.delete_user(dummy_user['werner']['user_name'])
+    postgres.delete_user(dummy_users['werner']['user_name'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
-            """SELECT * FROM {table}
+            """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(**PSQL_MISC, dummy_users['werner']['user_name'])
+            .format(PSQL_MISC['table'], **dummy_users['werner'])
         )
-        with pytest.raises(psycopg2.ProgrammingError)
+        with pytest.raises(psycopg2.ProgrammingError):
             cur.fetchone()
     conn.close()
 
