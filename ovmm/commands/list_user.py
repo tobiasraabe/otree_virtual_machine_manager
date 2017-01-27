@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import click
+
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 
 
@@ -9,7 +11,7 @@ def list_user():
 
     """
 
-    print('\n{:-^60}'.format(' Process: List Users '))
+    click.echo('\n{:-^60}'.format(' Process: List Users '))
     postgres = PostgreSQLDatabaseHandler()
     postgres.list_user()
-    print('{:-^60}\n'.format(' Process: End '))
+    click.echo('{:-^60}\n'.format(' Process: End '))

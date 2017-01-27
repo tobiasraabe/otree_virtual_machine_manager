@@ -18,7 +18,7 @@ server {
     ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
 
     add_header Strict_Transport-Secutiry max-age=31536000;
-    ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+    # ssl_dhparam /etc/nginx/ssl/dhparam.pem;
     ssl_session_cache shared:ssl_session_cache:10m;
 
 # reroute http request on this port to https

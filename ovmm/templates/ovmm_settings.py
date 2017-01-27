@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-OUSM_SETTINGS = '''
+OVMM_SETTINGS = '''
 """This is the settings file for oTree Virtual Machine Manager.
 
 """
