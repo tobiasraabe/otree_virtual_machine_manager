@@ -1,7 +1,7 @@
 postgresql:
   adapter: postgresql
   username: postgres
-  database: postgres
+  database: test
   min_messages: ERROR
   host: localhost
   port: 5432
