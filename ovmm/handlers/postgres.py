@@ -5,7 +5,6 @@ import psycopg2
 import sys
 
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-# from typing import List, Tuple
 
 try:
     from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
@@ -114,7 +113,7 @@ class PostgreSQLDatabaseHandler:
         conn.close()
 
     @staticmethod
-    def get_used_ports(port_name: str) -> List[str]:
+    def get_used_ports(port_name: str):
         """Returns a list of all used ports for ``port_name`` from table.
 
         Parameters
@@ -138,7 +137,7 @@ class PostgreSQLDatabaseHandler:
 
         return ports_list
 
-    def get_free_ports(self, port_name: str) -> List[str]:
+    def get_free_ports(self, port_name: str):
         """Compares ports from user table with ports from ``ovmm_settings.py``
         and returns a list of free ports for a given ``port_name``.
 
@@ -229,7 +228,7 @@ class PostgreSQLDatabaseHandler:
         return dict_user
 
     @staticmethod
-    def delete_user(user_name: str) -> Tuple[int, int]:
+    def delete_user(user_name: str):
         """Deletes a user's database, role and removes the entry from the user
         database. Returns the http_port variable to deny access to ports.
 
