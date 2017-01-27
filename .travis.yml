@@ -11,6 +11,7 @@ addons:
     postgresql: "9.5"
 
 before_script:
+    - cp config/database.yml.travis config/database.yml
     - pip install -U tox
     - psql --version -U postgres
     - psql -c "\l" -U postgres

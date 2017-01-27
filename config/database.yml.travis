@@ -1,0 +1,7 @@
+postgresql:
+  adapter: postgresql
+  username: postgres
+  database: postgres
+  min_messages: ERROR
+  host: localhost
+  port: 5432
