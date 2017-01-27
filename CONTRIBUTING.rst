@@ -15,7 +15,8 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/tobiasraabe/otree_virtual_machine_manager/issues.
+Report bugs at
+https://github.com/tobiasraabe/otree_virtual_machine_manager/issues.
 
 If you are reporting a bug, please include:
 
@@ -47,6 +48,9 @@ for `NumPy Style Python Docstrings
 <http://www.sphinx-doc.org/en/1.5.2/ext/napoleon.html>`_. For a complete
 example, follow this link (`Example NumPy Docstring
 <http://www.sphinx-doc.org/en/1.5.2/ext/example_numpy.html#example-numpy>`_).
+
+A more general tutorial for reStructuredText can be found
+`here <http://docutils.sourceforge.net/docs/user/rst/demo.txt>`_.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~

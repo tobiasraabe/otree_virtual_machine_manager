@@ -5,15 +5,18 @@
 """
 
 import click
-import sys
 
-from plumbum.cmd import cp
-from plumbum.cmd import mv
-from plumbum.cmd import testparm
+from plumbum import ProcessExecutionError
+from plumbum.cmd import sudo
 
 
-class SambaConfigHandler():
+class SambaConfigHandler:
     """This class contains all operations related to Samba configuration.
+
+    Attributes
+    ----------
+    path : str
+        Path to samba config
 
     """
 
@@ -34,51 +37,54 @@ class SambaConfigHandler():
         """
 
         try:
-            a = testparm.run()
+            sudo['testparm']()
+        except ProcessExecutionError:
+            self.restore_backup()
+            click.secho(
+                'Unfortunately, smb.conf was corrupt after the change.\n'
+                'The former configuration was restored.', fg='red')
         except Exception as e:
             raise e
-            self.restore_backup()
-            sys.exit(0)
-        if not a[0] == 0:
-            click.secho(
-                'Unfortunately, smb.conf is corrupt. Run "testparm" to check\n'
-                'validity and inspect file manually.', fg='red')
-            sys.exit(0)
-            self.restore_backup()
         else:
             click.secho('The smb.conf is working properly.', fg='green')
 
     def make_backup(self):
-        """Creates a backup of `smb.conf` named `smb.conf.bak`"""
+        """Creates a backup of ``smb.conf`` named ``smb.conf.bak``.
+
+        """
 
         try:
             click.secho('Make backup of current smb.conf.', fg='yellow')
-            cp.run((self.path, self.path + '.bak'))
+            sudo['cp', self.path, self.path + '.bak']()
         except Exception as e:
             raise e
-            sys.exit(0)
         else:
             click.secho(
                 'A backup of smb.conf was successfully created.', fg='green')
 
     def restore_backup(self):
-        """Restores the current backup of the `smb.conf` named
-        `smb.conf.bak`"""
+        """Restores the current backup of the ``smb.conf`` named
+        ``smb.conf.bak``.
+
+        """
 
         try:
-            mv.run((self.path + '.bak', self.path))
-        except Exception:
+            sudo['cp', self.path + '.bak', self.path]()
+        except Exception as e:
             click.secho(
-                'Something went wrong during restoring. Upps.', fg='red')
-            sys.exit(0)
+                'Something went wrong during restoration of smb.conf. Upps.',
+                fg='red')
+            raise e
         else:
             click.secho('The backup of smb.conf was successfully restored.',
                         fg='green')
 
-    def add_user(self, dict_user):
+    def add_user(self, dict_user: dict):
         """Adds a user entry at the end of smb.conf.
 
-        A user is added in the following form:
+        Examples
+        --------
+        A user entry looks like the following:
 
         ``
         [user_name]
@@ -87,8 +93,10 @@ class SambaConfigHandler():
             read only = no
         ``
 
-        - **parameters**::
-            :dict_user: A dict of user information containing port number
+        Parameters
+        ----------
+        dict_user : dict
+            A dict of user information containing port number
 
         """
 
@@ -99,20 +107,21 @@ class SambaConfigHandler():
                 file.write('\tvalid users = {user_name}\n'.format(**dict_user))
                 file.write('\tread only = no\n')
         except Exception as e:
-            raise e
             self.restore_backup()
-            sys.exit(0)
+            raise e
         else:
             self.check_integrity()
             click.secho(
                 'The user was successfully added to smb.conf.', fg='green')
 
-    def delete_user(self, user_name):
+    def delete_user(self, user_name: str):
         """Deletes a user entry from smb.conf by writing a new file which skips
         all lines related to distinct ``user_name``.
 
-        - **parameters**::
-            :user_name: name of user account
+        Parameters
+        ----------
+        user_name : str
+            Name of user account
 
         """
 
@@ -127,5 +136,5 @@ class SambaConfigHandler():
                         pass
                     else:
                         output_file.write(line)
-        mv.run((self.path + '_temp', self.path))
+        sudo['mv', self.path + '_temp', self.path]()
         click.secho('User was successfully removed from smb.conf.', fg='green')
