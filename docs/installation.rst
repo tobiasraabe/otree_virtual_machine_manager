@@ -7,9 +7,10 @@ Installation
 Requirements
 ------------
 
-As *oTree Virtual Machine Manager* provides helpful commands to administrators
-of the *oTree Virtual Machine Image*, it needs ``sudo`` access to perform its
-actions. Please, choose an appropriate account to install the package.
+As **oTree Virtual Machine Manager* provides helpful commands to
+administrators of the **oTree Virtual Machine Image**, it needs ``sudo``
+access to perform its actions. Please, choose an appropriate account to
+install the package.
 
 
 Stable release
@@ -41,13 +42,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/tobiasraabe/ovmm
+    $ git clone git://github.com/tobiasraabe/otree_virtual_machine_manager
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/tobiasraabe/ovmm/tarball/master
+    $ curl  -OL https://github.com/tobiasraabe/otree_virtual_machine_manager/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -56,5 +57,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/tobiasraabe/ovmm
-.. _tarball: https://github.com/tobiasraabe/ovmm/tarball/master
+.. _Github repo: https://github.com/tobiasraabe/otree_virtual_machine_manager
+.. _tarball: https://github.com/tobiasraabe/otree_virtual_machine_manager/tarball/master
