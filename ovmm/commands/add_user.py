@@ -10,19 +10,10 @@ from . import HOME
 from ..handlers.nginx import NginxConfigHandler
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 from ..handlers.samba import SambaConfigHandler
-from ..prompts.defaults import get_add_default
+from ..prompts.defaults import get_dummy_user
 from ..templates.settings_py import SETTINGS_PY
-from plumbum.cmd import chage
-from plumbum.cmd import chpasswd
-from plumbum.cmd import nginx
 from plumbum.cmd import printf
-from plumbum.cmd import su
 from plumbum.cmd import sudo
-from plumbum.cmd import ufw
-from plumbum.cmd import useradd
-from plumbum.cmd import usermod
-
-__docformat__ = 'reStructuredText'
 
 PASSWORD_LENGTH = 12
 EXP_ENV = 'exp_env.7z'
@@ -31,26 +22,28 @@ EXP_ENV = 'exp_env.7z'
 def add_user():
     """This command creates a new user.
 
-    - The following steps are performed::
-        :1: User information is generated
-        :2: Add user to PSQL database (checks whether user already exists)
-        :3: Create user and home directory, set password expiration date to now
-        :4: Unpack additional files to user's home directory
-        :5: Create otree project folder
-        :6: Set database information in settings.py
-        :7: Set nginx configuration file
-        :8: Allow access to ports via ufw
-        :9: Create samba configuration
-        :10: Add alias to .profile
-        :11: Set user's default shell to bash
-        :12: Write user_config to ``ovmm/user_configs/``
+    .. note::
+        The following steps are performed.
+
+        #. User information is generated
+        #. Add user to PSQL database (checks whether user already exists)
+        #. Create user and home directory, set password expiration date to now
+        #. Unpack additional files to user's home directory
+        #. Create otree project folder
+        #. Set database information in settings.py
+        #. Set nginx configuration file
+        #. Allow access to ports via ufw
+        #. Create samba configuration
+        #. Add alias to .profile
+        #. Set user's default shell to bash
+        #. Write user_config to ``ovmm/user_configs/``
 
     """
 
     click.echo('\n{:-^60}'.format(' Process: Add User '))
 
     # Generate user information
-    default = get_add_default()
+    default = get_dummy_user()
     dict_user = {}
     dict_user['user_name'] = click.prompt(
         'User name', default=default['user_name'])
@@ -69,13 +62,12 @@ def add_user():
     dict_user = postgres.create_user(dict_user)
 
     # Add user with password
-    useradd[dict_user['user_name'], '--create-home']()
-    chain = (printf['{}:{}'.format(dict_user['user_name'],
-                                   dict_user['password'])] | chpasswd)
-    chain()
+    sudo['useradd', dict_user['user_name'], '--create-home']()
+    (printf['{}:{}'.format(dict_user['user_name'], dict_user['password'])] |
+     sudo['chpasswd'])()
 
     # Force password change at first login
-    chage['-d', '0', dict_user['user_name']]()
+    sudo['chage', '-d', '0', dict_user['user_name']]()
 
     # Create virtualenv in user's home folder
     sudo['-u', '{user_name}'.format(**dict_user), 'python3', '-m', 'venv',
@@ -88,9 +80,9 @@ def add_user():
          '-o/home/{user_name}'.format(**dict_user), '-y']()
 
     # Creates standardized otree-project folder and executes
-    chain = printf['n'] | sudo[su['-', dict_user['user_name'], '-c',
-                                  'otree startproject oTree']]
-    chain()
+    (printf['n'] |
+     sudo['su', '-', dict_user['user_name'], '-c', 'otree startproject oTree']
+     )()
 
     # settings.py
     path_settingspy = '/home/{user_name}/oTree/settings.py'
@@ -102,35 +94,30 @@ def add_user():
     nch.add_user(dict_user)
 
     # firewall - open new port to the web
-    sudo[ufw['allow', dict_user['http_port']]]()
-    sudo[ufw['allow', dict_user['ssl_port']]]()
-    sudo[nginx['-s', 'reload']]()
+    sudo['ufw', 'allow', dict_user['http_port']]()
+    sudo['ufw', 'allow', dict_user['ssl_port']]()
+    sudo['nginx', '-s', 'reload']()
 
     # samba
     samba = SambaConfigHandler()
     samba.add_user(dict_user)
 
     # .profile
-    try:
-        path = '/home/{user_name}/.profile'.format(**dict_user)
-        with open(path, 'a') as file:
-            file.write('\n# Aliases')
-            file.write(
-                '\nalias run_prodserver="screen -S otree -m otree '
-                'runprodserver --port {daphne_port}"'.format(**dict_user))
-            file.write(
-                '\nalias run_mail_prodserver="screen -S otree -m otree '
-                'runprodserver --port {daphne_port} '
-                '&& mail -s "oTree stopped" {user_email} '
-                '<<< "Warning your otree on port {daphne_port} has stopped."'
-                .format(**dict_user))
-    except Exception as e:
-        raise e
-        click.secho('The alias for running a session could not be set.\n'
-                    'Please check manually', fg='red')
+    path = '/home/{user_name}/.profile'.format(**dict_user)
+    with open(path, 'a') as file:
+        file.write('\n# Aliases')
+        file.write(
+            '\nalias run_prodserver="screen -S otree -m otree '
+            'runprodserver --port {daphne_port}"'.format(**dict_user))
+        file.write(
+            '\nalias run_mail_prodserver="screen -S otree -m otree '
+            'runprodserver --port {daphne_port} '
+            '&& mail -s "oTree stopped" {user_email} '
+            '<<< "Warning your otree on port {daphne_port} has stopped."'
+            .format(**dict_user))
 
     # set user's default shell to bash
-    sudo[usermod['-s', '/bin/bash', '{user_name}'.format(**dict_user)]]()
+    sudo['usermod', '-s', '/bin/bash', '{user_name}'.format(**dict_user)]()
 
     # create output
     path = HOME + '/ovmm/user_configs'
