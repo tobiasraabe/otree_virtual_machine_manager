@@ -4,26 +4,24 @@ import click
 import os
 
 from . import HOME
-from ..templates.ovmm_settings import OUSM_SETTINGS
+from . import OVMM_SOURCE_FOLDER as OSF
+from ..templates.ovmm_settings import OVMM_SETTINGS
 from plumbum.cmd import sudo
 
 
 def initialise():
     """This command prepares the environment for further commands.
 
-
     This initialisation of the environment is necessary since some of the
     commands communicate with other parts of the system (e.g.
     PostgreSQL database) or need information about the infrastructure
     (e.g. port handling).
-
 
     Warning
     -------
     This command should be executed **in advance** to any use of
     ``ovmm`` on a new system. It checks whether all
     dependencies are satisfied. **An internet connection is needed.**
-
 
     .. note::
         The following steps are performed.
@@ -65,22 +63,22 @@ def initialise():
             sudo['-u', 'postgres', 'psql', '-c',
                  "ALTER ROLE postgres PASSWORD '{}';".format(psql_password)]()
 
-        click.echo('--> The content folder will be created under {}/ovmm'
-                   .format(HOME))
+        click.echo('--> The content folder will be created under {}/{}'
+                   .format(HOME, OSF))
 
-        if os.path.isdir('{}/ovmm'.format(HOME)):
+        if os.path.isdir('{}/{}'.format(HOME, OSF)):
             click.confirm(
-                '{}/ovmm already exists. You could overwrite important '
+                '{}/{} already exists. You could overwrite important '
                 'files. You Do you want to continue?'
-                .format(HOME), abort=True)
+                .format(HOME, OSF), abort=True)
         else:
-            os.mkdir('{}/ovmm'.format(HOME))
+            os.mkdir('{}/{}'.format(HOME, OSF))
         for folder in ['/user_configs', '/user_backups']:
-            if not os.path.isdir('{}/ovmm{}'.format(HOME, folder)):
-                os.mkdir('{}/ovmm{}'.format(HOME, folder))
+            if not os.path.isdir('{}/{}{}'.format(HOME, OSF, folder)):
+                os.mkdir('{}/{}{}'.format(HOME, OSF, folder))
 
-        with open(HOME + '/ovmm/ovmm_settings.py', 'w') as file:
-            file.write(OUSM_SETTINGS.replace('_USER_', psql_user)
+        with open(HOME + '/{}/ovmm_settings.py'.format(OSF), 'w') as file:
+            file.write(OVMM_SETTINGS.replace('_USER_', psql_user)
                                     .replace('_PASSWORD_', psql_password)
                                     .replace('_DATABASE_', psql_database)
                                     .replace('_HOST_', psql_host)
