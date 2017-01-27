@@ -25,26 +25,26 @@ POSTGRES_MISC = {
 }
 
 
-@pytest.fixture(autouse=True)
-def database():
-    db = testing.postgresql.Postgresql()
-    yield db
-    db.stop()
+# @pytest.fixture(autouse=True)
+# def database():
+#     db = testing.postgresql.Postgresql()
+#     yield db
+#     db.stop()
+#
+#
+# def test_check_connection(monkeypatch):
+#     db = db()
+#     monkeypatch.setattr(PSQL_CONN, db.dsn())
+#     postgres.check_connection()
 
 
-def test_check_connection(monkeypatch):
-    db = db()
-    monkeypatch.setattr(PSQL_CONN, db.dsn())
-    postgres.check_connection()
-
-
-def test_connection()
+def test_connection():
     with psycopg2.connect(database='postgres', user='postgres', password='') as conn:
         cur = conn.cursor()
         print('SUCCESS 1')
 
 
-def test_connection()
+def test_connection():
     with psycopg2.connect(database='postgres', user='postgres') as conn:
         cur = conn.cursor()
         print('SUCCESS 2')
