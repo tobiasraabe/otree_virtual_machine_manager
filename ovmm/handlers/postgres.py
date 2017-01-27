@@ -5,10 +5,13 @@ import psycopg2
 import sys
 
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
-from ovmm_settings import POSTGRES_MISC as PSQL_MISC
 from typing import List, Tuple
 
+try:
+    from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
+    from ovmm_settings import POSTGRES_MISC as PSQL_MISC
+except ImportError:
+    pass
 
 class PostgreSQLDatabaseHandler:
     """This class contains all functions related to the PostgreSQL database
@@ -211,8 +214,7 @@ class PostgreSQLDatabaseHandler:
                             .format(**PSQL_MISC), dict_user)
             except psycopg2.IntegrityError:
                 click.secho(
-                    'The user {user_name} already exists. Please check the '
-                    'existing account or delete it by executing delete_user.py'
+                    'The user account {user_name} already exists.'
                     .format(**dict_user), fg='red')
                 sys.exit(0)
             # Second because the other is first.
