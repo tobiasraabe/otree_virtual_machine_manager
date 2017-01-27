@@ -37,7 +37,7 @@ POSTGRES_MISC = {
 #     postgres.check_connection()
 
 
-def test_connection():
+def test_connection1():
     try:
         with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port=5432) as conn:
             cur = conn.cursor()
@@ -45,6 +45,8 @@ def test_connection():
     except psycopg2.OperationalError:
         pass
 
+
+def test_connection_2():
     try:
         with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port='5432') as conn:
             cur = conn.cursor()
@@ -52,6 +54,8 @@ def test_connection():
     except psycopg2.OperationalError:
         pass
 
+
+def test_connection_3():
     try:
         with psycopg2.connect(database='postgres', user='postgres', host='localhost', port='5432') as conn:
             cur = conn.cursor()
@@ -59,6 +63,8 @@ def test_connection():
     except psycopg2.OperationalError:
         pass
 
+
+def test_connection_4():
     try:
         with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port=5432) as conn:
             cur = conn.cursor()
