@@ -26,28 +26,27 @@ POSTGRES_MISC = {
 
 # @pytest.fixture(autouse=True)
 # def patches(monkeypatch):
-#     monkeypatch
+#     monkeypatch.setattr
 
 def test_connection1():
-    with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port=5432) as conn:
+    with psycopg2.connect(database='postgres', user='postgres', password='hello', host='localhost', port=5432) as conn:
         cur = conn.cursor()
         print('SUCCESS 1')
 
 
 def test_connection_2():
-    with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port='5432') as conn:
+    with psycopg2.connect(database='postgres', user='postgres', password='hello', host='localhost', port='5432') as conn:
         cur = conn.cursor()
         print('SUCCESS 2')
 
 
 def test_connection_3():
-    with psycopg2.connect(database='postgres', user='postgres', host='localhost', port='5432') as conn:
+    with psycopg2.connect(database='postgres', user='postgres', password='hello', host='localhost', port='5432') as conn:
         cur = conn.cursor()
         print('SUCCESS 3')
 
+
 def test_connection_4():
-    with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port=5432) as conn:
+    with psycopg2.connect(database='postgres', user='postgres', password='hello', host='localhost', port=5432) as conn:
         cur = conn.cursor()
         print('SUCCESS 4')
-
-
