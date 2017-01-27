@@ -40,7 +40,7 @@ def patches(monkeypatch):
 
 @pytest.mark.order1
 def test_check_connection_1():
-    with pytest.raises(psycopg2.OperationalError)
+    with pytest.raises(psycopg2.OperationalError):
         postgres.check_connection()
 
 
