@@ -1,6 +1,8 @@
-"""This file contains default values for prompts
+"""This file contains default values for prompts.
 
-For ``add_user_defaults`` the template looks like this:
+Example
+-------
+For :dict:`dummy_users` the template looks like this:
 
 ``
 name = {
@@ -9,13 +11,17 @@ name = {
     'user_email': 'forenamesurname@posteo.de',
     'user_tel': '04387-238742'
 }
+``
+
+But pull requests to add a new dummy are only accepted if you recognize the
+pattern and cite the famous source.
 
 """
 
 import random
 
 
-add_user_defaults = {
+dummy_users = {
 
     'werner': {
         'user_full': 'Werner Heisenberg',
@@ -47,6 +53,14 @@ add_user_defaults = {
 }
 
 
-def get_add_default():
-    key = random.choice(list(add_user_defaults.keys()))
-    return add_user_defaults[key]
+def get_dummy_user() -> dict:
+    """Returns one of the dummy user in :dict:`dummy_users`.
+
+    Returns
+    -------
+    dummy_users[key] : dict
+        A dictionary of a dummy user
+
+    """
+    key = random.choice(list(dummy_users.keys()))
+    return dummy_users[key]

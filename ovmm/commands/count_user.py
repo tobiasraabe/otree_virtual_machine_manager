@@ -1,11 +1,4 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-"""This script executes the function `count_user()` of
-`PostgreSQLDatabaseHandler` in `postgres.py`. The number of accounts and the
-number of additional accounts is displayed.
-
-"""
 
 import click
 
