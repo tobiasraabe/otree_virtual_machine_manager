@@ -12,6 +12,9 @@ addons:
 
 before_script:
     - pip install -U tox
+    - psql --version -U postgres
+    - psql -c "\l" -U postgres
+    - psql -c "\t" -U postgres
     - psql -c 'create database postgres;' -U postgres
 
 script: tox -e ${TOXENV}
