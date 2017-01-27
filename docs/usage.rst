@@ -77,7 +77,7 @@ list_user / l
 
 
 .. _end_user_commands:
-    
+
 End User Commands
 -----------------
 
@@ -85,13 +85,13 @@ Apart from the standard otree commands, the user has the following commands
 at hand:
 
 * ``run_mail_prodserver`` starts a production server and notifies the
-  user via email if the server crashes. 
+  user via email if the server crashes.
 
 * ``run_prodserver`` starts a production server (without notification,
   not advised except for testing).
 
-The user should not run ``otree runserver`` (which is just for local
-testing) or ``otree runprodserver``(because of the proxy settings).
+The user should not run ``otree runserver`` (which is just for local testing)
+or ``otree runprodserver`` (because of the proxy settings).
 
 
 .. _running_experiments:
@@ -107,6 +107,6 @@ experiments.
 
 2. Set the otree environment variable to Production
     ``OTREE_PRODUCTION=1; export OTREE_PRODUCTION``.
-  
+
 3. Start the Server either by running ``run_mail_prodserver`` or
    ``run_prodserver``.
