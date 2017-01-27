@@ -1,8 +1,0 @@
-postgresql:
-  adapter: postgresql
-  username: postgres
-  database: test
-  min_messages: ERROR
-  host: localhost
-  port: 5432
-  password: hello
