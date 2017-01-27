@@ -25,50 +25,29 @@ POSTGRES_MISC = {
 
 
 # @pytest.fixture(autouse=True)
-# def database():
-#     db = testing.postgresql.Postgresql()
-#     yield db
-#     db.stop()
-#
-#
-# def test_check_connection(monkeypatch):
-#     db = db()
-#     monkeypatch.setattr(PSQL_CONN, db.dsn())
-#     postgres.check_connection()
-
+# def patches(monkeypatch):
+#     monkeypatch
 
 def test_connection1():
-    try:
-        with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port=5432) as conn:
-            cur = conn.cursor()
-            print('SUCCESS 1')
-    except psycopg2.OperationalError:
-        pass
+    with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port=5432) as conn:
+        cur = conn.cursor()
+        print('SUCCESS 1')
 
 
 def test_connection_2():
-    try:
-        with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port='5432') as conn:
-            cur = conn.cursor()
-            print('SUCCESS 2')
-    except psycopg2.OperationalError:
-        pass
+    with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port='5432') as conn:
+        cur = conn.cursor()
+        print('SUCCESS 2')
 
 
 def test_connection_3():
-    try:
-        with psycopg2.connect(database='postgres', user='postgres', host='localhost', port='5432') as conn:
-            cur = conn.cursor()
-            print('SUCCESS 3')
-    except psycopg2.OperationalError:
-        pass
-
+    with psycopg2.connect(database='postgres', user='postgres', host='localhost', port='5432') as conn:
+        cur = conn.cursor()
+        print('SUCCESS 3')
 
 def test_connection_4():
-    try:
-        with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port=5432) as conn:
-            cur = conn.cursor()
-            print('SUCCESS 4')
-    except psycopg2.OperationalError:
-        pass
+    with psycopg2.connect(database='postgres', user='postgres', password='', host='localhost', port=5432) as conn:
+        cur = conn.cursor()
+        print('SUCCESS 4')
+
 
