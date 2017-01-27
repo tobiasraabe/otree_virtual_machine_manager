@@ -9,7 +9,6 @@ test_handler_postgres
 
 import pytest
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler as postgres
-import testing.postgresql
 import psycopg2
 
 

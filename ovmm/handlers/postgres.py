@@ -5,7 +5,7 @@ import psycopg2
 import sys
 
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from typing import List, Tuple
+# from typing import List, Tuple
 
 try:
     from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
