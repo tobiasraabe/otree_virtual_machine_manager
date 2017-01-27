@@ -13,29 +13,14 @@ import psycopg2
 from ovmm.prompts.defaults import dummy_users
 
 
-POSTGRES_MISC = {
-    # Name for table containing user account information
-    'table': 'user_table',
-    # The ranges of free ports are specified by list comprehensions.
-    # Adjust the values to your configuration.
-    'daphne_port': [i for i in range(8001, 8021)],
-    'http_port': [i for i in range(7901, 7921)],
-    'ssl_port': [i for i in range(7801, 7821)],
-    'redis_port': [i for i in range(1, 21)],
-}
+PSQL_MISC = {'table': 'user_table',
+             'daphne_port': [i for i in range(8001, 8021)],
+             'http_port': [i for i in range(7901, 7921)],
+             'ssl_port': [i for i in range(7801, 7821)],
+             'redis_port': [i for i in range(1, 21)]}
 
-POSTGRES_CONN = {
-    'dbname': 'postgres',
-    'user': 'postgres',
-    'host': 'localhost',
-    'port': 5432,
-}
-
-
-@pytest.fixture(autouse=True)
-def patches(monkeypatch):
-    monkeypatch.setattr(PSQL_CONN, POSTGRES_CONN)
-    monkeypatch.setattr(PSQL_MISC, POSTGRES_MISC)
+PSQL_CONN = {'dbname': 'postgres', 'user': 'postgres', 'host': 'localhost',
+             'port': 5432}
 
 
 @pytest.mark.order1
