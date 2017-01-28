@@ -50,7 +50,7 @@ def test_create_table():
             WHERE tablename = '{table}');""".format(**POSTGRES_MISC)
         )
         table_name = cur.fetchone()
-        assert POSTGRES_MISC['table'] in table_name
+        assert table_name[0]
     conn.close()
 
 
