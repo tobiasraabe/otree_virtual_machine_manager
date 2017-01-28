@@ -13,14 +13,20 @@ import psycopg2
 from ovmm.prompts.defaults import dummy_users
 
 
-PSQL_MISC = {'table': 'user_table',
+POSTGRES_MISC = {'table': 'user_table',
              'daphne_port': [i for i in range(8001, 8021)],
              'http_port': [i for i in range(7901, 7921)],
              'ssl_port': [i for i in range(7801, 7821)],
              'redis_port': [i for i in range(1, 21)]}
 
-PSQL_CONN = {'dbname': 'postgres', 'user': 'postgres', 'host': 'localhost',
+POSTGRES_CONN = {'dbname': 'postgres', 'user': 'postgres', 'host': 'localhost',
              'port': 5432}
+
+
+@pytest.fixture(autouse=True)
+def patching(monkeypatch):
+    monkeypatch.setattr(PSQL_CONN, POSTGRES_CONN, raising=False)
+    monkeypatch.setattr(PSQL_MISC, POSTGRES_MISC, raising=False)
 
 
 @pytest.mark.order1
