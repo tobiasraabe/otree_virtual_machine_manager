@@ -50,7 +50,7 @@ def test_create_table():
             WHERE tablename = '{table}');""".format(**POSTGRES_MISC)
         )
         table_name = cur.fetchone()
-        assert PSQL_MISC['table'] in table_name
+        assert POSTGRES_MISC['table'] in table_name
     conn.close()
 
 
@@ -83,7 +83,7 @@ def test_count_user_1():
     psql = postgres.PostgreSQLDatabaseHandler()
     num_free, num_max = psql.count_user()
     assert num_free == 19
-    assert num_max == 1
+    assert num_max == 20
 
 
 @pytest.mark.order6
@@ -110,7 +110,7 @@ def test_count_user_2():
     psql = postgres.PostgreSQLDatabaseHandler()
     num_free, num_max = psql.count_user()
     assert num_free == 18
-    assert num_max == 2
+    assert num_max == 20
 
 
 @pytest.mark.order8
@@ -132,6 +132,6 @@ def test_delete_user():
             WHERE user_name = '{user_name}';"""
             .format(POSTGRES_MISC['table'], **dummy_users['werner'])
         )
-        with pytest.raises(psycopg2.ProgrammingError):
-            cur.fetchone()
+        temp = cur.fetchone()
+        assert temp == None
     conn.close()
