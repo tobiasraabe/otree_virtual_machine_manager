@@ -10,7 +10,11 @@ try:
     from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
     from ovmm_settings import POSTGRES_MISC as PSQL_MISC
 except ImportError:
-    pass
+    try:
+        PSQL_CONN = os.environ['PSQL_CONN']
+        PSQL_MISC = os.environ['PSQL_MISC']
+    except KeyError:
+        pass
 
 
 class PostgreSQLDatabaseHandler:

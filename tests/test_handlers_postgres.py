@@ -7,11 +7,11 @@ test_handler_postgres
 
 """
 
-import pytest
-from ovmm.handlers.postgres import PostgreSQLDatabaseHandler as postgres
 import psycopg2
-from ovmm.prompts.defaults import dummy_users
+import pytest
 
+from ovmm.handlers.postgres import PostgreSQLDatabaseHandler as postgres
+from ovmm.prompts.defaults import dummy_users
 
 POSTGRES_MISC = {'table': 'user_table',
              'daphne_port': [i for i in range(8001, 8021)],
@@ -25,8 +25,8 @@ POSTGRES_CONN = {'dbname': 'postgres', 'user': 'postgres', 'host': 'localhost',
 
 @pytest.fixture(autouse=True)
 def patching(monkeypatch):
-    monkeypatch.setattr(PSQL_CONN, POSTGRES_CONN, raising=False)
-    monkeypatch.setattr(PSQL_MISC, POSTGRES_MISC, raising=False)
+    monkeypatch.setenv(PSQL_CONN, POSTGRES_CONN)
+    monkeypatch.setenv(PSQL_MISC, POSTGRES_MISC)
 
 
 @pytest.mark.order1
@@ -130,4 +130,3 @@ def test_delete_user():
         with pytest.raises(psycopg2.ProgrammingError):
             cur.fetchone()
     conn.close()
-
