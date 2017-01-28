@@ -4,9 +4,14 @@ notifications:
     on_success: never
     on_failure: never
 
+sudo: false
+dist: trusty
+addons:
+    postgresql: "9.5"
 language: python
 
-before_script: pip install -U tox
+before_script:
+    - pip install -U tox
 
 script: tox -e ${TOXENV}
 

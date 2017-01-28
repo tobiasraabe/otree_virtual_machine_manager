@@ -9,7 +9,7 @@ POSTGRES_CONNECTION = {
     # Arguments needed to connect with psycopg2
     'user': '_USER_',
     'password': '_PASSWORD_',
-    'database': '_DATABASE_',
+    'dbname': '_DATABASE_',
     'host': '_HOST_',
     'port': '_PORT_',
 }
