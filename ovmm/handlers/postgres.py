@@ -224,7 +224,7 @@ class PostgreSQLDatabaseHandler:
             except psycopg2.IntegrityError:
                 click.secho(
                     'The user account {user_name} already exists.'
-                        .format(**dict_user), fg='red')
+                    .format(**dict_user), fg='red')
                 sys.exit(0)
             # Second because the other is first.
             cur.execute("""CREATE USER {user_name};""".format(**dict_user))

@@ -15,13 +15,13 @@ from ovmm.handlers import postgres
 from ovmm.prompts.defaults import dummy_users
 
 POSTGRES_MISC = {'table': 'user_table',
-             'daphne_port': [i for i in range(8001, 8021)],
-             'http_port': [i for i in range(7901, 7921)],
-             'ssl_port': [i for i in range(7801, 7821)],
-             'redis_port': [i for i in range(1, 21)]}
+                 'daphne_port': [i for i in range(8001, 8021)],
+                 'http_port': [i for i in range(7901, 7921)],
+                 'ssl_port': [i for i in range(7801, 7821)],
+                 'redis_port': [i for i in range(1, 21)]}
 
 POSTGRES_CONN = {'dbname': 'postgres', 'user': 'postgres', 'host': 'localhost',
-             'port': 5432}
+                 'port': 5432}
 
 
 @pytest.fixture(autouse=True)
@@ -133,5 +133,5 @@ def test_delete_user():
             .format(POSTGRES_MISC['table'], **dummy_users['werner'])
         )
         temp = cur.fetchone()
-        assert temp == None
+        assert temp is None
     conn.close()

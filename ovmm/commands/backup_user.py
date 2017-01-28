@@ -41,9 +41,11 @@ def backup_user(user_name: str = None):
         os.makedirs(HOME + '/ovmm/user_backups')
 
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
+    file_name = (
+        HOME + '/ovmm/user_backups/' + user_name + '_db_dump_' + tim + '.sql')
     try:
         (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] >
-         (HOME + '/ovmm/user_backups/' + user_name + '_db_dump_' + tim + '.sql'))()
+         (file_name))()
     except plumbum.ProcessExecutionError:
         click.secho(
             '{} does not exist in the database!', fg='red'
