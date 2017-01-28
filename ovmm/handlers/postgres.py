@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import ast
 import os
 import sys
 
@@ -12,8 +13,8 @@ try:
     from ovmm_settings import POSTGRES_MISC as PSQL_MISC
 except ImportError:
     try:
-        PSQL_CONN = os.environ['PSQL_CONN']
-        PSQL_MISC = os.environ['PSQL_MISC']
+        PSQL_CONN = ast.literal_eval(os.environ['PSQL_CONN'])
+        PSQL_MISC = ast.literal_eval(os.environ['PSQL_MISC'])
     except KeyError:
         pass
 
