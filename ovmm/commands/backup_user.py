@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import click
 import os
+import sys
 import time
+
+import click
+import plumbum
+from plumbum.cmd import sudo
 
 from . import HOME
 from ..prompts.defaults import get_dummy_user
-from plumbum.cmd import sudo
 
 
 def backup_user(user_name: str = None):
@@ -38,9 +41,16 @@ def backup_user(user_name: str = None):
         os.makedirs(HOME + '/ovmm/user_backups')
 
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
-    (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] >
-     (HOME + '/ovmm/user_backups/' + user_name + '_db_dump_' + tim + '.sql'))()
-
+    file_name = (
+        HOME + '/ovmm/user_backups/' + user_name + '_db_dump_' + tim + '.sql')
+    try:
+        (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] >
+         (file_name))()
+    except plumbum.ProcessExecutionError:
+        click.secho(
+            '{} does not exist in the database!', fg='red'
+        )
+        sys.exit(0)
     click.secho(
         "A backup of user's database was successfully created", fg='green')
     click.echo('{:-^60}\n'.format(' Process: End '))

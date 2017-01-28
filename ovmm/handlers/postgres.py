@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
 
-import click
-import psycopg2
+import ast
+import os
 import sys
 
+import click
+import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
-from ovmm_settings import POSTGRES_MISC as PSQL_MISC
-from typing import List, Tuple
+
+try:
+    from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
+    from ovmm_settings import POSTGRES_MISC as PSQL_MISC
+except ImportError:
+    try:
+        PSQL_CONN = ast.literal_eval(os.environ['PSQL_CONN'])
+        PSQL_MISC = ast.literal_eval(os.environ['PSQL_MISC'])
+    except KeyError:
+        pass
 
 
 class PostgreSQLDatabaseHandler:
@@ -78,7 +87,7 @@ class PostgreSQLDatabaseHandler:
     @staticmethod
     def check_connection():
         """The function tries to connect to the PostgreSQL database and write
-        a test entry. This test covers the case where ``user_table`` is defined
+        a test entry. This test covers the case where `user_table` is defined
         but it is not properly set up.
 
         """
@@ -111,8 +120,8 @@ class PostgreSQLDatabaseHandler:
         conn.close()
 
     @staticmethod
-    def get_used_ports(port_name: str) -> List[str]:
-        """Returns a list of all used ports for ``port_name`` from table.
+    def get_used_ports(port_name: str):
+        """Returns a list of all used ports for `port_name` from table.
 
         Parameters
         ----------
@@ -135,9 +144,9 @@ class PostgreSQLDatabaseHandler:
 
         return ports_list
 
-    def get_free_ports(self, port_name: str) -> List[str]:
+    def get_free_ports(self, port_name: str):
         """Compares ports from user table with ports from ``ovmm_settings.py``
-        and returns a list of free ports for a given ``port_name``.
+        and returns a list of free ports for a given `port_name`.
 
         Paramters
         ---------
@@ -158,8 +167,15 @@ class PostgreSQLDatabaseHandler:
         return free_ports
 
     def count_user(self):
-        """Prints the number of existing user accounts and the number of
-        possible additional accounts.
+        """Returns the number possible additional accounts and the maximal
+        number of accounts.
+
+        Returns
+        -------
+        num_free_ports : int
+            Number of possible, additional accounts
+        num_max_ports : int
+            Maximal number of accounts given information about ports
 
         """
 
@@ -173,11 +189,7 @@ class PostgreSQLDatabaseHandler:
             if (num2 < num_max_ports) | (num_max_ports is None):
                 num_max_ports = num2
 
-        click.echo('Number of user accounts: {}'
-                   .format(num_max_ports - num_free_ports))
-        click.echo('Limit of additional accounts: {}'.format(num_free_ports))
-        if num_free_ports == 0:
-            click.secho('It is not possible to add more users!', fg='red')
+        return num_free_ports, num_max_ports
 
     def create_user(self, dict_user: dict) -> dict:
         """Gets the minimal unassigned port numbers, adds them to the
@@ -211,8 +223,7 @@ class PostgreSQLDatabaseHandler:
                             .format(**PSQL_MISC), dict_user)
             except psycopg2.IntegrityError:
                 click.secho(
-                    'The user {user_name} already exists. Please check the '
-                    'existing account or delete it by executing delete_user.py'
+                    'The user account {user_name} already exists.'
                     .format(**dict_user), fg='red')
                 sys.exit(0)
             # Second because the other is first.
@@ -227,9 +238,9 @@ class PostgreSQLDatabaseHandler:
         return dict_user
 
     @staticmethod
-    def delete_user(user_name: str) -> Tuple[int, int]:
+    def delete_user(user_name: str):
         """Deletes a user's database, role and removes the entry from the user
-        database. Returns the http_port variable to deny access to ports.
+        database. Returns the `http_port` variable to deny access to ports.
 
         Parameters
         ----------
@@ -241,7 +252,7 @@ class PostgreSQLDatabaseHandler:
         http_port : int
             User's http port
         ssl_port : int
-
+            User's ssl port
 
         """
 
@@ -250,9 +261,15 @@ class PostgreSQLDatabaseHandler:
             cur.execute("""SELECT http_port, ssl_port FROM {}
                         WHERE user_name = '{}';"""
                         .format(PSQL_MISC['table'], user_name))
-            http_port, ssl_port = cur.fetchone()
-            conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            try:
+                http_port, ssl_port = cur.fetchone()
+            except TypeError:
+                click.secho(
+                    '{} does not exist in the database!', fg='red'
+                )
+                sys.exit(0)
 
+            conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
             cur.execute("""DELETE FROM {} WHERE user_name = '{}';"""
                         .format(PSQL_MISC['table'], user_name))
             cur.execute("""DROP DATABASE {};""".format(user_name))
@@ -268,6 +285,11 @@ class PostgreSQLDatabaseHandler:
     def list_user():
         """This functions echoes a list of user names to shell.
 
+        Returns
+        -------
+        user_list : list
+            List of user names
+
         """
 
         with psycopg2.connect(**PSQL_CONN) as conn:
@@ -275,7 +297,7 @@ class PostgreSQLDatabaseHandler:
             cur.execute("""SELECT user_name FROM {table};"""
                         .format(**PSQL_MISC))
             user_arr = cur.fetchall()
-            click.echo('\nList of user names:\n')
-            for i in user_arr:
-                click.echo(i[0])
         conn.close()
+        user_list = [i[0] for i in user_arr]
+
+        return user_list
