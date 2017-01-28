@@ -11,7 +11,7 @@ import importlib
 import psycopg2
 import pytest
 
-from ovmm.handlers.postgres import PostgreSQLDatabaseHandler as postgres
+from ovmm.handlers import postgres
 from ovmm.prompts.defaults import dummy_users
 
 POSTGRES_MISC = {'table': 'user_table',
@@ -34,12 +34,12 @@ def patching(monkeypatch):
 @pytest.mark.order1
 def test_check_connection_1():
     with pytest.raises(psycopg2.OperationalError):
-        postgres.check_connection()
+        postgres.PostgreSQLDatabaseHandler.check_connection()
 
 
 @pytest.mark.order2
 def test_create_table():
-    postgres.create_table()
+    postgres.PostgreSQLDatabaseHandler.create_table()
 
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
@@ -56,12 +56,12 @@ def test_create_table():
 
 @pytest.mark.order3
 def test_check_connection_2():
-    postgres.check_connection()
+    postgres.PostgreSQLDatabaseHandler.check_connection()
 
 
 @pytest.mark.order4
 def test_create_user_1():
-    psql = postgres()
+    psql = postgres.PostgreSQLDatabaseHandler()
     psql.create_user(dummy_users['werner'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
@@ -79,7 +79,7 @@ def test_create_user_1():
 
 @pytest.mark.order5
 def test_count_user_1():
-    psql = postgres()
+    psql = postgres.PostgreSQLDatabaseHandler()
     num_free, num_max = psql.count_user()
     assert num_free == 19
     assert num_max == 1
@@ -87,7 +87,7 @@ def test_count_user_1():
 
 @pytest.mark.order6
 def test_create_user_2():
-    psql = postgres()
+    psql = postgres.PostgreSQLDatabaseHandler()
     psql.create_user(dummy_users['max'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
@@ -105,7 +105,7 @@ def test_create_user_2():
 
 @pytest.mark.order7
 def test_count_user_2():
-    psql = postgres()
+    psql = postgres.PostgreSQLDatabaseHandler()
     num_free, num_max = psql.count_user()
     assert num_free == 18
     assert num_max == 2
@@ -113,14 +113,15 @@ def test_count_user_2():
 
 @pytest.mark.order8
 def test_list_user():
-    user_list = postgres.list_user()
+    user_list = postgres.PostgreSQLDatabaseHandler.list_user()
     assert 'werner' in user_list
     assert 'max' in user_list
 
 
 @pytest.mark.order9
 def test_delete_user():
-    postgres.delete_user(dummy_users['werner']['user_name'])
+    postgres.PostgreSQLDatabaseHandler.delete_user(
+        dummy_users['werner']['user_name'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
