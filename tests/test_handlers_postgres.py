@@ -7,6 +7,7 @@ test_handler_postgres
 
 """
 
+import importlib
 import psycopg2
 import pytest
 
@@ -25,8 +26,9 @@ POSTGRES_CONN = {'dbname': 'postgres', 'user': 'postgres', 'host': 'localhost',
 
 @pytest.fixture(autouse=True)
 def patching(monkeypatch):
-    monkeypatch.setenv(PSQL_CONN, POSTGRES_CONN)
-    monkeypatch.setenv(PSQL_MISC, POSTGRES_MISC)
+    monkeypatch.setenv('PSQL_CONN', POSTGRES_CONN)
+    monkeypatch.setenv('PSQL_MISC', POSTGRES_MISC)
+    importlib.reload(postgres)
 
 
 @pytest.mark.order1
