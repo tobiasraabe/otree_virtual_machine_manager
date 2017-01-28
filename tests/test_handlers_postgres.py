@@ -33,7 +33,7 @@ def patching(monkeypatch):
 
 @pytest.mark.order1
 def test_check_connection_1():
-    with pytest.raises(psycopg2.OperationalError):
+    with pytest.raises(psycopg2.ProgrammingError):
         postgres.PostgreSQLDatabaseHandler.check_connection()
 
 
@@ -41,13 +41,13 @@ def test_check_connection_1():
 def test_create_table():
     postgres.PostgreSQLDatabaseHandler.create_table()
 
-    with psycopg2.connect(**PSQL_CONN) as conn:
+    with psycopg2.connect(**POSTGRES_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT EXISTS (
             SELECT 1
             FROM pg_tables
-            WHERE tablename = '{table}');""".format(**PSQL_MISC)
+            WHERE tablename = '{table}');""".format(**POSTGRES_MISC)
         )
         table_name = cur.fetchone()
         assert PSQL_MISC['table'] in table_name
@@ -62,14 +62,15 @@ def test_check_connection_2():
 @pytest.mark.order4
 def test_create_user_1():
     psql = postgres.PostgreSQLDatabaseHandler()
+    dummy_users['werner'].update({'password': '1234'})
     psql.create_user(dummy_users['werner'])
 
-    with psycopg2.connect(**PSQL_CONN) as conn:
+    with psycopg2.connect(**POSTGRES_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_MISC['table'], **dummy_users['werner'])
+            .format(POSTGRES_MISC['table'], **dummy_users['werner'])
         )
         user = cur.fetchone()
         for i in user:
@@ -88,14 +89,15 @@ def test_count_user_1():
 @pytest.mark.order6
 def test_create_user_2():
     psql = postgres.PostgreSQLDatabaseHandler()
+    dummy_users['max'].update({'password': '98765'})
     psql.create_user(dummy_users['max'])
 
-    with psycopg2.connect(**PSQL_CONN) as conn:
+    with psycopg2.connect(**POSTGRES_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_MISC['table'], **dummy_users['max'])
+            .format(POSTGRES_MISC['table'], **dummy_users['max'])
         )
         user = cur.fetchone()
         for i in user:
@@ -123,12 +125,12 @@ def test_delete_user():
     postgres.PostgreSQLDatabaseHandler.delete_user(
         dummy_users['werner']['user_name'])
 
-    with psycopg2.connect(**PSQL_CONN) as conn:
+    with psycopg2.connect(**POSTGRES_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_MISC['table'], **dummy_users['werner'])
+            .format(POSTGRES_MISC['table'], **dummy_users['werner'])
         )
         with pytest.raises(psycopg2.ProgrammingError):
             cur.fetchone()

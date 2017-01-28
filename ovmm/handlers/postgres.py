@@ -261,9 +261,15 @@ class PostgreSQLDatabaseHandler:
             cur.execute("""SELECT http_port, ssl_port FROM {}
                         WHERE user_name = '{}';"""
                         .format(PSQL_MISC['table'], user_name))
-            http_port, ssl_port = cur.fetchone()
-            conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            try:
+                http_port, ssl_port = cur.fetchone()
+            except TypeError:
+                click.secho(
+                    '{} does not exist in the database!', fg='red'
+                )
+                sys.exit(0)
 
+            conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
             cur.execute("""DELETE FROM {} WHERE user_name = '{}';"""
                         .format(PSQL_MISC['table'], user_name))
             cur.execute("""DROP DATABASE {};""".format(user_name))
