@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """This file contains default values for prompts.
 
 Example

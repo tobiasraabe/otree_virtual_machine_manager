@@ -31,13 +31,15 @@ keys contain python lists. Insert distinct values or use list
 comprehension for bigger ranges.
 
 
-.. _commands:
+.. _command_line_options:
 
 Command line options
 --------------------
 
 Command line options are entered used with ``sudo ovmm <command>``
 
+
+.. _commands:
 
 Commands
 ~~~~~~~~

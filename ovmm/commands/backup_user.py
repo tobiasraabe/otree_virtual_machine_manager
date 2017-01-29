@@ -50,7 +50,7 @@ def backup_user(user_name: str = None):
         click.secho(
             '{} does not exist in the database!', fg='red'
         )
-        sys.exit(0)
+        sys.exit(1)
     click.secho(
         "A backup of user's database was successfully created", fg='green')
     click.echo('{:-^60}\n'.format(' Process: End '))

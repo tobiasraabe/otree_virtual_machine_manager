@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-test_handler_postgres
----------------------
+test_handlers_postgres
+----------------------
 
 """
 
@@ -106,6 +106,14 @@ def test_create_user_2():
 
 
 @pytest.mark.order7
+def test_create_duplicate_user():
+    psql = postgres.PostgreSQLDatabaseHandler()
+    dummy_users['max'].update({'password': '98765'})
+    with pytest.raises(psycopg2.IntegrityError):
+        psql.create_user(dummy_users['max'])
+
+
+@pytest.mark.order8
 def test_count_user_2():
     psql = postgres.PostgreSQLDatabaseHandler()
     num_free, num_max = psql.count_user()
@@ -113,14 +121,14 @@ def test_count_user_2():
     assert num_max == 20
 
 
-@pytest.mark.order8
+@pytest.mark.order9
 def test_list_user():
     user_list = postgres.PostgreSQLDatabaseHandler.list_user()
     assert 'werner' in user_list
     assert 'max' in user_list
 
 
-@pytest.mark.order9
+@pytest.mark.order10
 def test_delete_user():
     postgres.PostgreSQLDatabaseHandler.delete_user(
         dummy_users['werner']['user_name'])

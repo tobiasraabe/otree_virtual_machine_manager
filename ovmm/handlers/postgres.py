@@ -69,7 +69,7 @@ class PostgreSQLDatabaseHandler:
             click.secho(e, fg='red')
             click.secho('Cannot connect to PostgreSQL server! You better '
                         'check the connection manually!', fg='red')
-            sys.exit(0)
+            sys.exit(1)
         except psycopg2.ProgrammingError as e:
             click.secho(e, fg='red')
             click.secho('The user table does not exist!\n\n{}', fg='red')
@@ -78,7 +78,7 @@ class PostgreSQLDatabaseHandler:
                 self.check_connection()
             except Exception as e:
                 click.secho(e, fg='red')
-                sys.exit(0)
+                sys.exit(1)
         else:
             click.secho(
                 'The connection to the PostgreSQL database was successful!',
@@ -225,7 +225,7 @@ class PostgreSQLDatabaseHandler:
                 click.secho(
                     'The user account {user_name} already exists.'
                     .format(**dict_user), fg='red')
-                sys.exit(0)
+                sys.exit(1)
             # Second because the other is first.
             cur.execute("""CREATE USER {user_name};""".format(**dict_user))
             cur.execute("""ALTER USER {user_name} WITH PASSWORD
@@ -267,7 +267,7 @@ class PostgreSQLDatabaseHandler:
                 click.secho(
                     '{} does not exist in the database!', fg='red'
                 )
-                sys.exit(0)
+                sys.exit(1)
 
             conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
             cur.execute("""DELETE FROM {} WHERE user_name = '{}';"""

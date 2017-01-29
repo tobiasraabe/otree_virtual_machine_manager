@@ -5,9 +5,12 @@
 """
 
 import click
+import plumbum
 
-from plumbum import ProcessExecutionError
-from plumbum.cmd import sudo
+try:
+    from plumbum.cmd import sudo
+except ImportError:
+    pass
 
 
 class SambaConfigHandler:
@@ -38,7 +41,7 @@ class SambaConfigHandler:
 
         try:
             sudo['testparm']()
-        except ProcessExecutionError:
+        except plumbum.ProcessExecutionError:
             self.restore_backup()
             click.secho(
                 'Unfortunately, smb.conf was corrupt after the change.\n'
@@ -126,7 +129,7 @@ class SambaConfigHandler:
         """
 
         arr = []
-        with open(self.path, 'r') as input_file:
+        with open(self.path) as input_file:
             with open(self.path + '_temp', 'w') as output_file:
                 for i, line in enumerate(input_file):
                     if line.startswith('[{}]'.format(user_name)):
