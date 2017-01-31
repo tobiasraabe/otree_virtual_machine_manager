@@ -7,12 +7,19 @@ test_handlers_postgres
 
 """
 
+import sys
 import importlib
 import psycopg2
 import pytest
 
 from ovmm.handlers import postgres
 from ovmm.prompts.defaults import dummy_users
+
+# Variable is used to skip postgres tests if not on Ubuntu
+pytestmark = pytest.mark.skipif(
+    sys.platform != 'linux',
+    reason='Tests for linux with PostgreSQL database only')
+# Implement a skip if PostgreSQL is not installed.
 
 POSTGRES_MISC = {'table': 'user_table',
                  'daphne_port': [i for i in range(8001, 8021)],
@@ -129,6 +136,14 @@ def test_list_user():
 
 
 @pytest.mark.order10
+def test_get_user():
+    dict_user = postgres.PostgreSQLDatabaseHandler.get_user(
+        dummy_users['werner']['user_name'])
+    for key in dummy_users['werner'].keys():
+        assert dict_user[key] == dummy_users['werner'][key]
+
+
+@pytest.mark.order11
 def test_delete_user():
     postgres.PostgreSQLDatabaseHandler.delete_user(
         dummy_users['werner']['user_name'])
@@ -143,3 +158,53 @@ def test_delete_user():
         temp = cur.fetchone()
         assert temp is None
     conn.close()
+
+
+@pytest.mark.order12
+def test_init_missing_connection():
+    password = 'test'
+    with psycopg2.connect(password=password, **POSTGRES_CONN) as conn:
+        cur = conn.cursor()
+        cur.execute("""ALTER USER postgres WITH PASSWORD '{}';"""
+                    .format(password))
+    conn.close()
+
+    with pytest.raises(psycopg2.OperationalError):
+        postgres.PostgreSQLDatabaseHandler()
+
+    with psycopg2.connect(password=password, **POSTGRES_CONN) as conn:
+        cur = conn.cursor()
+        cur.execute("""ALTER USER postgres WITH PASSWORD '';""")
+    conn.close()
+
+
+@pytest.mark.order13
+def test_init_missing_table():
+    with psycopg2.connect(**POSTGRES_CONN) as conn:
+        cur = conn.cursor()
+        cur.execute("""DROP TABLE {table};"""
+                    .format(**POSTGRES_MISC))
+
+        postgres.PostgreSQLDatabaseHandler()
+
+        cur.execute(
+            """SELECT EXISTS (
+            SELECT 1
+            FROM pg_tables
+            WHERE tablename = '{table}');""".format(**POSTGRES_MISC)
+        )
+        table_name = cur.fetchone()
+    conn.close()
+    assert table_name[0]
+
+
+@pytest.mark.order14
+def test_init_missing_column():
+    with psycopg2.connect(**POSTGRES_CONN) as conn:
+        cur = conn.cursor()
+        cur.execute("""ALTER TABLE {table} DROP COLUMN daphne_port;"""
+                    .format(**POSTGRES_MISC))
+    conn.close()
+
+    with pytest.raises(psycopg2.ProgrammingError):
+        postgres.PostgreSQLDatabaseHandler()

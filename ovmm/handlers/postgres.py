@@ -2,11 +2,11 @@
 
 import ast
 import os
-import sys
 
 import click
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+from psycopg2.extras import RealDictCursor
 
 try:
     from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
@@ -29,7 +29,7 @@ class PostgreSQLDatabaseHandler:
     Note
     ----
     The table contains the following columns:
-    name : str
+    full_name : str
         Full name of user
     user_name : str
         Name of the account
@@ -61,28 +61,38 @@ class PostgreSQLDatabaseHandler:
         """Tries to connect to database to test the connection. If the user
         table does not exist, it is created.
 
+        Raises
+        ------
+        psycopg2.OperationalError
+            If connection to PostgreSQL database fails
+        psycopg2.ProgrammingError
+            If table does not exist in the database
         """
 
         try:
             self.check_connection()
         except psycopg2.OperationalError as e:
-            click.secho(e, fg='red')
-            click.secho('Cannot connect to PostgreSQL server! You better '
-                        'check the connection manually!', fg='red')
-            sys.exit(1)
+            click.secho(
+                'ERROR: Cannot connect to PostgreSQL server! You better check'
+                ' the connection manually!', fg='red')
+            raise e
         except psycopg2.ProgrammingError as e:
-            click.secho(e, fg='red')
-            click.secho('The user table does not exist!\n\n{}', fg='red')
-            try:
+            err_msg_1 = 'relation "{table}" does not exist'.format(**PSQL_MISC)
+            err_msg_2 = 'INSERT has more expressions than target columns'
+            if e.diag.message_primary == err_msg_1:
+                click.secho('ERROR: The user table does not exist!', fg='red')
                 self.create_table()
                 self.check_connection()
-            except Exception as e:
-                click.secho(e, fg='red')
-                sys.exit(1)
+                click.secho('SUCCESS: The table was created.', fg='green')
+            elif e.diag.message_primary == err_msg_2:
+                click.secho(
+                    'ERROR: A table {table} exists which is not properly'
+                    'defined. Check it manually!', fg='red')
+            else:
+                raise e
         else:
             click.secho(
-                'The connection to the PostgreSQL database was successful!',
-                fg='green')
+                'SUCCESS: Database and Table connection.', fg='green')
 
     @staticmethod
     def check_connection():
@@ -109,7 +119,7 @@ class PostgreSQLDatabaseHandler:
 
         with psycopg2.connect(**PSQL_CONN) as conn:
             cur = conn.cursor()
-            cur.execute("""CREATE TABLE {table} (name TEXT NOT NULL,
+            cur.execute("""CREATE TABLE {table} (full_name TEXT NOT NULL,
                         user_name TEXT PRIMARY KEY, email TEXT NOT NULL,
                         telephone TEXT NOT NULL, password TEXT NOT NULL,
                         daphne_port SMALLINT UNIQUE,
@@ -166,6 +176,28 @@ class PostgreSQLDatabaseHandler:
 
         return free_ports
 
+    @staticmethod
+    def get_user(user_name: str):
+        """Returns a user entry from PostgreSQL table.
+
+        Returns
+        -------
+        dict_user : dict
+            A dictionary with user information
+
+        """
+
+        with psycopg2.connect(cursor_factory=RealDictCursor,
+                              **PSQL_CONN) as conn:
+            dict_cur = conn.cursor()
+            dict_cur.execute(
+                """SELECT * FROM {} WHERE user_name = '{}';"""
+                .format(PSQL_MISC['table'], user_name))
+            dict_user = dict_cur.fetchone()
+        conn.close()
+
+        return dict_user
+
     def count_user(self):
         """Returns the number possible additional accounts and the maximal
         number of accounts.
@@ -206,6 +238,11 @@ class PostgreSQLDatabaseHandler:
         dict_user : dict
             Input dictionary extended by port entries
 
+        Raises
+        ------
+        psycopg2.IntegrityError
+            If the user entry already exists in the database
+
         """
 
         for port_name in self.port_name_list:
@@ -216,16 +253,16 @@ class PostgreSQLDatabaseHandler:
             cur = conn.cursor()
             # First, to catch multiple accounts.
             try:
-                cur.execute("""INSERT INTO {table} VALUES (%(user_full)s,
-                            %(user_name)s, %(user_email)s, %(user_tel)s,
+                cur.execute("""INSERT INTO {table} VALUES (%(full_name)s,
+                            %(user_name)s, %(email)s, %(telephone)s,
                             %(password)s, %(daphne_port)s, %(http_port)s,
                             %(ssl_port)s, %(redis_port)s);"""
                             .format(**PSQL_MISC), dict_user)
             except psycopg2.IntegrityError:
                 click.secho(
-                    'The user account {user_name} already exists.'
+                    'ERROR: User account {user_name} already exists.'
                     .format(**dict_user), fg='red')
-                sys.exit(1)
+                raise
             # Second because the other is first.
             cur.execute("""CREATE USER {user_name};""".format(**dict_user))
             cur.execute("""ALTER USER {user_name} WITH PASSWORD
@@ -247,39 +284,19 @@ class PostgreSQLDatabaseHandler:
         user_name : str
             Name of user account
 
-        Returns
-        -------
-        http_port : int
-            User's http port
-        ssl_port : int
-            User's ssl port
-
         """
 
         with psycopg2.connect(**PSQL_CONN) as conn:
-            cur = conn.cursor()
-            cur.execute("""SELECT http_port, ssl_port FROM {}
-                        WHERE user_name = '{}';"""
-                        .format(PSQL_MISC['table'], user_name))
-            try:
-                http_port, ssl_port = cur.fetchone()
-            except TypeError:
-                click.secho(
-                    '{} does not exist in the database!', fg='red'
-                )
-                sys.exit(1)
-
             conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+            cur = conn.cursor()
             cur.execute("""DELETE FROM {} WHERE user_name = '{}';"""
                         .format(PSQL_MISC['table'], user_name))
             cur.execute("""DROP DATABASE {};""".format(user_name))
             cur.execute("""DROP ROLE {};""".format(user_name))
         conn.close()
 
-        click.secho('User {} was successfully removed from postgres server.'
+        click.secho('SUCCESS: User {} was removed from database.'
                     .format(user_name), fg='green')
-
-        return int(http_port), int(ssl_port)
 
     @staticmethod
     def list_user():
@@ -298,6 +315,7 @@ class PostgreSQLDatabaseHandler:
                         .format(**PSQL_MISC))
             user_arr = cur.fetchall()
         conn.close()
+
         user_list = [i[0] for i in user_arr]
 
         return user_list

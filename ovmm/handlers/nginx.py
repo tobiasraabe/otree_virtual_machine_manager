@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import click
-import sys
-
 from plumbum import ProcessExecutionError
+from plumbum.cmd import sudo
 
 from ..templates.nginx_config import NGINX_CONF
-from plumbum.cmd import sudo
 
 
 class NginxConfigHandler:
@@ -30,12 +28,11 @@ class NginxConfigHandler:
         try:
             sudo['nginx', '-s', 'reload']()
         except ProcessExecutionError:
-            sys.exit('Unfortunately, nginx configuration is corrupt. Run'
-                     '"sudo nginx -s reload" to locate the error.\n')
-        except Exception as e:
-            raise e
+            click.secho(
+                'ERROR: nginx configuration is corrupt. Run\n'
+                '"sudo nginx -s reload" to locate the error.', fg='red')
         else:
-            click.secho('The nginx configuration is fine.', fg='green')
+            click.secho('SUCCESS: nginx configuration works.', fg='green')
 
     def add_user(self, dict_user: dict):
         """This functions adds a new user to the Nginx configuration.
@@ -67,7 +64,7 @@ class NginxConfigHandler:
              .format(**dict_user), '/etc/nginx/sites-enabled/']()
 
         # Check integrity after insertion
-        click.secho('The user was successfully added to nginx configuration.',
+        click.secho('SUCCESS: Added user to nginx configuration.',
                     fg='green')
         self.check_integrity()
 
@@ -84,10 +81,12 @@ class NginxConfigHandler:
 
         """
 
-        sudo['rm', '/etc/nginx/sites-enabled/{}'.format(user_name)]()
-        sudo['rm', '/etc/nginx/sites-available/{}'.format(user_name)]()
+        sudo['rm', '/etc/nginx/sites-enabled/{}'
+             .format(user_name)](retcode=(0, 1))
+        sudo['rm', '/etc/nginx/sites-available/{}'
+             .format(user_name)](retcode=(0, 1))
 
         # Check integrity after deletion
         self.check_integrity()
-        click.secho('User was successfully removed from nginx configuration.',
+        click.secho('SUCCESS: Removed user from nginx configuration.',
                     fg='green')

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import sys
 import time
 
 import click
@@ -28,6 +27,11 @@ def backup_user(user_name: str = None):
         #. If no folder for backups exists, create it
         #. Save the database to backup folder
 
+    Raises
+    ------
+    plumbum.ProcessExecutionError
+        If database backup for user failed.
+
     """
 
     click.echo('{:-^60}\n'.format(' Process: back_user '))
@@ -37,20 +41,22 @@ def backup_user(user_name: str = None):
         user_name = click.prompt(
             'Which user do you want to backup?', default=default['user_name'])
 
-    if not os.path.exists(HOME + '/ovmm/user_backups'):
-        os.makedirs(HOME + '/ovmm/user_backups')
+    if not os.path.exists(HOME + '/ovmm_sources/user_backups'):
+        os.makedirs(HOME + '/ovmm_sources/user_backups')
 
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
     file_name = (
-        HOME + '/ovmm/user_backups/' + user_name + '_db_dump_' + tim + '.sql')
+        HOME + '/ovmm_sources/user_backups/' + user_name + '_db_dump_'
+        + tim + '.sql')
     try:
         (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] >
-         (file_name))()
+         file_name)()
     except plumbum.ProcessExecutionError:
         click.secho(
-            '{} does not exist in the database!', fg='red'
+            'ERROR: {} does not exist in the database!'.format(user_name),
+            fg='red'
         )
-        sys.exit(1)
+        raise
     click.secho(
-        "A backup of user's database was successfully created", fg='green')
+        "A backup of the database was successfully created", fg='green')
     click.echo('{:-^60}\n'.format(' Process: End '))

@@ -28,10 +28,10 @@ def _get_user_tel():
         except ValueError:
             print('Make a valid input!')
             continue
-        user_tel = ''.join(filter(str.isdigit, user_tel_raw))
+        telephone = ''.join(filter(str.isdigit, user_tel_raw))
         break
 
-    return user_tel
+    return telephone
 
 
 def _get_user_email():
@@ -42,18 +42,18 @@ def _get_user_email():
 
     while True:
         try:
-            user_email = input('Enter an email address -> ')
+            email = input('Enter an email address -> ')
         except ValueError:
             print('Make a valid input!')
             continue
         if re.match(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',
-                    user_email):
+                    email):
             break
         else:
             print('Enter a valid email address!')
             continue
 
-    return user_email
+    return email
 
 
 def _get_user_name():
@@ -89,13 +89,13 @@ def get_user_info():
 
     """
 
-    user_dict = {}
-    user_dict['user_full'] = _get_user_full_name()
-    user_dict['user_name'] = _get_user_name()
-    user_dict['user_email'] = _get_user_email()
-    user_dict['user_tel'] = _get_user_tel()
+    dict_user = {}
+    dict_user['full_name'] = _get_user_full_name()
+    dict_user['user_name'] = _get_user_name()
+    dict_user['email'] = _get_user_email()
+    dict_user['telephone'] = _get_user_tel()
 
-    return user_dict
+    return dict_user
 
 
 def get_backup_choice():

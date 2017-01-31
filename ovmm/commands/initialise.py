@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import click
 import os
+
+import click
+import plumbum
+from plumbum.cmd import sudo
 
 from . import HOME
 from . import OVMM_SOURCE_FOLDER as OSF
 from ..templates.ovmm_settings import OVMM_SETTINGS
-from plumbum.cmd import sudo
 
 
 def initialise():
@@ -37,11 +39,11 @@ def initialise():
     try:
         click.echo('--> Installing 7z')
         sudo['apt-get', 'install', 'p7zip-full']()
-    except Exception as e:
+    except plumbum.ProcessExecutionError as e:
         click.secho(e, fg='red')
         pass
     else:
-        click.secho('Requirement satisfied.', fg='green')
+        click.secho('SUCCESS: Requirement satisfied.', fg='green')
 
     click.echo('Installing OVMM related content.')
     try:
@@ -68,8 +70,8 @@ def initialise():
 
         if os.path.isdir('{}/{}'.format(HOME, OSF)):
             click.confirm(
-                '{}/{} already exists. You could overwrite important '
-                'files. You Do you want to continue?'
+                'WARNING: {}/{} already exists. You could overwrite important'
+                '\nfiles. You Do you want to continue?'
                 .format(HOME, OSF), abort=True)
         else:
             os.mkdir('{}/{}'.format(HOME, OSF))
@@ -88,8 +90,8 @@ def initialise():
         click.secho(e, 'red')
         pass
     else:
-        click.secho('Requirement satisfied.', fg='green')
+        click.secho('SUCCESS: Requirement satisfied.', fg='green')
 
-    click.echo('End of initialisation. Fix possible errors before running '
-               'anything else!')
+    click.echo('WARNING: End of initialisation. Fix possible errors before\n'
+               'running anything else!')
     click.echo('{:-^60}\n'.format(' Process: End '))
