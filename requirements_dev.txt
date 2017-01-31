@@ -19,7 +19,7 @@ plumbum==1.6.3
 psycopg2==2.6.2
 py==1.4.32
 pyasn1==0.1.9
-pycodestyle==2.2.0
+pycodestyle==2.3.1
 pycparser==2.17
 pyflakes==1.5.0
 Pygments==2.2.0
