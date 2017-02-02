@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-from ..templates.nginx_config import NGINX_CONF
+HOME = os.environ.get('HOME', None)
 
 
 class NginxConfigHandler:
@@ -13,7 +15,14 @@ class NginxConfigHandler:
     For each user a Nginx configuration file is created with distinct values
     for ports, etc.
 
+    Attributes
+    ----------
+    path : str
+        Path to ``nginx_template`` in the administrator's directory
+
     """
+
+    path = HOME + '/ovmm_sources/nginx_template'
 
     def __init__(self):
         self.check_integrity()
@@ -50,15 +59,16 @@ class NginxConfigHandler:
         """
 
         with open('/etc/nginx/sites-available/{user_name}'
-                  .format(**dict_user), 'w') as file:
-            file.write(
-                NGINX_CONF
-                .replace('OTREEHOME', '/home/{user_name}/oTree/'
-                         .format(**dict_user))
-                .replace('HTTPPORT', str(dict_user['http_port']))
-                .replace('SSLPORT', str(dict_user['ssl_port']))
-                .replace('DAPHNEPORT', str(dict_user['daphne_port']))
-            )
+                  .format(**dict_user), 'w') as file_out:
+            with open(self.path) as file_in:
+                file_out.write(
+                    file_in.read()
+                    .replace('OTREEHOME', '/home/{user_name}/oTree/'
+                             .format(**dict_user))
+                    .replace('HTTPPORT', str(dict_user['http_port']))
+                    .replace('SSLPORT', str(dict_user['ssl_port']))
+                    .replace('DAPHNEPORT', str(dict_user['daphne_port']))
+                )
         # Enable new page via symlink to sites-enabled
         sudo['ln', '-s', '/etc/nginx/sites-available/{user_name}'
              .format(**dict_user), '/etc/nginx/sites-enabled/']()

@@ -10,7 +10,6 @@ import pkg_resources
 from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
-from . import HOME
 from .delete_user import delete_user
 from ..handlers.nginx import NginxConfigHandler
 from ..handlers.postgres import PostgreSQLDatabaseHandler
@@ -18,8 +17,8 @@ from ..handlers.samba import SambaConfigHandler
 from ..prompts.defaults import get_dummy_user
 from ..templates.settings_py import SETTINGS_PY
 
+HOME = os.path.expanduser('~')
 PASSWORD_LENGTH = 12
-EXP_ENV = 'exp_env.7z'
 
 
 def add_user():

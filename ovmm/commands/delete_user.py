@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 
 import click
 from plumbum.cmd import sudo
 
-from . import HOME
 from .backup_user import backup_user
 from ..handlers.nginx import NginxConfigHandler
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 from ..handlers.samba import SambaConfigHandler
 from ..prompts.defaults import get_dummy_user
+
+HOME = os.path.expanduser('~')
 
 
 def delete_user(dict_user: dict = None):

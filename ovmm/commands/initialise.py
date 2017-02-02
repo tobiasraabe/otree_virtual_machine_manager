@@ -3,12 +3,14 @@
 import os
 
 import click
+import pkg_resources
 import plumbum
 from plumbum.cmd import sudo
 
-from . import HOME
 from . import OVMM_SOURCE_FOLDER as OSF
 from ..templates.ovmm_settings import OVMM_SETTINGS
+
+HOME = os.path.expanduser('~')
 
 
 def initialise():
@@ -86,6 +88,10 @@ def initialise():
                                     .replace('_HOST_', psql_host)
                                     .replace('_PORT_', psql_port)
                                     .replace('_TABLE_', psql_table))
+
+        nginx_template_path = pkg_resources.resource_filename(
+            'ovmm', 'static/nginx_template')
+        sudo['cp', nginx_template_path, HOME + '/ovmm_sources/']()
     except Exception as e:
         click.secho(e, 'red')
         pass

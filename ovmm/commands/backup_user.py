@@ -7,8 +7,9 @@ import click
 import plumbum
 from plumbum.cmd import sudo
 
-from . import HOME
 from ..prompts.defaults import get_dummy_user
+
+HOME = os.path.expanduser('~')
 
 
 def backup_user(user_name: str = None):
