@@ -1,13 +1,16 @@
-#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 """This document contains everything related to Samba operations.
 
 """
 
 import click
+import plumbum
 
-from plumbum import ProcessExecutionError
-from plumbum.cmd import sudo
+try:
+    from plumbum.cmd import sudo
+except ImportError:
+    pass
 
 
 class SambaConfigHandler:
@@ -38,15 +41,14 @@ class SambaConfigHandler:
 
         try:
             sudo['testparm']()
-        except ProcessExecutionError:
+        except plumbum.ProcessExecutionError as ee:
             self.restore_backup()
             click.secho(
-                'Unfortunately, smb.conf was corrupt after the change.\n'
-                'The former configuration was restored.', fg='red')
-        except Exception as e:
-            raise e
+                'ERROR: Unfortunately, smb.conf was corrupt after the change.'
+                '\nThe former configuration was restored.', fg='red')
+            raise ee
         else:
-            click.secho('The smb.conf is working properly.', fg='green')
+            click.secho('SUCCESS: smb.conf works.', fg='green')
 
     def make_backup(self):
         """Creates a backup of ``smb.conf`` named ``smb.conf.bak``.
@@ -54,13 +56,12 @@ class SambaConfigHandler:
         """
 
         try:
-            click.secho('Make backup of current smb.conf.', fg='yellow')
             sudo['cp', self.path, self.path + '.bak']()
-        except Exception as e:
+        except plumbum.ProcessExecutionError as e:
             raise e
         else:
             click.secho(
-                'A backup of smb.conf was successfully created.', fg='green')
+                'SUCCESS: Created backup of smb.conf.', fg='green')
 
     def restore_backup(self):
         """Restores the current backup of the ``smb.conf`` named
@@ -72,12 +73,11 @@ class SambaConfigHandler:
             sudo['cp', self.path + '.bak', self.path]()
         except Exception as e:
             click.secho(
-                'Something went wrong during restoration of smb.conf. Upps.',
-                fg='red')
+                'ERROR: Restoration of smb.conf failed.', fg='red')
             raise e
         else:
-            click.secho('The backup of smb.conf was successfully restored.',
-                        fg='green')
+            click.secho(
+                'SUCCESS: Restored smb.conf backup.', fg='green')
 
     def add_user(self, dict_user: dict):
         """Adds a user entry at the end of smb.conf.
@@ -86,12 +86,12 @@ class SambaConfigHandler:
         --------
         A user entry looks like the following:
 
-        ``
+        ````
         [user_name]
             path = /home/user_name
             valid users = user_name
             read only = no
-        ``
+        ````
 
         Parameters
         ----------
@@ -112,7 +112,7 @@ class SambaConfigHandler:
         else:
             self.check_integrity()
             click.secho(
-                'The user was successfully added to smb.conf.', fg='green')
+                'SUCCESS: Added user to smb.conf.', fg='green')
 
     def delete_user(self, user_name: str):
         """Deletes a user entry from smb.conf by writing a new file which skips
@@ -126,7 +126,7 @@ class SambaConfigHandler:
         """
 
         arr = []
-        with open(self.path, 'r') as input_file:
+        with open(self.path) as input_file:
             with open(self.path + '_temp', 'w') as output_file:
                 for i, line in enumerate(input_file):
                     if line.startswith('[{}]'.format(user_name)):
@@ -137,4 +137,4 @@ class SambaConfigHandler:
                     else:
                         output_file.write(line)
         sudo['mv', self.path + '_temp', self.path]()
-        click.secho('User was successfully removed from smb.conf.', fg='green')
+        click.secho('SUCCESS: Removed user from smb.conf.', fg='green')

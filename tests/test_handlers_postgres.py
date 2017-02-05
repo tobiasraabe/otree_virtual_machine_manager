@@ -2,33 +2,25 @@
 # -*- coding: utf-8 -*-
 
 """
-test_handler_postgres
----------------------
+test_handlers_postgres
+----------------------
 
 """
 
-import importlib
+import sys
+
 import psycopg2
 import pytest
 
 from ovmm.handlers import postgres
 from ovmm.prompts.defaults import dummy_users
+from ovmm.settings import PSQL_CONN, PSQL_TABLE
 
-POSTGRES_MISC = {'table': 'user_table',
-                 'daphne_port': [i for i in range(8001, 8021)],
-                 'http_port': [i for i in range(7901, 7921)],
-                 'ssl_port': [i for i in range(7801, 7821)],
-                 'redis_port': [i for i in range(1, 21)]}
-
-POSTGRES_CONN = {'dbname': 'postgres', 'user': 'postgres', 'host': 'localhost',
-                 'port': 5432}
-
-
-@pytest.fixture(autouse=True)
-def patching(monkeypatch):
-    monkeypatch.setenv('PSQL_CONN', POSTGRES_CONN)
-    monkeypatch.setenv('PSQL_MISC', POSTGRES_MISC)
-    importlib.reload(postgres)
+# Variable is used to skip postgres tests if not on Ubuntu
+pytestmark = pytest.mark.skipif(
+    sys.platform != 'linux',
+    reason='Tests for linux with PostgreSQL database only')
+# Implement a skip if PostgreSQL is not installed.
 
 
 @pytest.mark.order1
@@ -41,13 +33,13 @@ def test_check_connection_1():
 def test_create_table():
     postgres.PostgreSQLDatabaseHandler.create_table()
 
-    with psycopg2.connect(**POSTGRES_CONN) as conn:
+    with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT EXISTS (
             SELECT 1
             FROM pg_tables
-            WHERE tablename = '{table}');""".format(**POSTGRES_MISC)
+            WHERE tablename = '{}');""".format(PSQL_TABLE)
         )
         table_name = cur.fetchone()
         assert table_name[0]
@@ -65,12 +57,12 @@ def test_create_user_1():
     dummy_users['werner'].update({'password': '1234'})
     psql.create_user(dummy_users['werner'])
 
-    with psycopg2.connect(**POSTGRES_CONN) as conn:
+    with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(POSTGRES_MISC['table'], **dummy_users['werner'])
+            .format(PSQL_TABLE, **dummy_users['werner'])
         )
         user = cur.fetchone()
         for i in user:
@@ -92,12 +84,12 @@ def test_create_user_2():
     dummy_users['max'].update({'password': '98765'})
     psql.create_user(dummy_users['max'])
 
-    with psycopg2.connect(**POSTGRES_CONN) as conn:
+    with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(POSTGRES_MISC['table'], **dummy_users['max'])
+            .format(PSQL_TABLE, **dummy_users['max'])
         )
         user = cur.fetchone()
         for i in user:
@@ -106,6 +98,14 @@ def test_create_user_2():
 
 
 @pytest.mark.order7
+def test_create_duplicate_user():
+    psql = postgres.PostgreSQLDatabaseHandler()
+    dummy_users['max'].update({'password': '98765'})
+    with pytest.raises(psycopg2.IntegrityError):
+        psql.create_user(dummy_users['max'])
+
+
+@pytest.mark.order8
 def test_count_user_2():
     psql = postgres.PostgreSQLDatabaseHandler()
     num_free, num_max = psql.count_user()
@@ -113,25 +113,96 @@ def test_count_user_2():
     assert num_max == 20
 
 
-@pytest.mark.order8
+@pytest.mark.order9
 def test_list_user():
     user_list = postgres.PostgreSQLDatabaseHandler.list_user()
     assert 'werner' in user_list
     assert 'max' in user_list
 
 
-@pytest.mark.order9
+@pytest.mark.order10
+def test_get_user():
+    dict_user = postgres.PostgreSQLDatabaseHandler.get_user(
+        dummy_users['werner']['user_name'])
+    for key in dummy_users['werner'].keys():
+        assert dict_user[key] == dummy_users['werner'][key]
+
+
+@pytest.mark.order11
 def test_delete_user():
     postgres.PostgreSQLDatabaseHandler.delete_user(
         dummy_users['werner']['user_name'])
 
-    with psycopg2.connect(**POSTGRES_CONN) as conn:
+    with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(POSTGRES_MISC['table'], **dummy_users['werner'])
+            .format(PSQL_TABLE, **dummy_users['werner'])
         )
         temp = cur.fetchone()
         assert temp is None
     conn.close()
+
+# Exclude for now. Don't why password is not changed within the first
+# with statement
+# @pytest.mark.order12
+# def test_init_missing_connection():
+#     password = 'test'
+#     with psycopg2.connect(**PSQL_CONN) as conn:
+#         cur = conn.cursor()
+#         cur.execute("""ALTER USER postgres WITH PASSWORD '{}';"""
+#                     .format(password))
+#     conn.close()
+#
+#     with pytest.raises(psycopg2.OperationalError):
+#         postgres.PostgreSQLDatabaseHandler()
+#
+#     with psycopg2.connect(password=password, **PSQL_CONN) as conn:
+#         cur = conn.cursor()
+#         cur.execute("""ALTER USER postgres WITH PASSWORD '';""")
+#     conn.close()
+
+
+@pytest.mark.order13
+def test_init_missing_table():
+    with psycopg2.connect(**PSQL_CONN) as conn:
+        cur = conn.cursor()
+        cur.execute("""DROP TABLE {};"""
+                    .format(PSQL_TABLE))
+
+        cur.execute(
+            """SELECT EXISTS (
+            SELECT 1
+            FROM pg_tables
+            WHERE tablename = '{}');""".format(PSQL_TABLE)
+        )
+        table_name = cur.fetchone()
+        assert table_name[0] == 0
+    conn.close()
+
+    postgres.PostgreSQLDatabaseHandler()
+
+    with psycopg2.connect(**PSQL_CONN) as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """SELECT EXISTS (
+            SELECT 1
+            FROM pg_tables
+            WHERE tablename = '{}');""".format(PSQL_TABLE)
+        )
+        table_name = cur.fetchone()
+        assert table_name[0] == 1
+    conn.close()
+
+
+@pytest.mark.order14
+def test_init_missing_column():
+    with psycopg2.connect(**PSQL_CONN) as conn:
+        cur = conn.cursor()
+        cur.execute("""ALTER TABLE {} DROP COLUMN daphne_port;"""
+                    .format(PSQL_TABLE))
+    conn.close()
+
+    with pytest.raises(psycopg2.ProgrammingError):
+        postgres.PostgreSQLDatabaseHandler()

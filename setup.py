@@ -18,6 +18,7 @@ requirements = [
 test_requirements = [
     'pytest',
     'pytest-ordering',
+    'pytest-cov'
 ]
 
 setup(

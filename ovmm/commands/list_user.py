@@ -15,8 +15,7 @@ def list_user():
     postgres = PostgreSQLDatabaseHandler()
     user_list = postgres.list_user()
 
-    click.echo('\nList of user names:\n')
+    click.echo('List of user names:')
     for i in user_list:
         click.echo(i)
-    click.echo('\n')
     click.echo('{:-^60}\n'.format(' Process: End '))
