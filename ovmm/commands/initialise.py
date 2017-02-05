@@ -7,9 +7,8 @@ import pkg_resources
 import plumbum
 from plumbum.cmd import sudo
 
-from . import OVMM_SOURCE_FOLDER as OSF
-from ..templates.ovmm_settings import OVMM_SETTINGS
 
+OSF = os.environ.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
 HOME = os.path.expanduser('~')
 
 
@@ -31,7 +30,7 @@ def initialise():
         The following steps are performed.
 
         #. Installing Ubuntu dependencies
-        #. Installing OVMM related content (e.g. ``ovmm_settings.py``)
+        #. Installing OVMM related content (e.g. ``.ovmm_env``)
 
     """
 
@@ -67,31 +66,41 @@ def initialise():
             sudo['-u', 'postgres', 'psql', '-c',
                  "ALTER ROLE postgres PASSWORD '{}';".format(psql_password)]()
 
-        click.echo('--> The content folder will be created under {}/{}'
-                   .format(HOME, OSF))
+        click.echo('--> The content folder will be created under {}'
+                   .format(os.path.join(HOME, OSF)))
 
-        if os.path.isdir('{}/{}'.format(HOME, OSF)):
+        if os.path.isdir(os.path.join(HOME, OSF)):
             click.confirm(
-                'WARNING: {}/{} already exists. You could overwrite important'
+                'WARNING: {} already exists. You could overwrite important'
                 '\nfiles. You Do you want to continue?'
-                .format(HOME, OSF), abort=True)
+                .format(os.path.join(HOME, OSF)), abort=True)
         else:
-            os.mkdir('{}/{}'.format(HOME, OSF))
-        for folder in ['/user_configs', '/user_backups']:
-            if not os.path.isdir('{}/{}{}'.format(HOME, OSF, folder)):
-                os.mkdir('{}/{}{}'.format(HOME, OSF, folder))
-
-        with open(HOME + '/{}/ovmm_settings.py'.format(OSF), 'w') as file:
-            file.write(OVMM_SETTINGS.replace('_USER_', psql_user)
-                                    .replace('_PASSWORD_', psql_password)
-                                    .replace('_DATABASE_', psql_database)
-                                    .replace('_HOST_', psql_host)
-                                    .replace('_PORT_', psql_port)
-                                    .replace('_TABLE_', psql_table))
+            os.mkdir(os.path.join(HOME, OSF))
+        for folder in ['user_configs', 'user_backups']:
+            if not os.path.isdir(os.path.join(HOME, OSF, folder)):
+                os.mkdir(os.path.join(HOME, OSF, folder))
 
         nginx_template_path = pkg_resources.resource_filename(
             'ovmm', 'static/nginx_template')
-        sudo['cp', nginx_template_path, HOME + '/ovmm_sources/']()
+        sudo['cp', nginx_template_path, os.path.join(HOME, OSF, '.ovmm_env')]()
+
+        ovmm_env_path = pkg_resources.resource_filename(
+            'ovmm', 'static/.ovmm_env')
+        with open(ovmm_env_path) as file_input:
+            with open(os.path.join(HOME, OSF, '.ovmm_env'),
+                      'w') as file_output:
+                file_output.write(
+                    file_input.read().replace('_USER_', psql_user)
+                                     .replace('_PASSWORD_', psql_password)
+                                     .replace('_DBNAME_', psql_database)
+                                     .replace('_HOST_', psql_host)
+                                     .replace('_PORT_', psql_port)
+                                     .replace('_TABLE_', psql_table))
+        with open(os.path.join(HOME, '.profile'), 'a') as file:
+            file.write('\n')
+            file.write('\n# Source environmental variables for OVMM')
+            file.write('\nsource ovmm_sources/.ovmm_env')
+        sudo['source', os.path.join(HOME + '.profile')]()
     except Exception as e:
         click.secho(e, 'red')
         pass

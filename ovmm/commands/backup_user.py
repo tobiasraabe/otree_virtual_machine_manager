@@ -8,8 +8,7 @@ import plumbum
 from plumbum.cmd import sudo
 
 from ..prompts.defaults import get_dummy_user
-
-HOME = os.path.expanduser('~')
+from ..settings import HOME, OSF
 
 
 def backup_user(user_name: str = None):
@@ -42,13 +41,13 @@ def backup_user(user_name: str = None):
         user_name = click.prompt(
             'Which user do you want to backup?', default=default['user_name'])
 
-    if not os.path.exists(HOME + '/ovmm_sources/user_backups'):
-        os.makedirs(HOME + '/ovmm_sources/user_backups')
+    if not os.path.exists(os.path.join(HOME, OSF, 'user_backups')):
+        os.makedirs(os.path.join(HOME, OSF, 'user_backups'))
 
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
     file_name = (
-        HOME + '/ovmm_sources/user_backups/' + user_name + '_db_dump_'
-        + tim + '.sql')
+        os.path.join(HOME, OSF, 'user_backups', user_name + '_db_dump_'
+                     + tim + '.sql'))
     try:
         (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] >
          file_name)()

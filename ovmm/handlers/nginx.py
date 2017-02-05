@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import os
-
 import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-HOME = os.environ.get('HOME', None)
+from ..settings import HOME, OSF
 
 
 class NginxConfigHandler:
@@ -17,12 +15,12 @@ class NginxConfigHandler:
 
     Attributes
     ----------
-    path : str
+    self.path : str
         Path to ``nginx_template`` in the administrator's directory
 
     """
 
-    path = HOME + '/ovmm_sources/nginx_template'
+    path = HOME + OSF + '/nginx_template'
 
     def __init__(self):
         self.check_integrity()
@@ -98,5 +96,5 @@ class NginxConfigHandler:
 
         # Check integrity after deletion
         self.check_integrity()
-        click.secho('SUCCESS: Removed user from nginx configuration.',
-                    fg='green')
+        click.secho(
+            'SUCCESS: Removed user from nginx configuration.', fg='green')

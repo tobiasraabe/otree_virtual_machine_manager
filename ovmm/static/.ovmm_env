@@ -1,0 +1,36 @@
+
+# **oTree Virtual Machine Manager**
+
+## This is the configuration file for ``ovmm``. Variables are defined as
+## environmental variables and sourced in the environment via ``.bashrc``.
+
+# REQUIRED:
+
+## This is login information for the PostgreSQL administrator account.
+export OVMM_PSQL_CONN = "{
+    'user': '_USER_',
+    'password': '_PASSWORD_',
+    'dbname': '_DBNAME_',
+    'host': '_HOST_',
+    'port': '_PORT_',
+}"
+
+## Name for table containing user account information
+export OVMM_TABLE = "_TABLE_"
+
+## The available ranges of ports for the Nginx configuration are defined below
+## in the style of list comprehensions. Adjust the values to your configuration.
+export OVMM_DAPHNE_RANGE = "[i for i in range(8001, 8021)]"
+export OVMM_HTTP_RANGE = "[i for i in range(7901, 7921)]"
+export OVMM_SSL_RANGE = "[i for i in range(7801, 7821)]"
+export OVMM_REDIS_RANGE = "[i for i in range(1, 21)]"
+
+
+# OPTIONAL: (recommendation: stick to defaults. Otherwise, uncomment and set
+#            value)
+
+## OVMM source folder name
+# export OVMM_SOURCE_FOLDER = "/ovmm_sources"
+
+## User's password length (min length = 6)
+# export OVMM_PASSWORD_LENGTH = "12"

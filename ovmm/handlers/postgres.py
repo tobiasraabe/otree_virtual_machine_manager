@@ -1,22 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import ast
-import os
-
 import click
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from psycopg2.extras import RealDictCursor
 
-try:
-    from ovmm_settings import POSTGRES_CONNECTION as PSQL_CONN
-    from ovmm_settings import POSTGRES_MISC as PSQL_MISC
-except ImportError:
-    try:
-        PSQL_CONN = ast.literal_eval(os.environ['PSQL_CONN'])
-        PSQL_MISC = ast.literal_eval(os.environ['PSQL_MISC'])
-    except KeyError:
-        pass
+from ..settings import PORT_RANGES, PSQL_CONN, PSQL_TABLE
 
 
 class PostgreSQLDatabaseHandler:
@@ -48,14 +37,7 @@ class PostgreSQLDatabaseHandler:
     redis_port : smallint
         Redis port
 
-    Attributes
-    ----------
-    port_name_list : List[str]
-        List of variable names for port names in database
-
     """
-
-    port_name_list = ['daphne_port', 'http_port', 'ssl_port', 'redis_port']
 
     def __init__(self):
         """Tries to connect to database to test the connection. If the user
@@ -71,28 +53,29 @@ class PostgreSQLDatabaseHandler:
 
         try:
             self.check_connection()
-        except psycopg2.OperationalError as e:
+        except psycopg2.OperationalError as ee:
             click.secho(
                 'ERROR: Cannot connect to PostgreSQL server! You better check'
                 ' the connection manually!', fg='red')
-            raise e
-        except psycopg2.ProgrammingError as e:
-            err_msg_1 = 'relation "{table}" does not exist'.format(**PSQL_MISC)
+            raise ee
+        except psycopg2.ProgrammingError as eee:
+            err_msg_1 = 'relation "{}" does not exist'.format(PSQL_TABLE)
             err_msg_2 = 'INSERT has more expressions than target columns'
-            if e.diag.message_primary == err_msg_1:
+            if eee.diag.message_primary == err_msg_1:
                 click.secho('ERROR: The user table does not exist!', fg='red')
                 self.create_table()
                 self.check_connection()
                 click.secho('SUCCESS: The table was created.', fg='green')
-            elif e.diag.message_primary == err_msg_2:
+            elif eee.diag.message_primary == err_msg_2:
                 click.secho(
-                    'ERROR: A table {table} exists which is not properly'
-                    'defined. Check it manually!', fg='red')
+                    'ERROR: A table {} exists which is not properly defined.\n'
+                    'Check it manually!'.format(PSQL_TABLE), fg='red')
+                raise eee
             else:
-                raise e
+                raise eee
         else:
             click.secho(
-                'SUCCESS: Database and Table connection.', fg='green')
+                'SUCCESS: Connection to database and table.', fg='green')
 
     @staticmethod
     def check_connection():
@@ -104,9 +87,9 @@ class PostgreSQLDatabaseHandler:
 
         with psycopg2.connect(**PSQL_CONN) as conn:
             cur = conn.cursor()
-            cur.execute("""INSERT INTO {table} VALUES ('test', 'test', 'test',
+            cur.execute("""INSERT INTO {} VALUES ('test', 'test', 'test',
                         'test', 'test', '11111', '11111', '11111', '11111');"""
-                        .format(**PSQL_MISC))
+                        .format(PSQL_TABLE))
             conn.rollback()
         conn.close()
 
@@ -119,14 +102,14 @@ class PostgreSQLDatabaseHandler:
 
         with psycopg2.connect(**PSQL_CONN) as conn:
             cur = conn.cursor()
-            cur.execute("""CREATE TABLE {table} (full_name TEXT NOT NULL,
+            cur.execute("""CREATE TABLE {} (full_name TEXT NOT NULL,
                         user_name TEXT PRIMARY KEY, email TEXT NOT NULL,
                         telephone TEXT NOT NULL, password TEXT NOT NULL,
                         daphne_port SMALLINT UNIQUE,
                         http_port SMALLINT UNIQUE,
                         ssl_port SMALLINT UNIQUE,
                         redis_port SMALLINT UNIQUE);"""
-                        .format(**PSQL_MISC))
+                        .format(PSQL_TABLE))
         conn.close()
 
     @staticmethod
@@ -147,8 +130,8 @@ class PostgreSQLDatabaseHandler:
 
         with psycopg2.connect(**PSQL_CONN) as conn:
             cur = conn.cursor()
-            cur.execute("""SELECT {} FROM {table};"""
-                        .format(port_name, **PSQL_MISC))
+            cur.execute("""SELECT {} FROM {};"""
+                        .format(port_name, PSQL_TABLE))
             ports_list = cur.fetchall()
         conn.close()
 
@@ -172,9 +155,34 @@ class PostgreSQLDatabaseHandler:
 
         arr = self.get_used_ports(port_name)
         ports_arr = [int(i[0]) for i in arr]
-        free_ports = [i for i in PSQL_MISC[port_name] if i not in ports_arr]
+        free_ports = [i for i in PORT_RANGES[port_name] if i not in ports_arr]
 
         return free_ports
+
+    def count_user(self):
+        """Returns the number possible additional accounts and the maximal
+        number of accounts.
+
+        Returns
+        -------
+        num_free_ports : int
+            Number of possible, additional accounts
+        num_max_ports : int
+            Maximal number of accounts given information about ports
+
+        """
+
+        num_free_ports = 10000
+        num_max_ports = 10000
+        for port_name in PORT_RANGES.keys():
+            num1 = len(self.get_free_ports(port_name))
+            if (num1 < num_free_ports) | (num_free_ports is None):
+                num_free_ports = num1
+            num2 = len(PORT_RANGES[port_name])
+            if (num2 < num_max_ports) | (num_max_ports is None):
+                num_max_ports = num2
+
+        return num_free_ports, num_max_ports
 
     @staticmethod
     def get_user(user_name: str):
@@ -192,36 +200,11 @@ class PostgreSQLDatabaseHandler:
             dict_cur = conn.cursor()
             dict_cur.execute(
                 """SELECT * FROM {} WHERE user_name = '{}';"""
-                .format(PSQL_MISC['table'], user_name))
+                .format(PSQL_TABLE, user_name))
             dict_user = dict_cur.fetchone()
         conn.close()
 
         return dict_user
-
-    def count_user(self):
-        """Returns the number possible additional accounts and the maximal
-        number of accounts.
-
-        Returns
-        -------
-        num_free_ports : int
-            Number of possible, additional accounts
-        num_max_ports : int
-            Maximal number of accounts given information about ports
-
-        """
-
-        num_free_ports = 10000
-        num_max_ports = 10000
-        for port_name in self.port_name_list:
-            num1 = len(self.get_free_ports(port_name))
-            if (num1 < num_free_ports) | (num_free_ports is None):
-                num_free_ports = num1
-            num2 = len(PSQL_MISC[port_name])
-            if (num2 < num_max_ports) | (num_max_ports is None):
-                num_max_ports = num2
-
-        return num_free_ports, num_max_ports
 
     def create_user(self, dict_user: dict) -> dict:
         """Gets the minimal unassigned port numbers, adds them to the
@@ -245,7 +228,7 @@ class PostgreSQLDatabaseHandler:
 
         """
 
-        for port_name in self.port_name_list:
+        for port_name in PORT_RANGES.keys():
             dict_user[port_name] = min(self.get_free_ports(port_name))
 
         with psycopg2.connect(**PSQL_CONN) as conn:
@@ -253,11 +236,11 @@ class PostgreSQLDatabaseHandler:
             cur = conn.cursor()
             # First, to catch multiple accounts.
             try:
-                cur.execute("""INSERT INTO {table} VALUES (%(full_name)s,
+                cur.execute("""INSERT INTO {} VALUES (%(full_name)s,
                             %(user_name)s, %(email)s, %(telephone)s,
                             %(password)s, %(daphne_port)s, %(http_port)s,
                             %(ssl_port)s, %(redis_port)s);"""
-                            .format(**PSQL_MISC), dict_user)
+                            .format(PSQL_TABLE), dict_user)
             except psycopg2.IntegrityError:
                 click.secho(
                     'ERROR: User account {user_name} already exists.'
@@ -290,7 +273,7 @@ class PostgreSQLDatabaseHandler:
             conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
             cur = conn.cursor()
             cur.execute("""DELETE FROM {} WHERE user_name = '{}';"""
-                        .format(PSQL_MISC['table'], user_name))
+                        .format(PSQL_TABLE, user_name))
             cur.execute("""DROP DATABASE {};""".format(user_name))
             cur.execute("""DROP ROLE {};""".format(user_name))
         conn.close()
@@ -311,8 +294,8 @@ class PostgreSQLDatabaseHandler:
 
         with psycopg2.connect(**PSQL_CONN) as conn:
             cur = conn.cursor()
-            cur.execute("""SELECT user_name FROM {table};"""
-                        .format(**PSQL_MISC))
+            cur.execute("""SELECT user_name FROM {};"""
+                        .format(PSQL_TABLE))
             user_arr = cur.fetchall()
         conn.close()
 

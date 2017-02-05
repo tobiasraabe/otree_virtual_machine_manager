@@ -11,8 +11,7 @@ from ..handlers.nginx import NginxConfigHandler
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 from ..handlers.samba import SambaConfigHandler
 from ..prompts.defaults import get_dummy_user
-
-HOME = os.path.expanduser('~')
+from ..settings import HOME, OSF
 
 
 def delete_user(dict_user: dict = None):
@@ -70,16 +69,16 @@ def delete_user(dict_user: dict = None):
         samba = SambaConfigHandler()
         samba.delete_user(dict_user['user_name'])
 
-        sudo['rm', HOME + '/ovmm_sources/user_configs/{}'
-             .format(dict_user['user_name'])](retcode=1)
-    except Exception as e:
+        sudo['rm', os.path.join(HOME, OSF, 'user_configs',
+                                dict_user['user_name'])](retcode=1)
+    except Exception as ee:
         click.secho(
             'ERROR: An exception was raised during the deletion process.\n'
             'Please, fix the problem manually. After that, run the command\n'
             'again, so that the user will also be deleted from database.',
             fg='red'
         )
-        raise e
+        raise ee
     else:
         PostgreSQLDatabaseHandler.delete_user(dict_user['user_name'])
 

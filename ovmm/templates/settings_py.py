@@ -22,26 +22,6 @@ else:
 # don't share this with anybody.
 SECRET_KEY = 'za2i0bbha4@g%^n$@l8g5k8jnb$k&+x44q2i61!fptx@=n49cp'
 
-# To use a database other than sqlite,
-# set the DATABASE_URL environment variable.
-# Examples:
-# postgres://USER:PASSWORD@HOST:PORT/NAME
-# mysql://USER:PASSWORD@HOST:PORT/NAME
-
-DATABASES = {{
-    'default': {{
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '{user_name}',
-        'USER': '{user_name}',
-        'PASSWORD': '{password}',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }}
-}}
-
-# Set Redis database
-environ['REDIS_URL'] = 'redis://localhost:6379/{redis_port}'
-
 # AUTH_LEVEL:
 # this setting controls which parts of your site are freely accessible,
 # and which are password protected:

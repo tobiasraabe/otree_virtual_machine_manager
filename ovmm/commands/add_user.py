@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import os
 import random
 import string
 import sys
+import os
 
 import click
 import pkg_resources
@@ -15,10 +15,7 @@ from ..handlers.nginx import NginxConfigHandler
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 from ..handlers.samba import SambaConfigHandler
 from ..prompts.defaults import get_dummy_user
-from ..templates.settings_py import SETTINGS_PY
-
-HOME = os.path.expanduser('~')
-PASSWORD_LENGTH = 12
+from ..settings import HOME, OSF, PASSWORD_LENGTH
 
 
 def add_user():
@@ -92,15 +89,10 @@ def add_user():
         sudo['-u', '{user_name}'.format(**dict_user), '7z', 'x', data,
              '-o/home/{user_name}'.format(**dict_user), '-y']()
 
-        # Creates standardized otree-project folder and executes
+        # Creates standardized otree-project folder !!! (name change)
         (printf['n'] |
          sudo['su', '-', dict_user['user_name'], '-c',
               'otree startproject oTree'])()
-
-        # settings.py
-        path_settingspy = '/home/{user_name}/oTree/settings.py'
-        with open(path_settingspy.format(**dict_user), 'w') as file:
-            file.write(SETTINGS_PY.format(**dict_user))
 
         # nginx
         nch = NginxConfigHandler()
@@ -115,6 +107,14 @@ def add_user():
         samba = SambaConfigHandler()
         samba.add_user(dict_user)
 
+        # environment variables
+        otree_env_path = pkg_resources.resource_filename(
+            'ovmm', 'static/.otree_env')
+        with open(otree_env_path) as file_input:
+            with open('/home/{user_name}/.otree_env'.format(**dict_user),
+                      'w') as file_output:
+                file_output.write(file_input.read().format(**dict_user))
+
         # .profile
         path = '/home/{user_name}/.profile'.format(**dict_user)
         with open(path, 'a') as file:
@@ -128,12 +128,15 @@ def add_user():
                 '&& mail -s "oTree stopped" {email} '
                 '<<< "Warning your otree on port {daphne_port} has stopped."'
                 .format(**dict_user))
+            file.write(
+                '\nsource ~/.otree_env'
+            )
 
         # set user's default shell to bash
         sudo['usermod', '-s', '/bin/bash', '{user_name}'.format(**dict_user)]()
 
         # create output
-        path = HOME + '/ovmm_sources/user_configs'
+        path = os.path.join(HOME, OSF, 'user_configs')
         if not os.path.exists(path):
             os.makedirs(path)
         with open(path + '/{user_name}.txt'.format(**dict_user), 'w') as file:

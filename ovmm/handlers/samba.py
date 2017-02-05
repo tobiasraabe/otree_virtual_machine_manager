@@ -41,11 +41,12 @@ class SambaConfigHandler:
 
         try:
             sudo['testparm']()
-        except Exception:
+        except plumbum.ProcessExecutionError as ee:
             self.restore_backup()
             click.secho(
                 'ERROR: Unfortunately, smb.conf was corrupt after the change.'
                 '\nThe former configuration was restored.', fg='red')
+            raise ee
         else:
             click.secho('SUCCESS: smb.conf works.', fg='green')
 
@@ -72,12 +73,11 @@ class SambaConfigHandler:
             sudo['cp', self.path + '.bak', self.path]()
         except Exception as e:
             click.secho(
-                'ERROR: Restoration of smb.conf failed.',
-                fg='red')
+                'ERROR: Restoration of smb.conf failed.', fg='red')
             raise e
         else:
-            click.secho('SUCCESS: Restored smb.conf backup.',
-                        fg='green')
+            click.secho(
+                'SUCCESS: Restored smb.conf backup.', fg='green')
 
     def add_user(self, dict_user: dict):
         """Adds a user entry at the end of smb.conf.
@@ -86,12 +86,12 @@ class SambaConfigHandler:
         --------
         A user entry looks like the following:
 
-        ``
+        ````
         [user_name]
             path = /home/user_name
             valid users = user_name
             read only = no
-        ``
+        ````
 
         Parameters
         ----------
