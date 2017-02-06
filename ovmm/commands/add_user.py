@@ -65,7 +65,9 @@ def add_user():
         sys.exit(0)
     else:
         pass
-    dict_user.update({'host': 'localhost', 'db_port': '5432'})
+    dict_user.update({'host': 'localhost',
+                      'db_port': '5432',
+                      'dbname': dict_user['user_name']})
 
     try:
         # Calls the postgres user database
