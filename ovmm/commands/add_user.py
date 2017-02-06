@@ -155,7 +155,7 @@ def add_user():
             'The system is rolled back to the previous state.\n', fg='red'
         )
         click.secho(
-            'ERROR: ' + e, fg='red'
+            'ERROR: ' + str(e), fg='red'
         )
         delete_user(dict_user)
     else:
