@@ -8,7 +8,7 @@ import plumbum
 from plumbum.cmd import sudo
 
 HOME = os.path.expanduser('~')
-OSF = os.environ.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
+OSF = 'ovmm_sources'
 
 
 def initialise():
@@ -29,7 +29,7 @@ def initialise():
         The following steps are performed.
 
         #. Installing Ubuntu dependencies
-        #. Installing OVMM related content (e.g. ``.ovmm_env``)
+        #. Installing OVMM related content (e.g. ``ovmm_env.yml``)
 
     """
 
@@ -84,31 +84,23 @@ def initialise():
         sudo['cp', nginx_template_path, os.path.join(HOME, 'nginx_template')]()
 
         ovmm_env_path = pkg_resources.resource_filename(
-            'ovmm', 'static/.ovmm_env')
+            'ovmm', 'static/ovmm_env.yml')
         with open(ovmm_env_path) as file_input:
-            with open(os.path.join(HOME, OSF, '.ovmm_env'),
+            with open(os.path.join(HOME, OSF, 'ovmm_env.yml'),
                       'w') as file_output:
                 file_output.write(
-                    file_input.read().replace('_USER_', psql_user)
-                                     .replace('_PASSWORD_', psql_password)
-                                     .replace('_DBNAME_', psql_database)
-                                     .replace('_HOST_', psql_host)
-                                     .replace('_PORT_', psql_port)
-                                     .replace('_TABLE_', psql_table))
-        with open(os.path.join(HOME, '.oTree', 'venv', 'bin', 'activate'),
-                  'a') as file:
-            file.write('\n')
-            file.write('\n# Source environmental variables for OVMM')
-            file.write('\nsource ' + os.path.join(HOME, OSF, '.ovmm_env'))
+                    file_input.read().replace('__USER__', psql_user)
+                                     .replace('__PASSWORD__', psql_password)
+                                     .replace('__DBNAME__', psql_database)
+                                     .replace('__HOST__', psql_host)
+                                     .replace('__PORT__', psql_port)
+                                     .replace('__TABLE__', psql_table))
     except Exception as e:
         click.secho(e, 'red')
         pass
     else:
         click.secho('SUCCESS: Requirement satisfied.', fg='green')
 
-    # click.secho(
-    #     'WARNING: Run ``source .oTree/venv/bin/activate`` after initialisation!', fg='yellow'
-    # )
     click.secho(
         'WARNING: End of initialisation. Fix possible errors before\n'
         'running anything else!', fg='yellow')

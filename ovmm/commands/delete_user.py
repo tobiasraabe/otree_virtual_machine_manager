@@ -14,7 +14,7 @@ from ..prompts.defaults import get_dummy_user
 from ..settings import HOME, OSF
 
 
-def delete_user(dict_user: dict = None):
+def delete_user(dict_user: dict = None, instant_del: bool = False):
     """This command removes a user existing in the user database.
 
     .. note::
@@ -33,27 +33,31 @@ def delete_user(dict_user: dict = None):
 
     click.echo('\n{:-^60}'.format(' Process: Delete User '))
 
-    if dict_user is None:
-        default = get_dummy_user()
-        user_name = click.prompt(
-            'Which user do you want to delete?', default=default['user_name'])
-
-        dict_user = PostgreSQLDatabaseHandler.get_user(user_name)
+    if instant_del is True:
+        pass
+    else:
         if dict_user is None:
-            click.secho(
-                'ERROR: User {} does not exist in database!'
-                .format(user_name), fg='red'
-            )
-            sys.exit(0)
+            default = get_dummy_user()
+            user_name = click.prompt(
+                'Which user do you want to delete?',
+                default=default['user_name'])
+
+            dict_user = PostgreSQLDatabaseHandler.get_user(user_name)
+            if dict_user is None:
+                click.secho(
+                    'ERROR: User {} does not exist in database!'
+                    .format(user_name), fg='red'
+                )
+                sys.exit(0)
+            else:
+                pass
         else:
             pass
-    else:
-        pass
 
-    if click.confirm('Do you want a database backup?', default=True):
-        backup_user(dict_user['user_name'])
-    else:
-        pass
+        if click.confirm('Do you want a database backup?', default=True):
+            backup_user(dict_user['user_name'])
+        else:
+            pass
 
     try:
         sudo['userdel', '--remove', dict_user['user_name']](retcode=(0, 6))

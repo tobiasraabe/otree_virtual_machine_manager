@@ -157,7 +157,7 @@ def add_user():
         click.secho(
             'ERROR: ' + str(e), fg='red'
         )
-        delete_user(dict_user)
+        delete_user(dict_user=dict_user, instant_del=True)
     else:
         click.secho(
             'SUCCESS: {user_name} was created!'.format(**dict_user),

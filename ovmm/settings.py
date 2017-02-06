@@ -4,6 +4,10 @@ import ast
 import os
 
 import click
+import yaml
+
+HOME = os.path.expanduser('~')
+OSF = 'ovmm_sources'
 
 
 def literal_eval_lc(lc_string: str) -> list:
@@ -28,22 +32,30 @@ def literal_eval_lc(lc_string: str) -> list:
 
 
 try:
+    with open(os.path.join(HOME, OSF, 'ovmm_env.yml')) as file:
+        conf = yaml.load(file.read())
+except Exception as e:
+    click.secho(
+        'ERROR: Not all settings could be loaded. Fix it.'
+    )
+    raise e
+else:
     # Required
-    PSQL_CONN = dict(ast.literal_eval(os.environ['OVMM_PSQL_CONN']))
-    PSQL_TABLE = os.environ['OVMM_PSQL_TABLE']
+    PSQL_CONN = dict(conf['OVMM_PSQL_CONN'])
+    PSQL_TABLE = conf['OVMM_PSQL_TABLE']
     PORT_RANGES = {
         'daphne_port': list(
-            literal_eval_lc(os.environ['OVMM_DAPHNE_RANGE'])),
+            literal_eval_lc(conf['OVMM_DAPHNE_RANGE'])),
         'http_port': list(
-            literal_eval_lc(os.environ['OVMM_HTTP_RANGE'])),
+            literal_eval_lc(conf['OVMM_HTTP_RANGE'])),
         'ssl_port': list(
-            literal_eval_lc(os.environ['OVMM_SSL_RANGE'])),
+            literal_eval_lc(conf['OVMM_SSL_RANGE'])),
         'redis_port': list(
-            literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
+            literal_eval_lc(conf['OVMM_REDIS_RANGE'])),
     }
 
     # Optional
-    PASSWORD_LENGTH = int(os.environ.get('OVMM_PASSWORD_LENGTH', 12))
+    PASSWORD_LENGTH = int(conf.get('OVMM_PASSWORD_LENGTH', 12))
     if PASSWORD_LENGTH < 6:
         click.secho(
             'ERROR: Minimal password length is 6.', fg='red'
@@ -52,12 +64,7 @@ try:
         click.secho(
             'WARNING: Password length set to 6.', fg='yellow'
         )
-    OSF = os.environ.get('OVMM_SOURCE_FOLDER', '/ovmm_sources')
+    OSF = conf.get('OVMM_SOURCE_FOLDER', '/ovmm_sources')
 
     # Miscellaneous
     HOME = os.path.expanduser('~')
-except Exception as e:
-    click.secho(
-        'ERROR: Not all settings could be loaded. Fix it.'
-    )
-    raise e
