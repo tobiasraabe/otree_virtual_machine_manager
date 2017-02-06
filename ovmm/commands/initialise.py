@@ -5,8 +5,8 @@ import os
 import click
 import pkg_resources
 import plumbum
-from plumbum.cmd import source
 from plumbum.cmd import sudo
+
 from ..settings import HOME, OSF
 
 
