@@ -16,7 +16,7 @@ export OVMM_PSQL_CONN="{
     }"
 
 ## Name for table containing user account information
-export OVMM_TABLE=_TABLE_
+export OVMM_PSQL_TABLE=_TABLE_
 
 ## The available ranges of ports for the Nginx configuration are defined below
 ## in the style of list comprehensions. Adjust the values to your configuration.

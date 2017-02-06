@@ -5,6 +5,7 @@ import os
 import click
 import pkg_resources
 import plumbum
+from plumbum.cmd import source
 from plumbum.cmd import sudo
 
 OSF = os.environ.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
@@ -99,7 +100,7 @@ def initialise():
             file.write('\n')
             file.write('\n# Source environmental variables for OVMM')
             file.write('\nsource ovmm_sources/.ovmm_env')
-        sudo['source', os.path.join(HOME, '.profile')]()
+        source[os.path.join(HOME, '.profile')]()
     except Exception as e:
         click.secho(e, 'red')
         pass
