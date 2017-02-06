@@ -95,7 +95,7 @@ def initialise():
                                      .replace('_HOST_', psql_host)
                                      .replace('_PORT_', psql_port)
                                      .replace('_TABLE_', psql_table))
-        with open(os.path.join('root', '.profile'), 'a') as file:
+        with open(os.path.join('/root', '.profile'), 'a') as file:
             file.write('\n')
             file.write('\n# Source environmental variables for OVMM')
             file.write('\nsource ' + os.path.join(HOME, OSF, '.ovmm_env'))
