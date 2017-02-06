@@ -95,7 +95,8 @@ def initialise():
                                      .replace('_HOST_', psql_host)
                                      .replace('_PORT_', psql_port)
                                      .replace('_TABLE_', psql_table))
-        with open(os.path.join('/root', '.profile'), 'a') as file:
+        with open(os.path.join(HOME, '.oTree', 'venv', 'bin', 'activate'),
+                  'a') as file:
             file.write('\n')
             file.write('\n# Source environmental variables for OVMM')
             file.write('\nsource ' + os.path.join(HOME, OSF, '.ovmm_env'))
@@ -105,9 +106,9 @@ def initialise():
     else:
         click.secho('SUCCESS: Requirement satisfied.', fg='green')
 
-    click.secho(
-        'WARNING: Run source /root/.profile after initialisation!', fg='yellow'
-    )
+    # click.secho(
+    #     'WARNING: Run ``source .oTree/venv/bin/activate`` after initialisation!', fg='yellow'
+    # )
     click.secho(
         'WARNING: End of initialisation. Fix possible errors before\n'
         'running anything else!', fg='yellow')
