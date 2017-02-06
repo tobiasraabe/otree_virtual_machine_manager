@@ -15,7 +15,7 @@ OVMM_PSQL_CONN:
     port: __PORT__
 
 ## Name for table containing user account information
-OVMM_PSQL_TABLE: _TABLE_
+OVMM_PSQL_TABLE: __TABLE__
 
 ## The available ranges of ports for the Nginx configuration are defined below
 ## in the style of list comprehensions. Adjust the values to your configuration.
