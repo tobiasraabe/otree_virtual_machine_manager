@@ -2,7 +2,7 @@
 # oTree settings
 
 ## Settings for the PostgreSQL database
-export DATABASE_URL = "postgres://{user_name}:{password}@{host}:{port}/{dbname}"
+export DATABASE_URL="postgres://{user_name}:{password}@{host}:{port}/{dbname}"
 
 ## Redis URL
-export REDIS_URL = "redis://localhost:6379/{redis_port}"
+export REDIS_URL="redis://localhost:6379/{redis_port}"
