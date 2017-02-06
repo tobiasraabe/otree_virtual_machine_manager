@@ -30,7 +30,7 @@ export OVMM_REDIS_RANGE="[i for i in range(1, 21)]"
 #            value)
 
 ## OVMM source folder name
-# export OVMM_SOURCE_FOLDER="/ovmm_sources"
+# export OVMM_SOURCE_FOLDER="ovmm_sources"
 
 ## User's password length (min length = 6)
 # export OVMM_PASSWORD_LENGTH=12

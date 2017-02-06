@@ -7,7 +7,8 @@ import pkg_resources
 import plumbum
 from plumbum.cmd import sudo
 
-from ..settings import HOME, OSF
+HOME = os.path.expanduser('~')
+OSF = os.environ.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
 
 
 def initialise():
