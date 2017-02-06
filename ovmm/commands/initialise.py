@@ -7,9 +7,7 @@ import pkg_resources
 import plumbum
 from plumbum.cmd import source
 from plumbum.cmd import sudo
-
-OSF = os.environ.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
-HOME = os.path.expanduser('~')
+from ..settings import HOME, OSF
 
 
 def initialise():
@@ -96,17 +94,20 @@ def initialise():
                                      .replace('_HOST_', psql_host)
                                      .replace('_PORT_', psql_port)
                                      .replace('_TABLE_', psql_table))
-        with open(os.path.join(HOME, '.profile'), 'a') as file:
+        with open(os.path.join('root', '.profile'), 'a') as file:
             file.write('\n')
             file.write('\n# Source environmental variables for OVMM')
-            file.write('\nsource ovmm_sources/.ovmm_env')
-        source[os.path.join(HOME, '.profile')]()
+            file.write('\nsource ' + os.path.join(HOME, OSF, '.ovmm_env'))
     except Exception as e:
         click.secho(e, 'red')
         pass
     else:
         click.secho('SUCCESS: Requirement satisfied.', fg='green')
 
-    click.echo('WARNING: End of initialisation. Fix possible errors before\n'
-               'running anything else!')
+    click.secho(
+        'WARNING: Run source /root/.profile after initialisation!', fg='yellow'
+    )
+    click.secho(
+        'WARNING: End of initialisation. Fix possible errors before\n'
+        'running anything else!', fg='yellow')
     click.echo('{:-^60}\n'.format(' Process: End '))
