@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import os
 import random
 import string
 import sys
-import os
+import traceback
 
 import click
 import pkg_resources
@@ -64,6 +65,7 @@ def add_user():
         sys.exit(0)
     else:
         pass
+    dict_user.update({'host': 'localhost'})
 
     try:
         # Calls the postgres user database
@@ -149,7 +151,7 @@ def add_user():
             file.write('\n\thttp_port:\t{http_port}'.format(**dict_user))
             file.write('\n\tssl_port:\t{ssl_port}'.format(**dict_user))
             file.write('\n\tredis_port:\t{redis_port}'.format(**dict_user))
-    except Exception as e:
+    except Exception:
         click.secho(
             'ERROR: An error occurred while creating the user.\n'
             'The system is rolled back to the previous state.\n', fg='red'
