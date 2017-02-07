@@ -60,6 +60,7 @@ def delete_user(dict_user: dict = None, instant_del: bool = False):
             pass
 
     try:
+        sudo['pkill', '-u', dict_user['user_name']]()
         sudo['userdel', '--remove', dict_user['user_name']](retcode=(0, 6))
         click.secho('SUCCESS: Removed user and home directory.'
                     .format(dict_user['user_name']), fg='green')

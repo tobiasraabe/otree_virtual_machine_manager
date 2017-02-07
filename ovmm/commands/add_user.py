@@ -129,8 +129,8 @@ def add_user():
             file.write(
                 """\nalias run_mail_prodserver="screen -S otree -m otree """
                 """runprodserver --port {daphne_port} """
-                """""""&& mail -s 'oTree stopped' {email} <<<"""
-                """ 'Warning your otree on port {daphne_port} has stopped.' """
+                """&& mail -s 'oTree stopped' {email} <<< """
+                """'Warning your otree on port {daphne_port} has stopped.'" """
                 .format(**dict_user))
             file.write('\nsource {}'.format(
                 os.path.join(
