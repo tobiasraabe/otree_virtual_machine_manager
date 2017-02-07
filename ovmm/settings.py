@@ -64,7 +64,7 @@ else:
         click.secho(
             'WARNING: Password length set to 6.', fg='yellow'
         )
-    OSF = conf.get('OVMM_SOURCE_FOLDER', '/ovmm_sources')
+    OSF = conf.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
 
     # Miscellaneous
     HOME = os.path.expanduser('~')
