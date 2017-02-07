@@ -132,18 +132,19 @@ def add_user():
                 '&& mail -s "oTree stopped" {email} '
                 '<<< "Warning your otree on port {daphne_port} has stopped."'
                 .format(**dict_user))
-            file.write(
-                '\nsource ~/.otree_env'
-            )
+            file.write('\nsource ~/.otree_env')
 
         # set user's default shell to bash
         sudo['usermod', '-s', '/bin/bash', '{user_name}'.format(**dict_user)]()
 
         # create output
+        user = HOME.split('/')[2]
+        sudo['chown', '-R', '{0}:{0}'.format(user), os.path.join(HOME, OSF)]()
         path = os.path.join(HOME, OSF, 'user_configs')
         if not os.path.exists(path):
             os.makedirs(path)
-        with open(path + '/{user_name}.txt'.format(**dict_user), 'w') as file:
+        path_ext = os.path.join(path, '{user_name}.txt'.format(**dict_user))
+        with open(path_ext, 'w') as file:
             file.write('[{user_name}]'.format(**dict_user))
             file.write('\n\tname:\t\t{full_name}'.format(**dict_user))
             file.write('\n\temail:\t\t{email}'.format(**dict_user))
@@ -156,11 +157,8 @@ def add_user():
     except Exception:
         click.secho(
             'ERROR: An error occurred while creating the user.\n'
-            'The system is rolled back to the previous state.\n', fg='red'
-        )
-        click.secho(
-            str(traceback.format_exc()), fg='red'
-        )
+            'The system is rolled back to the previous state.\n', fg='red')
+        click.secho(str(traceback.format_exc()), fg='red')
         delete_user(dict_user=dict_user, instant_del=True)
     else:
         click.secho(
