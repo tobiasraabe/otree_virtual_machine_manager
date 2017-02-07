@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import os
 import random
 import string
 import sys
-import os
+import traceback
 
 import click
 import pkg_resources
@@ -11,11 +12,11 @@ from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
 from .delete_user import delete_user
+from ..config.settings import HOME, OSF, PASSWORD_LENGTH
 from ..handlers.nginx import NginxConfigHandler
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 from ..handlers.samba import SambaConfigHandler
 from ..prompts.defaults import get_dummy_user
-from ..settings import HOME, OSF, PASSWORD_LENGTH
 
 
 def add_user():
@@ -64,6 +65,9 @@ def add_user():
         sys.exit(0)
     else:
         pass
+    dict_user.update({'host': 'localhost',
+                      'db_port': '5432',
+                      'dbname': dict_user['user_name']})
 
     try:
         # Calls the postgres user database
@@ -123,14 +127,14 @@ def add_user():
                 '\nalias run_prodserver="screen -S otree -m otree '
                 'runprodserver --port {daphne_port}"'.format(**dict_user))
             file.write(
-                '\nalias run_mail_prodserver="screen -S otree -m otree '
-                'runprodserver --port {daphne_port} '
-                '&& mail -s "oTree stopped" {email} '
-                '<<< "Warning your otree on port {daphne_port} has stopped."'
+                """\nalias run_mail_prodserver="screen -S otree -m otree """
+                """runprodserver --port {daphne_port} """
+                """&& mail -s 'oTree stopped' {email} <<< """
+                """'Warning your otree on port {daphne_port} has stopped.'" """
                 .format(**dict_user))
-            file.write(
-                '\nsource ~/.otree_env'
-            )
+            file.write('\nsource {}'.format(
+                os.path.join(
+                    'home', dict_user['user_name'], OSF, '.otree_env')))
 
         # set user's default shell to bash
         sudo['usermod', '-s', '/bin/bash', '{user_name}'.format(**dict_user)]()
@@ -139,7 +143,8 @@ def add_user():
         path = os.path.join(HOME, OSF, 'user_configs')
         if not os.path.exists(path):
             os.makedirs(path)
-        with open(path + '/{user_name}.txt'.format(**dict_user), 'w') as file:
+        path_ext = os.path.join(path, '{user_name}.txt'.format(**dict_user))
+        with open(path_ext, 'w') as file:
             file.write('[{user_name}]'.format(**dict_user))
             file.write('\n\tname:\t\t{full_name}'.format(**dict_user))
             file.write('\n\temail:\t\t{email}'.format(**dict_user))
@@ -149,12 +154,12 @@ def add_user():
             file.write('\n\thttp_port:\t{http_port}'.format(**dict_user))
             file.write('\n\tssl_port:\t{ssl_port}'.format(**dict_user))
             file.write('\n\tredis_port:\t{redis_port}'.format(**dict_user))
-    except:
+    except Exception:
         click.secho(
             'ERROR: An error occurred while creating the user.\n'
-            'The system is rolled back to the previous state.\n', fg='red'
-        )
-        delete_user(dict_user)
+            'The system is rolled back to the previous state.\n', fg='red')
+        click.secho(str(traceback.format_exc()), fg='red')
+        delete_user(dict_user=dict_user, instant_del=True)
     else:
         click.secho(
             'SUCCESS: {user_name} was created!'.format(**dict_user),

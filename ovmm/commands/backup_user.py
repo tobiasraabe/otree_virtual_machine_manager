@@ -7,8 +7,8 @@ import click
 import plumbum
 from plumbum.cmd import sudo
 
+from ..config.settings import HOME, OSF
 from ..prompts.defaults import get_dummy_user
-from ..settings import HOME, OSF
 
 
 def backup_user(user_name: str = None):

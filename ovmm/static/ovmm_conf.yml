@@ -7,30 +7,26 @@
 # REQUIRED:
 
 ## This is login information for the PostgreSQL administrator account.
-export OVMM_PSQL_CONN = "{
-    'user': '_USER_',
-    'password': '_PASSWORD_',
-    'dbname': '_DBNAME_',
-    'host': '_HOST_',
-    'port': '_PORT_',
-}"
+OVMM_PSQL_CONN:
+    user: __USER__
+    password: __PASSWORD__
+    dbname: __DBNAME__
+    host: __HOST__
+    port: __PORT__
 
 ## Name for table containing user account information
-export OVMM_TABLE = "_TABLE_"
+OVMM_PSQL_TABLE: __TABLE__
 
 ## The available ranges of ports for the Nginx configuration are defined below
 ## in the style of list comprehensions. Adjust the values to your configuration.
-export OVMM_DAPHNE_RANGE = "[i for i in range(8001, 8021)]"
-export OVMM_HTTP_RANGE = "[i for i in range(7901, 7921)]"
-export OVMM_SSL_RANGE = "[i for i in range(7801, 7821)]"
-export OVMM_REDIS_RANGE = "[i for i in range(1, 21)]"
+OVMM_DAPHNE_RANGE: "[i for i in range(8001, 8021)]"
+OVMM_HTTP_RANGE: "[i for i in range(7901, 7921)]"
+OVMM_SSL_RANGE: "[i for i in range(7801, 7821)]"
+OVMM_REDIS_RANGE: "[i for i in range(1, 21)]"
 
 
 # OPTIONAL: (recommendation: stick to defaults. Otherwise, uncomment and set
 #            value)
 
-## OVMM source folder name
-# export OVMM_SOURCE_FOLDER = "/ovmm_sources"
-
-## User's password length (min length = 6)
-# export OVMM_PASSWORD_LENGTH = "12"
+## User's password length (min length = 8)
+# OVMM_PASSWORD_LENGTH: 8
