@@ -7,9 +7,8 @@ import pkg_resources
 import plumbum
 from plumbum.cmd import sudo
 
-
-OSF = os.environ.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
 HOME = os.path.expanduser('~')
+OSF = 'ovmm_sources'
 
 
 def initialise():
@@ -30,7 +29,7 @@ def initialise():
         The following steps are performed.
 
         #. Installing Ubuntu dependencies
-        #. Installing OVMM related content (e.g. ``.ovmm_env``)
+        #. Installing OVMM related content (e.g. ``ovmm_conf.yml``)
 
     """
 
@@ -82,31 +81,27 @@ def initialise():
 
         nginx_template_path = pkg_resources.resource_filename(
             'ovmm', 'static/nginx_template')
-        sudo['cp', nginx_template_path, os.path.join(HOME, OSF, '.ovmm_env')]()
+        sudo['cp', nginx_template_path, os.path.join(HOME, 'nginx_template')]()
 
         ovmm_env_path = pkg_resources.resource_filename(
-            'ovmm', 'static/.ovmm_env')
+            'ovmm', 'static/ovmm_conf.yml')
         with open(ovmm_env_path) as file_input:
-            with open(os.path.join(HOME, OSF, '.ovmm_env'),
+            with open(os.path.join(HOME, OSF, 'ovmm_conf.yml'),
                       'w') as file_output:
                 file_output.write(
-                    file_input.read().replace('_USER_', psql_user)
-                                     .replace('_PASSWORD_', psql_password)
-                                     .replace('_DBNAME_', psql_database)
-                                     .replace('_HOST_', psql_host)
-                                     .replace('_PORT_', psql_port)
-                                     .replace('_TABLE_', psql_table))
-        with open(os.path.join(HOME, '.profile'), 'a') as file:
-            file.write('\n')
-            file.write('\n# Source environmental variables for OVMM')
-            file.write('\nsource ovmm_sources/.ovmm_env')
-        sudo['source', os.path.join(HOME + '.profile')]()
+                    file_input.read().replace('__USER__', psql_user)
+                                     .replace('__PASSWORD__', psql_password)
+                                     .replace('__DBNAME__', psql_database)
+                                     .replace('__HOST__', psql_host)
+                                     .replace('__PORT__', psql_port)
+                                     .replace('__TABLE__', psql_table))
     except Exception as e:
         click.secho(e, 'red')
         pass
     else:
         click.secho('SUCCESS: Requirement satisfied.', fg='green')
 
-    click.echo('WARNING: End of initialisation. Fix possible errors before\n'
-               'running anything else!')
+    click.secho(
+        'WARNING: End of initialisation. Fix possible errors before\n'
+        'running anything else!', fg='yellow')
     click.echo('{:-^60}\n'.format(' Process: End '))

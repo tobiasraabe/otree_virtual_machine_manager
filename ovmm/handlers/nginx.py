@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-from ..settings import HOME, OSF
+from ..config.settings import HOME
 
 
 class NginxConfigHandler:
@@ -20,7 +22,7 @@ class NginxConfigHandler:
 
     """
 
-    path = HOME + OSF + '/nginx_template'
+    path = os.path.join(HOME, 'nginx_template')
 
     def __init__(self):
         self.check_integrity()

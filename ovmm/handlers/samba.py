@@ -7,6 +7,7 @@
 import click
 import plumbum
 
+# Added for testing
 try:
     from plumbum.cmd import sudo
 except ImportError:
@@ -18,7 +19,7 @@ class SambaConfigHandler:
 
     Attributes
     ----------
-    path : str
+    self.path : str
         Path to samba config
 
     """

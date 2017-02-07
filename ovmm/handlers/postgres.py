@@ -5,7 +5,7 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from psycopg2.extras import RealDictCursor
 
-from ..settings import PORT_RANGES, PSQL_CONN, PSQL_TABLE
+from ..config.settings import PORT_RANGES, PSQL_CONN, PSQL_TABLE
 
 
 class PostgreSQLDatabaseHandler:
