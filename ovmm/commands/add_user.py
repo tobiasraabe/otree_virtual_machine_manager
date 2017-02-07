@@ -11,12 +11,12 @@ import pkg_resources
 from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
-from .delete_user import delete_user
-from ..config.settings import HOME, OSF, PASSWORD_LENGTH
-from ..handlers.nginx import NginxConfigHandler
-from ..handlers.postgres import PostgreSQLDatabaseHandler
-from ..handlers.samba import SambaConfigHandler
-from ..prompts.defaults import get_dummy_user
+from ovmm.commands.delete_user import delete_user
+from ovmm.config.settings import HOME, OSF, PASSWORD_LENGTH
+from ovmm.handlers.nginx import NginxConfigHandler
+from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
+from ovmm.handlers.samba import SambaConfigHandler
+from ovmm.prompts.defaults import get_dummy_user
 
 
 def add_user():
@@ -65,9 +65,6 @@ def add_user():
         sys.exit(0)
     else:
         pass
-    dict_user.update({'host': 'localhost',
-                      'db_port': '5432',
-                      'dbname': dict_user['user_name']})
 
     try:
         # Calls the postgres user database
@@ -83,20 +80,23 @@ def add_user():
         # Force password change at first login
         sudo['chage', '-d', '0', dict_user['user_name']]()
 
-        # Create virtualenv in user's home folder
-        sudo['-u', '{user_name}'.format(**dict_user), 'python3', '-m', 'venv',
-             '/home/{user_name}/venv_otree'.format(**dict_user)]()
-
         # Unpack additional files to user directory
         data = pkg_resources.resource_filename(
             'ovmm', 'static/exp_env.7z')
         sudo['-u', '{user_name}'.format(**dict_user), '7z', 'x', data,
              '-o/home/{user_name}'.format(**dict_user), '-y']()
+        sudo['-u', dict_user['user_name'], 'ln', '-s',
+             os.path.join(HOME, 'Projects', 'first_project'),
+             os.path.join(HOME, '.oTree')]()
+
+        # Create virtualenv in user's home folder
+        sudo['-u', dict_user['user_name'], 'python3', '-m', 'venv',
+             '/home/{user_name}/.oTree/venv'.format(**dict_user)]()
 
         # Creates standardized otree-project folder !!! (name change)
-        (printf['n'] |
-         sudo['su', '-', dict_user['user_name'], '-c',
-              'otree startproject oTree'])()
+        # (printf['n'] |
+        #  sudo['su', '-', dict_user['user_name'], '-c',
+        #       'otree startproject oTree'])()
 
         # nginx
         nch = NginxConfigHandler()
@@ -113,11 +113,13 @@ def add_user():
 
         # environment variables
         otree_env_path = pkg_resources.resource_filename(
-            'ovmm', 'static/.otree_env')
+            'ovmm', 'static/otree_environ_config')
         with open(otree_env_path) as file_input:
-            with open('/home/{user_name}/.otree_env'.format(**dict_user),
-                      'w') as file_output:
+            with open('/home/{user_name}/otree_environ_config'
+                      .format(**dict_user), 'w') as file_output:
                 file_output.write(file_input.read().format(**dict_user))
+        sudo['chown', '{0}:{0}'.format(dict_user['user_name']),
+             os.path.join(HOME, 'otree_environ_config')]()
 
         # .profile
         path = '/home/{user_name}/.profile'.format(**dict_user)
@@ -134,10 +136,11 @@ def add_user():
                 .format(**dict_user))
             file.write('\nsource {}'.format(
                 os.path.join(
-                    'home', dict_user['user_name'], OSF, '.otree_env')))
+                    'home', dict_user['user_name'], OSF,
+                    'otree_environ_config')))
 
         # set user's default shell to bash
-        sudo['usermod', '-s', '/bin/bash', '{user_name}'.format(**dict_user)]()
+        sudo['usermod', '-s', '/bin/bash', dict_user['user_name']]()
 
         # create output
         path = os.path.join(HOME, OSF, 'user_configs')

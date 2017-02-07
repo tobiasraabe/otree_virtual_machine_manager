@@ -279,4 +279,4 @@ texinfo_documents = [
 # texinfo_no_detailmenu = False
 
 # Mock modules which would cause sphinx to crash
-autodoc_mock_imports = ['ovmm_settings.py', 'plumbum.cmd']
+autodoc_mock_imports = ['plumbum.cmd']
