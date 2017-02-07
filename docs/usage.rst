@@ -18,17 +18,17 @@ If you need more information on the commands, run ``ovmm --help``
 First run
 ---------
 
-When using ``ovmm`` for the first time, run ``sudo ovmm initialise`` to set up
-you system.
+When using ``ovmm`` for the first time, run ``sudo ovmm initialise`` to
+configure your system.
 
 After running the command, there is a folder called
-``/home/<user>/ovmm_sources/`` which contains ``ovmm_settings.py``. Perform
-two checks:
+``/home/<user>/ovmm_sources/`` which contains ``ovmm_conf.yml``.
+Perform the following checks:
 #. Check whether the login information for the PostgreSQL database is
 correctly set.
-#. Define the ranges of port numbers in ``POSTGRES_MISC``. The dictionary
-keys contain python lists. Insert distinct values or use list
-comprehension for bigger ranges.
+#. Define the ranges of port numbers, e.g. ``OVMM_DAPHNE_RANGE``. Port ranges
+are stored in lists. Insert distinct values or use list comprehension for
+bigger ranges.
 
 
 .. _command_line_options:
