@@ -127,25 +127,22 @@ def add_user():
                 '\nalias run_prodserver="screen -S otree -m otree '
                 'runprodserver --port {daphne_port}"'.format(**dict_user))
             file.write(
-                '\nalias run_mail_prodserver="screen -S otree -m otree '
-                'runprodserver --port {daphne_port} '
-                '&& mail -s "oTree stopped" {email} '
-                '<<< "Warning your otree on port {daphne_port} has stopped."'
+                '''\nalias run_mail_prodserver="screen -S otree -m otree '''
+                '''runprodserver --port {daphne_port} '''
+                '''&& mail -s 'oTree stopped' {email} <<<'''
+                ''' 'Warning your otree on port {daphne_port} has stopped.' '''
                 .format(**dict_user))
-            file.write('\nsource ~/.otree_env')
+            file.write('\nsource {}'.format(
+                os.path.join(HOME, OSF, '.otree_env')))
 
         # set user's default shell to bash
         sudo['usermod', '-s', '/bin/bash', '{user_name}'.format(**dict_user)]()
 
         # create output
-        user = HOME.split('/')[2]
-        sudo['chown', '-R', '{0}:{0}'.format(user), os.path.join(HOME, OSF)]()
         path = os.path.join(HOME, OSF, 'user_configs')
-        print(path)
         if not os.path.exists(path):
             os.makedirs(path)
         path_ext = os.path.join(path, '{user_name}.txt'.format(**dict_user))
-        print(path_ext)
         with open(path_ext, 'w') as file:
             file.write('[{user_name}]'.format(**dict_user))
             file.write('\n\tname:\t\t{full_name}'.format(**dict_user))
