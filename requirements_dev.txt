@@ -14,7 +14,7 @@ coverage==4.3.4
 cryptography==1.7.2
 doc8==0.7.0
 docutils==0.13.1
-flake8==3.2.1
+flake8==3.3.0
 idna==2.2
 imagesize==0.7.1
 mccabe==0.6.1
