@@ -127,13 +127,14 @@ def add_user():
                 '\nalias run_prodserver="screen -S otree -m otree '
                 'runprodserver --port {daphne_port}"'.format(**dict_user))
             file.write(
-                '''\nalias run_mail_prodserver="screen -S otree -m otree '''
-                '''runprodserver --port {daphne_port} '''
-                '''&& mail -s 'oTree stopped' {email} <<<'''
-                ''' 'Warning your otree on port {daphne_port} has stopped.' '''
+                """\nalias run_mail_prodserver="screen -S otree -m otree """
+                """runprodserver --port {daphne_port} """
+                """""""&& mail -s 'oTree stopped' {email} <<<"""
+                """ 'Warning your otree on port {daphne_port} has stopped.' """
                 .format(**dict_user))
             file.write('\nsource {}'.format(
-                os.path.join(HOME, OSF, '.otree_env')))
+                os.path.join(
+                    'home', dict_user['user_name'], OSF, '.otree_env')))
 
         # set user's default shell to bash
         sudo['usermod', '-s', '/bin/bash', '{user_name}'.format(**dict_user)]()
