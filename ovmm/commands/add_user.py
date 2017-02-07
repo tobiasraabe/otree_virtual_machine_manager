@@ -12,11 +12,11 @@ from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
 from .delete_user import delete_user
+from ..config.settings import HOME, OSF, PASSWORD_LENGTH
 from ..handlers.nginx import NginxConfigHandler
 from ..handlers.postgres import PostgreSQLDatabaseHandler
 from ..handlers.samba import SambaConfigHandler
 from ..prompts.defaults import get_dummy_user
-from ..settings import HOME, OSF, PASSWORD_LENGTH
 
 
 def add_user():

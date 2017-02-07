@@ -28,8 +28,5 @@ OVMM_REDIS_RANGE: "[i for i in range(1, 21)]"
 # OPTIONAL: (recommendation: stick to defaults. Otherwise, uncomment and set
 #            value)
 
-## OVMM source folder name
-# OVMM_SOURCE_FOLDER: ovmm_sources
-
-## User's password length (min length = 6)
-# OVMM_PASSWORD_LENGTH: 12
+## User's password length (min length = 8)
+# OVMM_PASSWORD_LENGTH: 8

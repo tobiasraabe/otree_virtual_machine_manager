@@ -6,7 +6,7 @@ import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-from ..settings import HOME
+from ..config.settings import HOME
 
 
 class NginxConfigHandler:

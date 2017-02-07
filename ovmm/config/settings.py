@@ -32,7 +32,7 @@ def literal_eval_lc(lc_string: str) -> list:
 
 
 try:
-    with open(os.path.join(HOME, OSF, 'ovmm_env.yml')) as file:
+    with open(os.path.join(HOME, OSF, 'ovmm_conf.yml')) as file:
         conf = yaml.load(file.read())
 except Exception as e:
     click.secho(

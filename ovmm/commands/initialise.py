@@ -29,7 +29,7 @@ def initialise():
         The following steps are performed.
 
         #. Installing Ubuntu dependencies
-        #. Installing OVMM related content (e.g. ``ovmm_env.yml``)
+        #. Installing OVMM related content (e.g. ``ovmm_conf.yml``)
 
     """
 
@@ -84,9 +84,9 @@ def initialise():
         sudo['cp', nginx_template_path, os.path.join(HOME, 'nginx_template')]()
 
         ovmm_env_path = pkg_resources.resource_filename(
-            'ovmm', 'static/ovmm_env.yml')
+            'ovmm', 'static/ovmm_conf.yml')
         with open(ovmm_env_path) as file_input:
-            with open(os.path.join(HOME, OSF, 'ovmm_env.yml'),
+            with open(os.path.join(HOME, OSF, 'ovmm_conf.yml'),
                       'w') as file_output:
                 file_output.write(
                     file_input.read().replace('__USER__', psql_user)
