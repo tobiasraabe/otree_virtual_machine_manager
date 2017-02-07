@@ -34,10 +34,24 @@ def literal_eval_lc(lc_string: str) -> list:
 try:
     with open(os.path.join(HOME, OSF, 'ovmm_conf.yml')) as file:
         conf = yaml.load(file.read())
-except Exception as e:
+except FileNotFoundError:
     click.secho(
-        'ERROR: Not all settings could be loaded. Fix it.'
+        'ERROR: Not all settings could be loaded.'
+        'Collect settings from environment.'
     )
+    PSQL_CONN = dict(ast.literal_eval(os.environ['OVMM_PSQL_CONN']))
+    PSQL_TABLE = os.environ['OVMM_PSQL_TABLE']
+    PORT_RANGES = {
+        'daphne_port': list(
+            literal_eval_lc(os.environ['OVMM_DAPHNE_RANGE'])),
+        'http_port': list(
+            literal_eval_lc(os.environ['OVMM_HTTP_RANGE'])),
+        'ssl_port': list(
+            literal_eval_lc(os.environ['OVMM_SSL_RANGE'])),
+        'redis_port': list(
+            literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
+    }
+except Exception as e:
     raise e
 else:
     # Required
