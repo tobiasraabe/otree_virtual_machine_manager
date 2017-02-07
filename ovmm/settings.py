@@ -55,14 +55,14 @@ else:
     }
 
     # Optional
-    PASSWORD_LENGTH = int(conf.get('OVMM_PASSWORD_LENGTH', 12))
-    if PASSWORD_LENGTH < 6:
+    PASSWORD_LENGTH = int(conf.get('OVMM_PASSWORD_LENGTH', 8))
+    if PASSWORD_LENGTH < 8:
         click.secho(
-            'ERROR: Minimal password length is 6.', fg='red'
+            'ERROR: Minimal password length is 8.', fg='red'
         )
-        PASSWORD_LENGTH = 6
+        PASSWORD_LENGTH = 8
         click.secho(
-            'WARNING: Password length set to 6.', fg='yellow'
+            'WARNING: Password length set to 8.', fg='yellow'
         )
     OSF = conf.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
 
