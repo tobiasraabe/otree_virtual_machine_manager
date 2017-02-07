@@ -64,7 +64,7 @@ def add_user():
         )
         sys.exit(0)
     else:
-        pass
+        path_user = os.path.join('/home', dict_user['user_name'])
 
     try:
         # Calls the postgres user database
@@ -84,10 +84,10 @@ def add_user():
         data = pkg_resources.resource_filename(
             'ovmm', 'static/exp_env.7z')
         sudo['-u', '{user_name}'.format(**dict_user), '7z', 'x', data,
-             '-o/home/{user_name}'.format(**dict_user), '-y']()
+             '-o' + path_user, '-y']()
         sudo['-u', dict_user['user_name'], 'ln', '-s',
-             os.path.join(HOME, 'Projects', 'first_project'),
-             os.path.join(HOME, '.oTree')]()
+             os.path.join(path_user, 'Projects', 'first_project'),
+             os.path.join(path_user, '.oTree')]()
 
         # Create virtualenv in user's home folder
         sudo['-u', dict_user['user_name'], 'python3', '-m', 'venv',
@@ -115,29 +115,21 @@ def add_user():
         otree_env_path = pkg_resources.resource_filename(
             'ovmm', 'static/otree_environ_config')
         with open(otree_env_path) as file_input:
-            with open('/home/{user_name}/otree_environ_config'
-                      .format(**dict_user), 'w') as file_output:
+            with open(os.path.join(path_user, 'otree_environ_config'),
+                      'w') as file_output:
                 file_output.write(file_input.read().format(**dict_user))
         sudo['chown', '{0}:{0}'.format(dict_user['user_name']),
-             os.path.join(HOME, 'otree_environ_config')]()
+             os.path.join(path_user, 'otree_environ_config')]()
 
         # .profile
-        path = '/home/{user_name}/.profile'.format(**dict_user)
-        with open(path, 'a') as file:
-            file.write('\n# Aliases')
-            file.write(
-                '\nalias run_prodserver="screen -S otree -m otree '
-                'runprodserver --port {daphne_port}"'.format(**dict_user))
-            file.write(
-                """\nalias run_mail_prodserver="screen -S otree -m otree """
-                """runprodserver --port {daphne_port} """
-                """&& mail -s 'oTree stopped' {email} <<< """
-                """'Warning your otree on port {daphne_port} has stopped.'" """
-                .format(**dict_user))
-            file.write('\nsource {}'.format(
-                os.path.join(
-                    'home', dict_user['user_name'], OSF,
-                    'otree_environ_config')))
+        path_profile = pkg_resources.resource_filename(
+            'ovmm', 'static/.profile')
+        with open(path_profile) as file_input:
+            with open(os.path.join('/home', dict_user['user_name'],
+                                   '.profile'), 'w') as file_output:
+                file_output.write(
+                    file_input.read().format(**dict_user)
+                )
 
         # set user's default shell to bash
         sudo['usermod', '-s', '/bin/bash', dict_user['user_name']]()

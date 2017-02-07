@@ -32,10 +32,6 @@ setup(
     url='https://github.com/tobiasraabe/otree_virtual_machine_manager',
     packages=[
         'ovmm',
-        'ovmm.commands',
-        'ovmm.handlers',
-        'ovmm.prompts',
-        'ovmm.templates',
     ],
     package_dir={'ovmm':
                  'ovmm'},
