@@ -6,6 +6,9 @@
 
 # REQUIRED:
 
+## Password of administrator
+OTREE_ADMIN_PASSWORD: __ADMIN__
+
 ## This is login information for the PostgreSQL administrator account.
 OVMM_PSQL_CONN:
     user: __USER__

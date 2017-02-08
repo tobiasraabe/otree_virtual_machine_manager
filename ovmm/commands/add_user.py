@@ -12,7 +12,7 @@ from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
 from ovmm.commands.delete_user import delete_user
-from ovmm.config.settings import HOME, OSF, PASSWORD_LENGTH
+from ovmm.config.settings import HOME, OSF, ADMIN_PASSWORD, PASSWORD_LENGTH
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
@@ -112,12 +112,14 @@ def add_user():
         samba.add_user(dict_user)
 
         # environment variables
+        temp = dict_user.copy()
+        temp.update({'admin_password': ADMIN_PASSWORD})
         otree_env_path = pkg_resources.resource_filename(
             'ovmm', 'static/otree_environ_config')
         with open(otree_env_path) as file_input:
             with open(os.path.join(path_user, 'otree_environ_config'),
                       'w') as file_output:
-                file_output.write(file_input.read().format(**dict_user))
+                file_output.write(file_input.read().format(**temp))
         sudo['chown', '{0}:{0}'.format(dict_user['user_name']),
              os.path.join(path_user, 'otree_environ_config')]()
 

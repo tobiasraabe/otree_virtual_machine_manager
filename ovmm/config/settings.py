@@ -55,6 +55,7 @@ except Exception as e:
     raise e
 else:
     # Required
+    ADMIN_PASSWORD = conf['OTREE_ADMIN_PASSWORD']
     PSQL_CONN = dict(conf['OVMM_PSQL_CONN'])
     PSQL_TABLE = conf['OVMM_PSQL_TABLE']
     PORT_RANGES = {
