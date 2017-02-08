@@ -63,8 +63,9 @@ class NginxConfigHandler:
             with open(self.path) as file_in:
                 file_out.write(
                     file_in.read()
-                    .replace('OTREEHOME', '/home/{user_name}/.oTree/'
-                             .format(**dict_user))
+                    .replace('OTREEHOME',
+                             os.path.join('/home', dict_user['user_name'],
+                                          '.oTree'))
                     .replace('HTTPPORT', str(dict_user['http_port']))
                     .replace('SSLPORT', str(dict_user['ssl_port']))
                     .replace('DAPHNEPORT', str(dict_user['daphne_port']))

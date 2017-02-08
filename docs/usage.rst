@@ -30,6 +30,9 @@ correctly set.
 are stored in lists. Insert distinct values or use list comprehension for
 bigger ranges.
 
+Next, go back to your home folder. You should see a file called
+``nginx_template``.
+
 
 .. _command_line_options:
 
@@ -48,7 +51,7 @@ Since command expansion is implemented, the commands after the forward slash
 are also available.
 
 initialise / i
-    Adjusts your system to the needs of ``ovmm``. It installs Ubuntu
+    Adjust your system to the needs of ``ovmm``. It installs Ubuntu
     dependencies as well as configuration files for the Administrator.
 
     .. warning::
@@ -56,17 +59,17 @@ initialise / i
         #. An internet connection is needed
 
 add_user / a
-    Adds a new user to the configuration. Several prompts will ask you about
+    Add a new user to the configuration. Several prompts will ask you about
     user specific information. Please, fill out the forms in accordance with
     the provided examples.
 
 delete_user / d
-    Deletes a user from the configuration. Her account including her home
+    Delete a user from the configuration. Her account including her home
     folder is completely removed. Make sure you have a backup of all files in
     advance.
 
 backup_user / b
-    Creates a backup for a given user and saves it in the
+    Create a backup for a given user and save it in the
     administrator's home directory under
     ``/home/<admin>/ovmm_sources/user_backups``. Choose from one of three
     options, ``all``, ``db``, ``home``, whether you want to make a backup of
@@ -74,11 +77,11 @@ backup_user / b
     both, database and home folder.
 
 count_user / c
-    Returns the number of existing accounts and the number of possible,
+    Return the number of existing accounts and the number of possible,
     additional accounts.
 
 list_user / l
-    Gives a list of user names of all currently installed users.
+    Give a list of user names of all currently installed users.
 
 
 .. _end_user_commands:
