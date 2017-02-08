@@ -66,9 +66,12 @@ delete_user / d
     advance.
 
 backup_user / b
-    Creates a database backup for a given user and saves it in the
+    Creates a backup for a given user and saves it in the
     administrator's home directory under
-    ``/home/<admin>/ovmm_sources/user_backups``.
+    ``/home/<admin>/ovmm_sources/user_backups``. Choose from one of three
+    options, ``all``, ``db``, ``home``, whether you want to make a backup of
+    the database or the home folder. ``all`` is a shortcut to run a backup of
+    both, database and home folder.
 
 count_user / c
     Returns the number of existing accounts and the number of possible,
@@ -105,10 +108,10 @@ As End User you have to follow the following steps in order to run
 experiments.
 
 1. Do you want or need to reset your database?
-    ``otree resetdb``
+   ``otree resetdb``
 
 2. Set the otree environment variable to Production
-    ``OTREE_PRODUCTION=1; export OTREE_PRODUCTION``.
+   ``OTREE_PRODUCTION=1; export OTREE_PRODUCTION``.
 
 3. Start the Server either by running ``run_mail_prodserver`` or
    ``run_prodserver``.

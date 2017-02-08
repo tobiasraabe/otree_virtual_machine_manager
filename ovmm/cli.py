@@ -25,41 +25,52 @@ def main():
 
 @main.command()
 def add_user():
-    """Creates an account for an experimenter."""
+    """Create an account for an experimenter."""
     from .commands.add_user import add_user as add_usr
     add_usr()
 
 
 @main.command()
-def backup_user():
-    """Creates a database backup for a user."""
+@click.option('--strategy', help='Specify backup strategy.',
+              prompt='Choose a backup strategy',
+              type=click.Choice(['all', 'db', 'home']))
+def backup_user(strategy):
+    """Create a backup of user's content.
+
+    \b
+    Use STRATEGY to specify the target.
+        - all:  Home folder and database
+        - db:   Only database
+        - home: Only home folder (requires more space)
+
+    """
     from .commands.backup_user import backup_user as backup_usr
-    backup_usr()
+    backup_usr(strategy)
 
 
 @main.command()
 def count_user():
-    """Counts all user accounts."""
+    """Count all user accounts."""
     from .commands.count_user import count_user as count_usr
     count_usr()
 
 
 @main.command()
 def delete_user():
-    """Deletes an account of an experimenter."""
+    """Delete an account of an experimenter."""
     from .commands.delete_user import delete_user as delete_usr
     delete_usr()
 
 
 @main.command()
 def initialise():
-    """Prepares for using the scripts."""
+    """Configure the system."""
     from .commands.initialise import initialise as init
     init()
 
 
 @main.command()
 def list_user():
-    """Lists all user accounts."""
+    """List all user accounts."""
     from .commands.list_user import list_user as list_usr
     list_usr()

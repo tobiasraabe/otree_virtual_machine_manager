@@ -11,11 +11,14 @@ from ovmm.config.settings import HOME, OSF
 from ovmm.prompts.defaults import get_dummy_user
 
 
-def backup_user(user_name: str = None):
+def backup_user(strategy: str, user_name: str = None):
     """This command performs a database backup for ``user_name``.
 
     Parameters
     ----------
+    strategy : str
+        Specifies the backup strategy. Available options are ``all``, ``db``,
+        and ``home``
     user_name : str
         Name of the user whose data is backed up
 
@@ -45,18 +48,31 @@ def backup_user(user_name: str = None):
         os.makedirs(os.path.join(HOME, OSF, 'user_backups'))
 
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
-    file_name = (
+    db_file_name = (
         os.path.join(HOME, OSF, 'user_backups', user_name + '_db_dump_'
-                     + tim + '.sql'))
-    try:
-        (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] >
-         file_name)()
-    except plumbum.ProcessExecutionError:
-        click.secho(
-            'ERROR: {} does not exist in the database!'.format(user_name),
-            fg='red'
-        )
-        raise
+                     + tim + '.sql.7z'))
+    home_file_name = (
+        os.path.join(HOME, OSF, 'user_backups', user_name + '_home_dump_'
+                     + tim + '.7z'))
+    if strategy in ['home', 'all']:
+        try:
+            sudo['7z', 'a', home_file_name, os.path.join('/home', user_name)]()
+        except plumbum.ProcessExecutionError:
+            click.secho(
+                'ERROR: {} does not exist in the database!'.format(user_name),
+                fg='red'
+            )
+            raise
+    elif strategy in ['db', 'all']:
+        try:
+            (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] |
+             sudo['7z', 'a', '-si', db_file_name])()
+        except plumbum.ProcessExecutionError:
+            click.secho(
+                'ERROR: {} does not exist in the database!'.format(user_name),
+                fg='red'
+            )
+            raise
     click.secho(
         "A backup of the database was successfully created", fg='green')
     click.echo('{:-^60}\n'.format(' Process: End '))
