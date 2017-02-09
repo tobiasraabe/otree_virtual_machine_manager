@@ -29,9 +29,10 @@ Overview
 --------
 
 **oTree Virtual Machine Manager** is a useful extension to the **oTree Virtual
-Machine Image** provided by Felix Albrecht and Holger Gerhardt. It automates
-many tasks for an administrator (e.g. setting up user accounts) which involve
-many steps and flawless integration into the existing configuration.
+Machine Image** provided by Felix Albrecht and Holger Gerhardt. It helps
+administrators to automate processes (e.g. setting up user accounts) which
+involve multiple steps and flawless integration into the existing
+configuration.
 
 
 Features
@@ -40,7 +41,7 @@ Features
 - [x] Managing a database of account configurations
 - [x] Adding a new experimenter account
 - [x] Deleting an existing experimenter account
-- [x] Backup functionality for experimenter account (for now only database)
+- [x] Backup functionality for experimenter account
 
 
 Credits

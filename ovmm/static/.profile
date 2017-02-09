@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
+#!/bin/sh
 
-DOT_PROFILE = """# ~/.profile: executed by the command interpreter for login shells.
+# ~/.profile: executed by the command interpreter for login shells.
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
 # see /usr/share/doc/bash/examples/startup-files for examples.
@@ -8,7 +8,7 @@ DOT_PROFILE = """# ~/.profile: executed by the command interpreter for login she
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
-#umask 022
+# umask 022
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
@@ -22,5 +22,8 @@ fi
 PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # set aliases
-alias runtree='screen -S otree runprodserver -p {daphne_port}'
-"""
+alias run_prodserver="screen -S otree -m otree runprodserver --port {daphne_port}"
+alias run_mail_prodserver="screen -S otree -m otree runprodserver --port {daphne_port} && mail -s 'oTree stopped' {email} <<< 'Warning your otree on port {daphne_port} has stopped.'"
+
+# source otree_environ_config
+source $HOME/otree_environ_config

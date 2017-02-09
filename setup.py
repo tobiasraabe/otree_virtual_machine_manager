@@ -33,9 +33,9 @@ setup(
     packages=[
         'ovmm',
         'ovmm.commands',
+        'ovmm.config',
         'ovmm.handlers',
         'ovmm.prompts',
-        'ovmm.templates',
     ],
     package_dir={'ovmm':
                  'ovmm'},

@@ -2,7 +2,7 @@
 
 import click
 
-from ..handlers.postgres import PostgreSQLDatabaseHandler
+from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 
 
 def count_user():

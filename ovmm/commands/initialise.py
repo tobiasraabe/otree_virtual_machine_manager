@@ -47,6 +47,10 @@ def initialise():
 
     click.echo('Installing OVMM related content.')
     try:
+        click.echo("--> Get administrator's password.")
+        admin_password = click.prompt(
+            "Enter administrator's password.", hide_input=True,
+            confirmation_prompt=True)
         click.echo('--> Set information for the postgres database.')
         psql_user = click.prompt('Enter postgres user with user database '
                                  'access', default='postgres')
@@ -94,7 +98,8 @@ def initialise():
                                      .replace('__DBNAME__', psql_database)
                                      .replace('__HOST__', psql_host)
                                      .replace('__PORT__', psql_port)
-                                     .replace('__TABLE__', psql_table))
+                                     .replace('__TABLE__', psql_table)
+                                     .replace('__ADMIN__', admin_password))
     except Exception as e:
         click.secho(e, 'red')
         pass

@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # oTree core configs
-export OTREE_ADMIN_PASSWORD=""
+export OTREE_ADMIN_PASSWORD="{admin_password}"
 export OTREE_PRODUCTION=1
 export OTREE_AUTH_LEVEL='STUDY'
-export DATABASE_URL="postgres://{user_name}:{password}@{host}:{db_port}/{dbname}"
+export DATABASE_URL="postgres://{user_name}:{password}@locahost:5432/{user_name}"
 
 # Redis URL for parallel instances of oTree
 export REDIS_URL="redis://localhost:6379/{redis_port}"

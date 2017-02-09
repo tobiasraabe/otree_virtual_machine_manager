@@ -36,7 +36,7 @@ try:
         conf = yaml.load(file.read())
 except FileNotFoundError:
     click.secho(
-        'ERROR: Not all settings could be loaded.'
+        'ERROR: Settings could not be loaded.\n'
         'Collect settings from environment.'
     )
     PSQL_CONN = dict(ast.literal_eval(os.environ['OVMM_PSQL_CONN']))
@@ -55,6 +55,7 @@ except Exception as e:
     raise e
 else:
     # Required
+    ADMIN_PASSWORD = conf['OTREE_ADMIN_PASSWORD']
     PSQL_CONN = dict(conf['OVMM_PSQL_CONN'])
     PSQL_TABLE = conf['OVMM_PSQL_TABLE']
     PORT_RANGES = {

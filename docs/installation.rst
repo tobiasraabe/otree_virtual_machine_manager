@@ -7,7 +7,7 @@ Installation
 Requirements
 ------------
 
-As **oTree Virtual Machine Manager* provides helpful commands to
+As **oTree Virtual Machine Manager** provides useful commands to
 administrators of the **oTree Virtual Machine Image**, it needs ``sudo``
 access to perform its actions. Please, choose an appropriate account to
 install the package.

@@ -5,7 +5,7 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from psycopg2.extras import RealDictCursor
 
-from ..config.settings import PORT_RANGES, PSQL_CONN, PSQL_TABLE
+from ovmm.config.settings import PORT_RANGES, PSQL_CONN, PSQL_TABLE
 
 
 class PostgreSQLDatabaseHandler:
@@ -138,7 +138,7 @@ class PostgreSQLDatabaseHandler:
         return ports_list
 
     def get_free_ports(self, port_name: str):
-        """Compares ports from user table with ports from ``ovmm_settings.py``
+        """Compares ports from user table with ports from ``ovmm_conf.yml``
         and returns a list of free ports for a given `port_name`.
 
         Paramters

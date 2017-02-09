@@ -6,12 +6,12 @@ import sys
 import click
 from plumbum.cmd import sudo
 
-from ..config.settings import HOME, OSF
-from .backup_user import backup_user
-from ..handlers.nginx import NginxConfigHandler
-from ..handlers.postgres import PostgreSQLDatabaseHandler
-from ..handlers.samba import SambaConfigHandler
-from ..prompts.defaults import get_dummy_user
+from ovmm.commands.backup_user import backup_user
+from ovmm.config.settings import HOME, OSF
+from ovmm.handlers.nginx import NginxConfigHandler
+from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
+from ovmm.handlers.samba import SambaConfigHandler
+from ovmm.prompts.defaults import get_dummy_user
 
 
 def delete_user(dict_user: dict = None, instant_del: bool = False):
