@@ -75,7 +75,7 @@ def backup_user(strategy: str, user_name: str = None):
                 fg='red'
             )
             raise
-    elif strategy in ['db', 'all']:
+    if strategy in ['db', 'all']:
         try:
             (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] |
              sudo['7z', 'a', '-si', db_file_name])()
