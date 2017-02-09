@@ -32,12 +32,11 @@ def literal_eval_lc(lc_string: str) -> list:
 
 
 try:
-    print(os.path.join(HOME, OSF, 'ovmm_conf.yml'))
     with open(os.path.join(HOME, OSF, 'ovmm_conf.yml')) as file:
         conf = yaml.load(file.read())
 except FileNotFoundError:
     click.secho(
-        'ERROR: Not all settings could be loaded.'
+        'ERROR: Settings could not be loaded.\n'
         'Collect settings from environment.'
     )
     PSQL_CONN = dict(ast.literal_eval(os.environ['OVMM_PSQL_CONN']))

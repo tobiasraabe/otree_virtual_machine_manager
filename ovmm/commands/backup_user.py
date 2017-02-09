@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import time
 
 import click
@@ -8,8 +9,8 @@ import plumbum
 from plumbum.cmd import sudo
 
 from ovmm.config.settings import HOME, OSF
-from ovmm.prompts.defaults import get_dummy_user
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
+from ovmm.prompts.defaults import get_dummy_user
 
 
 def backup_user(strategy: str, user_name: str = None):
@@ -50,7 +51,7 @@ def backup_user(strategy: str, user_name: str = None):
     if postgres_check is None:
         click.secho(
             'ERROR: user {} does not exist in database!'
-            .format(dict_user['user_name']), fg='red'
+            .format(user_name), fg='red'
         )
         sys.exit(0)
     # Create necessary directories
