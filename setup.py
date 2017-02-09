@@ -33,6 +33,7 @@ setup(
     packages=[
         'ovmm',
         'ovmm.commands',
+        'ovmm.config',
         'ovmm.handlers',
         'ovmm.prompts',
     ],
