@@ -9,6 +9,7 @@ from plumbum.cmd import sudo
 
 from ovmm.config.settings import HOME, OSF
 from ovmm.prompts.defaults import get_dummy_user
+from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 
 
 def backup_user(strategy: str, user_name: str = None):
@@ -27,8 +28,9 @@ def backup_user(strategy: str, user_name: str = None):
         The following steps are performed.
 
         #. If no user_name is provided, ask for it
+        #. Check if user exists in database, else exit
         #. If no folder for backups exists, create it
-        #. Save the database to backup folder
+        #. Dependent on strategy, run the desired backup process
 
     Raises
     ------
@@ -38,15 +40,23 @@ def backup_user(strategy: str, user_name: str = None):
     """
 
     click.echo('{:-^60}\n'.format(' Process: back_user '))
-
+    # Check if user_name was passed
     if user_name is None:
         default = get_dummy_user()
         user_name = click.prompt(
             'Which user do you want to backup?', default=default['user_name'])
-
+    # Check if user exists
+    postgres_check = PostgreSQLDatabaseHandler.get_user(user_name)
+    if postgres_check is None:
+        click.secho(
+            'ERROR: user {} does not exist in database!'
+            .format(dict_user['user_name']), fg='red'
+        )
+        sys.exit(0)
+    # Create necessary directories
     if not os.path.exists(os.path.join(HOME, OSF, 'user_backups')):
         os.makedirs(os.path.join(HOME, OSF, 'user_backups'))
-
+    # Define filename strings
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
     db_file_name = (
         os.path.join(HOME, OSF, 'user_backups', user_name + '_db_dump_'
@@ -54,6 +64,7 @@ def backup_user(strategy: str, user_name: str = None):
     home_file_name = (
         os.path.join(HOME, OSF, 'user_backups', user_name + '_home_dump_'
                      + tim + '.7z'))
+    # Run backups
     if strategy in ['home', 'all']:
         try:
             sudo['7z', 'a', home_file_name, os.path.join('/home', user_name)]()
@@ -73,6 +84,7 @@ def backup_user(strategy: str, user_name: str = None):
                 fg='red'
             )
             raise
+
     click.secho(
         "A backup of the database was successfully created", fg='green')
     click.echo('{:-^60}\n'.format(' Process: End '))
