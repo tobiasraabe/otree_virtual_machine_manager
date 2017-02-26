@@ -6,7 +6,7 @@ import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-from ovmm.config.settings import HOME
+from ovmm.config.settings import HOME, ONLY_STANDARD_PORTS
 
 
 class NginxConfigHandler:
@@ -25,6 +25,7 @@ class NginxConfigHandler:
     path = os.path.join(HOME, 'nginx_template')
 
     def __init__(self):
+        self.mode = ONLY_STANDARD_PORTS
         self.check_integrity()
 
     @staticmethod
@@ -101,3 +102,7 @@ class NginxConfigHandler:
         self.check_integrity()
         click.secho(
             'SUCCESS: Removed user from nginx configuration.', fg='green')
+
+    def change_config(self):
+        # Create backup of original
+        pass
