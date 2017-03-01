@@ -15,7 +15,7 @@ cryptography==1.7.2
 doc8==0.7.0
 docutils==0.13.1
 flake8==3.3.0
-idna==2.2
+idna==2.4
 imagesize==0.7.1
 mccabe==0.6.1
 pathtools==0.1.2
