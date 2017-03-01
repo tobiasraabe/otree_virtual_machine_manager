@@ -3,7 +3,7 @@ MarkupSafe==0.23
 PyYAML==3.12
 Pygments==2.2.0
 Sphinx==1.5.3
-alabaster==0.7.9
+alabaster==0.7.10
 argh==0.26.2
 bumpversion==0.5.3
 cffi==1.9.1
