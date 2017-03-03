@@ -51,6 +51,13 @@ def initialise():
         admin_password = click.prompt(
             "Enter administrator's password.", hide_input=True,
             confirmation_prompt=True)
+
+        click.echo('--> Set network configuration.\n'
+                   'Some networks disallow using non-standard ports and\n'
+                   'therefore running multiple experiments simultaneously.')
+        std_ports = click.confirm(
+            'Does your network only support standard ports?')
+
         click.echo('--> Set information for the postgres database.')
         psql_user = click.prompt('Enter postgres user with user database '
                                  'access', default='postgres')
@@ -99,7 +106,8 @@ def initialise():
                                      .replace('__HOST__', psql_host)
                                      .replace('__PORT__', psql_port)
                                      .replace('__TABLE__', psql_table)
-                                     .replace('__ADMIN__', admin_password))
+                                     .replace('__ADMIN__', admin_password)
+                                     .replace('__STDP__', std_ports))
     except Exception as e:
         click.secho(e, 'red')
         pass

@@ -20,6 +20,11 @@ OVMM_PSQL_CONN:
 ## Name for table containing user account information
 OVMM_PSQL_TABLE: __TABLE__
 
+# Routing configuration
+## ``ovmm`` has two different configurations in case your network only
+## supports standard ports. Then, set the boolean below to true.
+OVMM_ONLY_STANDARD_PORTS: __STDP___
+
 ## The available ranges of ports for the Nginx configuration are defined below
 ## in the style of list comprehensions. Adjust the values to your configuration.
 OVMM_DAPHNE_RANGE: "[i for i in range(8001, 8021)]"

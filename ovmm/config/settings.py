@@ -51,6 +51,8 @@ except FileNotFoundError:
         'redis_port': list(
             literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
     }
+    ONLY_STANDARD_PORTS = bool(
+        os.environ.get('OVMM_ONLY_STANDARD_PORTS', False))
 except Exception as e:
     raise e
 else:
@@ -80,6 +82,7 @@ else:
             'WARNING: Password length set to 8.', fg='yellow'
         )
     OSF = conf.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
+    ONLY_STANDARD_PORTS = bool(conf.get('OVMM_ONLY_STANDARD_PORTS', False))
 
     # Miscellaneous
     HOME = os.path.expanduser('~')
