@@ -91,7 +91,7 @@ def add_user():
 
         # Create virtualenv in user's home folder
         sudo['-u', dict_user['user_name'], 'python3', '-m', 'venv',
-             '/home/{user_name}/.oTree/venv'.format(**dict_user)]()
+             '/home/{user_name}/.baseenv'.format(**dict_user)]()
 
         # Creates standardized otree-project folder !!! (name change)
         # (printf['n'] |
