@@ -5,6 +5,7 @@ import random
 import string
 import sys
 import traceback
+import shutil
 
 import click
 import pkg_resources
@@ -29,7 +30,6 @@ def add_user():
         #. Add user to PSQL database (checks whether user already exists)
         #. Create user and home directory, set password expiration date to now
         #. Unpack additional files to user's home directory
-        #. Create otree project folder
         #. Set database information in settings.py
         #. Set nginx configuration file
         #. Allow access to ports via ufw
@@ -92,11 +92,9 @@ def add_user():
         # Create virtualenv in user's home folder
         sudo['-u', dict_user['user_name'], 'python3', '-m', 'venv',
              '/home/{user_name}/.baseenv'.format(**dict_user)]()
-
-        # Creates standardized otree-project folder !!! (name change)
-        # (printf['n'] |
-        #  sudo['su', '-', dict_user['user_name'], '-c',
-        #       'otree startproject oTree'])()
+        req_path = pkg_resources.resource_filename(
+            'ovmm', 'static/requirements_user.txt')
+        shutil.copy2(req_path, HOME)
 
         # nginx
         nch = NginxConfigHandler()
