@@ -103,7 +103,6 @@ def add_user():
         # firewall - open new port to the web
         sudo['ufw', 'allow', dict_user['http_port']]()
         sudo['ufw', 'allow', dict_user['ssl_port']]()
-        sudo['nginx', '-s', 'reload']()
 
         # samba
         samba = SambaConfigHandler()
