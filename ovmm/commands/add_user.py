@@ -45,7 +45,7 @@ def add_user():
     default = get_dummy_user()
     dict_user = {}
     dict_user['user_name'] = click.prompt(
-        'User name', default=default['user_name'])
+        'User name (only a-z characters!)', default=default['user_name'])
     dict_user['full_name'] = click.prompt(
         'Full name', default=default['full_name'])
     dict_user['email'] = click.prompt(
