@@ -6,6 +6,7 @@ export OTREE_PRODUCTION=1
 export OTREE_AUTH_LEVEL='STUDY'
 export DATABASE_URL="postgres://{user_name}:{password}@locahost:5432/{user_name}"
 export USER_MAIL='{email}'
+export DAPHNE_PORT='{daphne_port}'
 
 # Redis URL for parallel instances of oTree
 export REDIS_URL="redis://localhost:6379/{redis_port}"
