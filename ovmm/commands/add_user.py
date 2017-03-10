@@ -5,7 +5,6 @@ import random
 import string
 import sys
 import traceback
-import shutil
 
 import click
 import pkg_resources
@@ -91,10 +90,7 @@ def add_user():
 
         # Create virtualenv in user's home folder
         sudo['-u', dict_user['user_name'], 'python3', '-m', 'venv',
-             '/home/{user_name}/.baseenv'.format(**dict_user)]()
-        req_path = pkg_resources.resource_filename(
-            'ovmm', 'static/requirements_user.txt')
-        shutil.copy2(req_path, HOME)
+             '/home/{user_name}/.basevenv'.format(**dict_user)]()
 
         # nginx
         nch = NginxConfigHandler()
