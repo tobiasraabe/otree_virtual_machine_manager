@@ -8,6 +8,11 @@ Usage
 General usage
 -------------
 
+``ovmm`` is a complement to the **oTree Virtual Machine Image** provided by
+Felix Albrecht and Holger Gerhardt. Therefore, it is only tested on this
+specific image and configuration and is not intended to work for every other
+setting.
+
 Always run ``ovmm`` with ``sudo`` or some commands might not work.
 
 If you need more information on the commands, run ``ovmm --help``
@@ -18,20 +23,50 @@ If you need more information on the commands, run ``ovmm --help``
 First run
 ---------
 
-When using ``ovmm`` for the first time, run ``sudo ovmm initialise`` to
-configure your system.
+#. When using ``ovmm`` for the first time, run ``sudo ovmm initialise`` to
+   configure your system.
 
-After running the command, there is a folder called
-``/home/<user>/ovmm_sources/`` which contains ``ovmm_conf.yml``.
-Perform the following checks:
-#. Check whether the login information for the PostgreSQL database is
-correctly set.
-#. Define the ranges of port numbers, e.g. ``OVMM_DAPHNE_RANGE``. Port ranges
-are stored in lists. Insert distinct values or use list comprehension for
-bigger ranges.
+    .. note:: The process leads you through the installation of required
+              dependecies and creates necessary content files for ``ovmm``.
 
-Next, go back to your home folder. You should see a file called
-``nginx_template``.
+              #. Enter administrator's password.
+              #. Enter account information of the PostgreSQL superuser.
+
+                 By default, the superuser for a PostgreSQL database is called
+                 ``postgres``. You also have to set a password for this
+                 account. This password can be new and will be set to the user
+                 by request.
+
+
+#. After running the command, there is a folder called
+   ``/home/<user>/ovmm_sources/`` which contains ``ovmm_conf.yml``.
+   Perform the following checks:
+
+    #. Check whether the login information for the PostgreSQL database is
+       correctly set.
+    #. Define the ranges of port numbers, e.g. ``OVMM_DAPHNE_RANGE``. Port
+       ranges are stored in lists. Insert distinct values or use list
+       comprehension for bigger ranges.
+
+#. Next, go back to your home folder. You should see a file called
+   ``nginx_template``. Read the commentary to adjust the file to your network
+   configuration.
+
+   This file will be reused every time a new user is created. The process will
+   fill out the user specific values and place it under
+   ``/etc/nginx/sites-avalaible``. Then, a symlink will link this file to
+   ``/etc/nginx/sites-enabled``, so that `Nginx`_
+
+   .. _Nginx: https://nginx.org/en/
+
+#. Forelast, try out one of the innocent lookup commands like
+   ``sudo ovmm count_user`` or ``list_user``. If they succeed, you have
+   correctly set up ``ovmm``.
+
+#. Last, set up a test account and verify whether everything is working
+   including *oTree* by running one of the example experiments.
+
+
 
 
 .. _command_line_options:
@@ -55,7 +90,8 @@ initialise / i
     dependencies as well as configuration files for the Administrator.
 
     .. warning::
-        #. This command should be executed in advance of any other command.
+        #. This command should be executed on first run in advance of any other
+           command.
         #. An internet connection is needed
 
 add_user / a
