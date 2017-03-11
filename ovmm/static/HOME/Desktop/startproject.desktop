@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Start new oTree project
-Icon=emblem-documents-symbolic
-Exec=otree_startproject
-Name[en_US]=Start New oTree Project

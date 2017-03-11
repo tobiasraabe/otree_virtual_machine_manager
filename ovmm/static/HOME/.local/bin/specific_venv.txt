@@ -1,9 +1,0 @@
-<p>Do you require a virtual python 3 environment that is <b><font color="red">specific to this project</font></b>?</p>
-<p></p>
-<p><b>Note:</b> By default otree is installed in a virtual environment in $HOME/.basevenv.</p>
-<p>A project specific virtual environment is only needed if you require a special set of modules, want to make changes to the otree_core, or want to minimize occupied server space when uploading to Heroku or a similar server.</p>
-<p><font color="red">If you require a specialized virtual environment activate the checkbox below and click [Ok], otherwise click [Cancel].</font><p>
-<p>In most cases you will <b>NOT</b> require a specialized virtual environment.<p>
-<hr>
-<p>Be aware that if you use specialized virtual environments that you always have to link the experiment that you are currently working on to $HOME/.oTree (use otree_link_experiment). The virtual environment gets sourced from the HOME/.oTree/venv  link. If you don't link the correct experiment you might install packages to the wrong environment.</p>
-<p>A specialized virtual environment will create an additional folder 'venv' in your project folder, containing the environment. You have to consider this when uploading your project to an external server.</p>
