@@ -8,9 +8,9 @@ Requirements
 ------------
 
 As **oTree Virtual Machine Manager** provides useful commands to
-administrators of the **oTree Virtual Machine Image**, it needs ``sudo``
-access to perform its actions. Please, choose an appropriate account to
-install the package.
+administrators of the **oTree Virtual Machine Image**, it requires superuser
+rights to perform its actions. Therefore, install ``ovmm`` under the provided
+administrator account.
 
 
 Stable release
