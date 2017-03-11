@@ -128,15 +128,38 @@ End User Commands
 Apart from the standard otree commands, the user has the following commands
 at hand:
 
-* ``run_mail_prodserver`` starts a production server and notifies the
-  user via email if the server crashes.
+* ``otree_startproject`` creates an otree project in the folder `Projects` in the user's home directory.
+The created folder is a basic otree project folder WITHOUT the example apps.
+It further creates either a symbolic link ``venv`` to the default virtual python environment of the user in the project folder
+or creates a specific virtual environment within the project folder called ``venv``. The latter allows for specialized oTree versions for each project.
+Lastly it copies the `_rooms` directory from the folder Templates into the project folder. `_rooms` contains a preconfigured econ101.txt for 24 clients.
 
-* ``run_prodserver`` starts a production server (without notification,
-  not advised except for testing).
+* ``otree_link_experiment`` is used to create a symbolic link to the nginx root location.
+The nginx webserver looks in a predefined location for a webserver root. The command handles the linking for you and creates a symlink to $HOME/.oTree
+which is where nginx looks for your project.
+
+* ``otree_restart`` helps you with your starting requirements. It offer to run ``otree collectstatic`` for you  as well as an ``otree resetdb``.
+Before the database reset is executed pg_dump makes a backup of the current state of the database and stores a 7zipped version of it in $HOME/DB_BackUps.
+Finally it runs ``otree runprodserver --port=YOUR_DAPHNE_PORT`` for you to ensure that you use the correct port. ``otree_restart`` also comes with a number of
+arguments that help you get started more quickly.
+
+- ``-c`` forces a collectstatic
+- ``-h`` help
+- ``-m`` enables emails. The system will then send emails when otree stops running. Your email is configured in `otree_environ_config`.
+- ``-r`` forces a resetdb
+
+The commands are stored in $HOME/.local/bin for each user separately so that users can make adjustments for themselves if needed.
+All three commands offer a console and a GUI based on GTK zenity dialogs. For calling the GUI three ``*.desktop`` are created in $HOME/Desktop.
+When you call up a command the command will guide you through the process.  
+
+The below graphic provides an overview of the file structure created in the oTree user's home directory and the command relations.
+
+.. image: static/otree_img_sys.svg
+   :width: 70%
+
 
 The user should not run ``otree runserver`` (which is just for local testing)
 or ``otree runprodserver`` (because of the proxy settings).
-
 
 .. _running_experiments:
 
