@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Link Project to Server
+Icon=emblem-shared-symbolic
+Exec=otree_link_experiment
+Name[en_US]=Link Experiment

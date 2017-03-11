@@ -1,0 +1,148 @@
+#!/bin/bash
+
+# source virtual environment
+if [ ! -e "$HOME/.oTree/venv/bin/activate" ]; then
+	if [ -e "$HOME/.oTree" ]; then
+		rm "$HOME/.oTree"
+	fi
+
+	echo "Current .oTree target did not contain venv-link."
+	echo "Sourcing from HOME/.basevenv directly."
+	NEWLINK="1"
+
+	source "$HOME/.basevenv/bin/activate"
+else
+	source "$HOME/.oTree/venv/bin/activate"
+fi
+
+# create folder projects if it does not exist
+if [ ! -d "$HOME/Projects" ]; then
+	echo "Folder Projects does not exist."
+	echo "The folder ist required."
+	mkdir "$HOME/Projects"
+	echo "Created folder 'Projects."
+fi
+
+################
+# DESKTOP link
+################
+function xdisplay {
+zenity --info --title="Start new project" --text="This will\n\n 1) create a new project folder (without sample apps),\n\n 2) link or create a virtual environment,\n\n 3) copy ~/Templates/_rooms to the project folder.\n\nThis process takes a few moments. Be patient.\n"
+
+PROJECT=$(zenity --entry --title="Project name" --text="Please provide a unique name for the project (avoid whitespaces):")
+if [[ "$PROJECT" == "" ]]; then 
+	exit 1
+fi
+
+cd "$HOME/Projects"
+finished="false"
+# check if user name folder already exits
+while [ $finished != "true" ]; do 
+	if [ ! -d "$PROJECT" ]; then
+		xterm -e otree startproject --noinput "$PROJECT"
+		finished="true"
+	else
+		PROJECT=$(zenity --entry --title="Project name" --text="A project of the same name already exists in ~/Projects. Please provide a unique name for the project:")
+		if [[ "$PROJECT" == "" ]]; then 
+			exit 1
+		fi
+	fi
+done
+
+cd "$PROJECT"
+# copy conigured rooms templates to project folder
+cp -r "$HOME/Templates/_rooms" "./"
+
+VENV=$(zenity --text-info --title="Specialized Virtual Environment" --width 700 --height 500 --checkbox="Create a project specific virtual environment" --title="Virtual Environment"  --html --filename="$HOME/.local/bin/specific_venv.txt")
+case $? in
+0) # create virtual environment in folder
+	xterm -e virtualenv -p python3 venv
+	ACTIVE=$(zenity --question --title="Activate" --text="Activate the newly created virtual environment?")
+	case $? in
+	0) source "$HOME/Projects/$PROJECT/venv/bin/activate";;
+	esac
+	OCORE=$(zenity --question --title="Install OTree Core" --text="Install oTree core?")
+	case $? in
+	0) xterm -e pip3 install -U otree_core;;
+	esac;;
+1) ln -s "$HOME/.basevenv" "$HOME/Projects/$PROJECT/venv";;
+
+esac
+
+
+
+zenity --info --title="Finished" --text="The new project '$PROJECT' was created for you in $HOME/Projects/.\n\nYou can now start programming your experiment."
+}
+
+
+################
+# CONSOLE
+################
+
+function ttydisplay {
+printf "\n\nThis will\n\n 1) create a new project folder (without sample apps),\n\n 2) create a virtual environment,\n\n 3) copy ~/Templates/_rooms to the project folder.\n\n"
+
+read -p "Please provide a unique name for the project (avoid whitespaces):" PROJECT
+if [[ "$PROJECT" == "" ]]; then 
+	echo "You MUST provide a project name."
+	exit 1
+fi
+
+cd "$HOME/Projects"
+finished="false"
+# check if user name folder already exits
+while [ $finished != "true" ]; do 
+	if [ ! -d "$PROJECT" ]; then
+		otree startproject --noinput "$PROJECT"
+		finished="true"
+	else
+		read -p "A name of the same project already exists in ~/Projects.\n\nPlease provide a unique name for the project (avoid whitespaces): " PROJECT
+		if [[ "$PROJECT" == "" ]]; then 
+			exit 1
+			echo "You MUST provide a project name."
+		fi
+	fi
+done
+
+cd "$PROJECT"
+# copy conigured rooms templates to project folder
+cp -r "$HOME/Templates/_rooms" "./"
+
+# create virtual environment in folder
+read -p "Create a specialized virtual environment for this oTree project? [y/N]: " YN
+case $YN in
+[yY]* ) # create virtual environment in folder
+	virtualenv -p python3 venv
+	read -p "Activate the newly created virtual environment? [Y/n]: " YN
+	case $YN in
+		[nN]* ) printf "New environment was not activated. Please do so manually."
+		;;
+		* ) source "$HOME/Projects/$PROJECT/venv/bin/activate"
+		;;
+	esac
+	read -p "Install oTree core? [Y/n]: " YN
+	case $YN in
+		[nN]* ) printf "oTree-core was not installed. Please do so manually."
+		;;
+		* ) pip3 install -U otree_core;;
+	esac;;
+* ) ln -s "$HOME/.basevenv" "$HOME/Projects/$PROJECT/venv";;
+esac
+
+if [ $NEWLINK == 1 ]; then
+	ln -s "$HOME/Projects/$PROJECT/" "$HOME/.oTree"
+fi
+
+printf "\nThe new project '$PROJECT' was created for you in $HOME/Projects/.\nYou can now start programming your experiment.\n\n"
+}
+
+
+
+TTY=$(tty)
+
+case $TTY in
+"not a tty" ) xdisplay;;
+* ) ttydisplay $@;;
+esac
+
+

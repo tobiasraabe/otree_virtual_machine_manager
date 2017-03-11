@@ -1,0 +1,40 @@
+#!/bin/bash
+
+
+function xdisplay {
+zenity --info --title="Setup start" --text="This script symlinks a project folder to the otree-root location (~/.oTree)\nwhere it can be found by the nginx webserver.\n\nPlease indicate your project folder."
+
+PROJECT=$(zenity --title="Project Root" --file-selection --directory)
+if [[ "$PROJECT" == "" ]]; then 
+	exit 1
+fi
+}
+
+function ttydisplay {
+printf "This script symlinks a project folder to the otree-root location (~/.oTree)\nwhere it can be found by the nginx webserver.\n\n"
+read -e -p "Path to project folder (relative to ~/): " DIR
+PROJECT="$HOME/$DIR"
+}
+
+
+TTY=$(tty)
+
+case $TTY in
+"not a tty" ) xdisplay;;
+* ) ttydisplay;;
+esac
+
+rm "$HOME/.oTree"
+
+ln -s "$PROJECT" "$HOME/.oTree"
+cp -r "$HOME/Templates/_rooms" "$PROJECT/_rooms"
+source "$HOME/.oTree/venv/bin/activate"
+
+case $TTY in
+"not a tty" ) zenity --info --title="Finished" --text="The folder\n$PROJECT\nwas linked to\n$HOME/.oTree.\n\nThe folder $HOME/Templates/_rooms\nwas copied to\n$PROJECT/_rooms\nto prepare the lab environment."
+;;
+* ) printf "Finished.\n\nThe folder\n$PROJECT\nwas linked to\n$HOME/.oTree.\n\nThe folder $HOME/Templates/_rooms\nwas copied to\n$PROJECT\nto prepare the lab environment.\n\n"
+;;
+esac
+
+
