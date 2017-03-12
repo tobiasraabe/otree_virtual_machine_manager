@@ -60,11 +60,11 @@ def backup_user(strategy: str, user_name: str = None):
     # Define filename strings
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
     db_file_name = (
-        os.path.join(HOME, OSF, 'user_backups', user_name + '_db_dump_'
-                     + tim + '.sql.7z'))
+        os.path.join(HOME, OSF, 'user_backups', user_name + '_db_dump_' +
+                     tim + '.sql.7z'))
     home_file_name = (
-        os.path.join(HOME, OSF, 'user_backups', user_name + '_home_dump_'
-                     + tim + '.7z'))
+        os.path.join(HOME, OSF, 'user_backups', user_name + '_home_dump_' +
+                     tim + '.7z'))
     # Run backups
     if strategy in ['home', 'all']:
         try:
