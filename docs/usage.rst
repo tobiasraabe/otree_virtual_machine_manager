@@ -48,6 +48,7 @@ First run
        ranges are stored in lists. Insert distinct values or use list
        comprehension for bigger ranges.
 
+
 #. Next, go back to your home folder. You should see a file called
    ``nginx_template``. Read the commentary to adjust the file to your network
    configuration.
@@ -55,13 +56,15 @@ First run
    This file will be reused every time a new user is created. The process will
    fill out the user specific values and place it under
    ``/etc/nginx/sites-avalaible``. Then, a symlink will link this file to
-   ``/etc/nginx/sites-enabled``, so that `Nginx`_
+   ``/etc/nginx/sites-enabled``, so that `Nginx`_ takes care of it.
 
    .. _Nginx: https://nginx.org/en/
+
 
 #. Forelast, try out one of the innocent lookup commands like
    ``sudo ovmm count_user`` or ``list_user``. If they succeed, you have
    correctly set up ``ovmm``.
+
 
 #. Last, set up a test account and verify whether everything is working
    including *oTree* by running one of the example experiments.
@@ -128,25 +131,48 @@ End User Commands
 Apart from the standard otree commands, the user has the following commands
 at hand:
 
-* ``otree_startproject`` creates an otree project in the folder `Projects` in the user's home directory. The created folder is a basic otree project folder WITHOUT the example apps. It further creates either a symbolic link ``venv`` to the default virtual python environment of the user in the project folder or creates a specific virtual environment within the project folder called ``venv``. The latter allows for specialized oTree versions for each project. Lastly it copies the `_rooms` directory from the folder Templates into the project folder. `_rooms` contains a preconfigured econ101.txt for 24 clients.
+* ``otree_startproject`` creates an otree project in the folder `Projects` in
+  the user's home directory. The created folder is a basic otree project folder
+  WITHOUT the example apps. It further creates either a symbolic link ``venv``
+  to the default virtual python environment of the user in the project folder
+  or creates a specific virtual environment within the project folder called
+  ``venv``. The latter allows for specialized oTree versions for each project.
+  Lastly it copies the `_rooms` directory from the folder Templates into the
+  project folder. `_rooms` contains a preconfigured econ101.txt for 24 clients.
 
-* ``otree_link_experiment`` is used to create a symbolic link to the nginx root location. The nginx webserver looks in a predefined location for a webserver root. The command handles the linking for you and creates a symlink to $HOME/.oTree which is where nginx looks for your project.
+* ``otree_link_experiment`` is used to create a symbolic link to the nginx root
+  location. The nginx webserver looks in a predefined location for a webserver
+  root. The command handles the linking for you and creates a symlink to
+  ``$HOME/.oTree`` which is where nginx looks for your project.
 
-* ``otree_restart`` helps you with your starting requirements. It offer to run ``otree collectstatic`` for you  as well as an ``otree resetdb``. Before the database reset is executed pg_dump makes a backup of the current state of the database and stores a 7zipped version of it in $HOME/DB_BackUps. Finally it runs ``otree runprodserver --port=YOUR_DAPHNE_PORT`` for you to ensure that you use the correct port. ``otree_restart`` also comes with a number of arguments that help you get started more quickly.
+* ``otree_restart`` helps you with your starting requirements. It offer to run
+  ``otree collectstatic`` for you  as well as an ``otree resetdb``. Before the
+  database reset is executed pg_dump makes a backup of the current state of the
+  database and stores a 7zipped version of it in $HOME/DB_BackUps. Finally it
+  runs ``otree runprodserver --port=YOUR_DAPHNE_PORT`` for you to ensure that
+  you use the correct port. ``otree_restart`` also comes with a number of
+  arguments that help you get started more quickly.
+
 
 - ``-c`` forces a collectstatic
 - ``-h`` help
-- ``-m`` enables emails. The system will then send emails when otree stops running. Your email is configured in `otree_environ_config`.
+- ``-m`` enables emails. The system will then send emails when otree stops
+         running. Your email is configured in `otree_environ_config`.
 - ``-r`` forces a resetdb
 
-The commands are stored in $HOME/.local/bin for each user separately so that users can make adjustments for themselves if needed.
-All three commands offer a console and a GUI based on GTK zenity dialogs. For calling the GUI three ``*.desktop`` are created in $HOME/Desktop.
-When you call up a command the command will guide you through the process.  
+The commands are stored in $HOME/.local/bin for each user separately so that
+users can make adjustments for themselves if needed.
 
-The below graphic provides an overview of the file structure created in the oTree user's home directory and the command relations.
+All three commands offer a console and a GUI based on GTK zenity dialogs.
+For calling the GUI three ``*.desktop`` are created in $HOME/Desktop.
+
+When you call up a command the command will guide you through the process.
+
+The below graphic provides an overview of the file structure created in the
+oTree user's home directory and the command relations.
 
 .. image:: static/otree_img_sys.svg
-   :width: 70%
+   :width: 100%
 
 
 The user should not run ``otree runserver`` (which is just for local testing)
