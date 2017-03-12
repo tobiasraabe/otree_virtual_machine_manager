@@ -21,7 +21,9 @@ OVMM_PSQL_CONN:
 OVMM_PSQL_TABLE: __TABLE__
 
 ## The available ranges of ports for the Nginx configuration are defined below
-## in the style of list comprehensions. Adjust the values to your configuration.
+## in the style of list comprehensions. Adjust the values to your
+## configuration.
+## NOTE: Do not include port numbers for the admin
 OVMM_DAPHNE_RANGE: "[i for i in range(8001, 8021)]"
 OVMM_HTTP_RANGE: "[i for i in range(7901, 7921)]"
 OVMM_SSL_RANGE: "[i for i in range(7801, 7821)]"
