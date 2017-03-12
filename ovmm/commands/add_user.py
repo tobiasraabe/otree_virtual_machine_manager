@@ -8,11 +8,16 @@ import traceback
 
 import click
 import pkg_resources
+import plumbum
+
 from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
 from ovmm.commands.delete_user import delete_user
-from ovmm.config.settings import HOME, OSF, ADMIN_PASSWORD, PASSWORD_LENGTH
+from ovmm.config.settings import ADMIN_PASSWORD
+from ovmm.config.settings import HOME
+from ovmm.config.settings import OSF
+from ovmm.config.settings import PASSWORD_LENGTH
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
@@ -41,6 +46,15 @@ def add_user():
 
     click.echo('\n{:-^60}'.format(' Process: Add User '))
 
+    # Check if additional user can be created
+    postgres_count_check = PostgreSQLDatabaseHandler()
+    psql_counts = postgres_count_check.count_user()
+    if psql_counts[0] == 0:
+        click.secho(
+            'You cannot create additional users since the lists of ports are\n'
+            'exhausted. Open new ports or delete old accounts.', fg='red')
+        sys.exit(0)
+
     # Generate user information
     default = get_dummy_user()
     dict_user = {}
@@ -55,6 +69,8 @@ def add_user():
     dict_user['password'] = ''.join(random.SystemRandom().choice(
         string.ascii_lowercase + string.digits) for _ in range(PASSWORD_LENGTH)
     )
+
+    # Check if user exists in database
     postgres_check = PostgreSQLDatabaseHandler.get_user(dict_user['user_name'])
     if postgres_check is not None:
         click.secho(
@@ -64,6 +80,15 @@ def add_user():
         sys.exit(0)
     else:
         path_user = os.path.join('/home', dict_user['user_name'])
+
+    # Check if user exists in system
+    try:
+        sudo['id', '-u', dict_user['user_name']]()
+    except plumbum.ProcessExecutionError:
+        click.secho(
+            'ERROR: A user called {} is an existing Ubuntu user.'
+            .format(dict_user['user_name']), fg='red')
+        sys.exit(0)
 
     try:
         # Calls the postgres user database
