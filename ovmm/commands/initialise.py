@@ -9,6 +9,7 @@ from plumbum.cmd import sudo
 
 HOME = os.path.expanduser('~')
 OSF = 'ovmm_sources'
+ADMIN = os.environ.get('SUDOUSER', 'otree_admin')
 
 
 def initialise():
@@ -64,7 +65,8 @@ def initialise():
             'Enter the password for the user', hide_input=True,
             confirmation_prompt=True)
 
-        if click.confirm('If the PostgreSQL superuser exists, set password?'):
+        if click.confirm('If the PostgreSQL superuser exists, set password?',
+                         default=True):
             sudo['-u', 'postgres', 'psql', '-c',
                  "ALTER ROLE {} PASSWORD '{}';"
                  .format(psql_user, psql_password)]()
@@ -79,6 +81,7 @@ def initialise():
                 .format(os.path.join(HOME, OSF)), abort=True)
         else:
             os.mkdir(os.path.join(HOME, OSF))
+
         for folder in ['user_configs', 'user_backups']:
             if not os.path.isdir(os.path.join(HOME, OSF, folder)):
                 os.mkdir(os.path.join(HOME, OSF, folder))
@@ -100,6 +103,11 @@ def initialise():
                                      .replace('__PORT__', psql_port)
                                      .replace('__TABLE__', psql_table)
                                      .replace('__ADMIN__', admin_password))
+
+        sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
+             os.path.join(HOME, 'nginx_template'),
+             os.path.join(HOME, OSF)]()
+
     except Exception as e:
         click.secho(e, 'red')
         pass
