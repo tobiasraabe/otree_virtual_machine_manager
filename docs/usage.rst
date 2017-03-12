@@ -186,11 +186,14 @@ Running Experiments as End User
 As End User you have to follow the following steps in order to run
 experiments.
 
-1. Do you want or need to reset your database?
-   ``otree resetdb``
+1. Execute ``otree_restart``
 
-2. Set the otree environment variable to Production
-   ``OTREE_PRODUCTION=1; export OTREE_PRODUCTION``.
+2. Choose whether to do a collect static or not.
 
-3. Start the Server either by running ``run_mail_prodserver`` or
-   ``run_prodserver``.
+3. Choose whether to do a database reset.
+
+4. Watch the output if everything starts fine. ;-)
+
+
+If you have trouble starting the experiment or you want to activate demo mode change the necessary parameters in the ``otree_environ_config``.
+``otree_restart`` sources ``otree_environ_config`` each time it is called. You don't need to manually source it to activate the new settings.

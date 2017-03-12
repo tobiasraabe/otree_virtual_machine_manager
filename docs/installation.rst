@@ -57,10 +57,7 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/tobiasraabe/otree_virtual_machine_manager
-.. _tarball: https://github.com/tobiasraabe/otree_virtual_machine_manager/tarball/master
-
-Using ovmm on other systems
+Installing ovmm on other systems
 ---------------------------
 
 It is possible to use ovmm on other systems than the by virtual machine images provided by university of Bonn.
@@ -81,3 +78,8 @@ In most Debian based Linux environments you can install these packages from the 
     $ sudo apt install ftp nginx samba screen sendmail ssh ufw
 
 Please see the documentation of your Linux distribution for help.
+
+
+.. _Github repo: https://github.com/tobiasraabe/otree_virtual_machine_manager
+.. _tarball: https://github.com/tobiasraabe/otree_virtual_machine_manager/tarball/master
+
