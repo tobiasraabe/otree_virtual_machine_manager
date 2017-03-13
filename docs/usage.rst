@@ -157,7 +157,7 @@ at hand:
 - ``-c`` forces a collectstatic
 - ``-h`` help
 - ``-m`` enables emails. The system will then send emails when otree stops
-running. Your email is configured in `otree_environ_config`.
+  running. Your email is configured in `otree_environ_config`.
 - ``-p`` skip queries and run ``otree runprodserver --port=YOU_PORT`` directly
 - ``-r`` forces a resetdb
 - ``-s`` start otree in a detached screen (virtual console)
