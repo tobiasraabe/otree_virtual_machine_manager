@@ -154,13 +154,13 @@ at hand:
   arguments that help you get started more quickly.
 
 
-- ``-c`` forces a collectstatic
-- ``-h`` help
-- ``-m`` enables emails. The system will then send emails when otree stops
-running. Your email is configured in `otree_environ_config`.
-- ``-p`` skip queries and run ``otree runprodserver --port=YOU_PORT`` directly
-- ``-r`` forces a resetdb
-- ``-s`` start otree in a detached screen (virtual console)
+:-c: run ``otree collectstatic``
+:-h: help
+:-m: Send emails when otree stops running.
+   (Your email is configured in `otree_environ_config`.)
+:-p: skip queries and run ``otree runprodserver --port=YOUR_PORT`` directly
+:-r: run ``otree resetdb``
+:-s: start otree in a detached screen (virtual console)
 
 The commands are stored in $HOME/.local/bin for each user separately so that
 users can make adjustments for themselves if needed.

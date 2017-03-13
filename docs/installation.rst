@@ -60,7 +60,7 @@ Once you have a copy of the source, you can install it with:
 Installing ``ovmm`` on other systems
 ------------------------------------
 
-It is possible to use ``ovmm`` on other systems than the by virtual machine
+It is possible to use ``ovmm`` on other systems than the virtual machine
 images provided by university of Bonn.
 However, as ``ovmm`` calls and configures several Linux system tools these need
 to be installed prior to using ``ovmm``.
