@@ -41,6 +41,7 @@ one command.
 Managing an oTree server with multiple experiments running parallel has never
 been easier.
 
+
 Features
 --------
 
@@ -53,7 +54,7 @@ Back up user
 Remove user
     Removes an account
 Behind the scenes
-    - Handles port configuration to run experiments in parallel
+    - Handles port configuration automatically
 
 
 Contributing

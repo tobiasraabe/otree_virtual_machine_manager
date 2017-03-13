@@ -57,6 +57,8 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
+.. _othersystems:
+
 Installing ``ovmm`` on other systems
 ------------------------------------
 
