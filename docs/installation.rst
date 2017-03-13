@@ -82,7 +82,8 @@ The following components need to be present on your system to use ``ovmm``:
 :ufw:
     firewall
 
-In most Debian based Linux environments you can install these packages from the repositories like so:
+In most Debian based Linux environments you can install these packages from the
+repositories like so:
 
 .. code-block:: console
 

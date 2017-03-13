@@ -54,13 +54,16 @@ Remove user
     Removes an account
 Behind the scenes
     - Handles port configuration to run experiments in parallel
-    - ...
 
 
-`Contributing`_
----------------
+Contributing
+------------
 
-.. _Contributing: https://otree-virtual-machine-manager.readthedocs.io/en/latest/contributing.html#contributing
+`Contributions`_ are welcome and they are greatly appreciated! Every little
+bit helps, and credit will always be given.
+
+.. _Contributions: https://otree-virtual-machine-manager.readthedocs.io/en/latest/contributing.html#contributing
+
 
 Credits
 -------
