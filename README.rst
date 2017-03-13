@@ -28,20 +28,41 @@ oTree Virtual Machine Manager helps to manage user accounts.
 Overview
 --------
 
-**oTree Virtual Machine Manager** is a useful extension to the **oTree Virtual
-Machine Image** provided by Felix Albrecht and Holger Gerhardt. It helps
-administrators to automate processes (e.g. setting up user accounts) which
-involve multiple steps and flawless integration into the existing
-configuration.
+**oTree Virtual Machine Manager** is a complement to the **oTree Virtual
+Machine Image** provided by Felix Albrecht and Holger Gerhardt.
 
+Since doing research is time-consuming enough, this tool ensures that
+administrators of an `oTree`_ server do not waste their time on creating fully
+equipped user accounts and similar tedious tasks. Everything breaks down to
+one command.
+
+.. _oTree: http://www.otree.org
+
+Managing an oTree server with multiple experiments running parallel has never
+been easier.
 
 Features
 --------
 
-- [x] Managing a database of account configurations
-- [x] Adding a new experimenter account
-- [x] Deleting an existing experimenter account
-- [x] Backup functionality for experimenter account
+Create user
+    Creates a fully equipped experimenter account (clear project structure,
+    virtual environment, graphical or point-and-click solutions to many
+    oTree-related commands, samba access).
+Back up user
+    Creates a database and/or home folder backup for a user
+Remove user
+    Removes an account
+Behind the scenes
+    - Handles port configuration to run experiments in parallel
+
+
+Contributing
+------------
+
+`Contributions`_ are welcome and they are greatly appreciated! Every little
+bit helps, and credit will always be given.
+
+.. _Contributions: https://otree-virtual-machine-manager.readthedocs.io/en/latest/contributing.html#contributing
 
 
 Credits
