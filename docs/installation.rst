@@ -57,23 +57,34 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-Installing ovmm on other systems
----------------------------
+Installing ``ovmm`` on other systems
+------------------------------------
 
-It is possible to use ovmm on other systems than the by virtual machine images provided by university of Bonn.
-However, as ovmm calls and configures several Linux system tools these need to be installed prior to using ovmm.
+It is possible to use ``ovmm`` on other systems than the by virtual machine
+images provided by university of Bonn.
+However, as ``ovmm`` calls and configures several Linux system tools these need
+to be installed prior to using ``ovmm``.
 
-The following components need to be present on your system to use ovmm:
+The following components need to be present on your system to use ``ovmm``:
 
-- ftp       ... required for ftp access to the account
-- nginx     ... webserver
-- samba     ... Windows share access
-- screen    ... detachable consoles
-- sendmail  ... sending mails if otree stops unexpectedly
-- ssh       ... remote shell access
-- ufw       ... firewall
+:ftp:
+    required for ftp access to the account
+:nginx:
+    webserver
+:samba:
+    Windows share access
+:screen:
+    detachable consoles
+:sendmail:
+    sending mails if otree stops unexpectedly
+:ssh:
+    remote shell access
+:ufw:
+    firewall
 
 In most Debian based Linux environments you can install these packages from the repositories like so:
+
+.. code-block:: console
 
     $ sudo apt install ftp nginx samba screen sendmail ssh ufw
 
