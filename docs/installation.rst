@@ -20,8 +20,8 @@ The following components need to be present on your system to use ``ovmm``:
     version control
 :nginx:
     webserver
-:postgresql (devel):
-    database server
+:postgresql:
+    database server + development packages
 :pip:
     package manager for Python
 :python3-venv:
