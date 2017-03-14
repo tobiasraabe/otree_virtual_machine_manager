@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import pwd
 
 import click
 import pkg_resources
@@ -10,7 +9,7 @@ from plumbum.cmd import sudo
 
 HOME = os.path.expanduser('~')
 OSF = 'ovmm_sources'
-ADMIN = os.environ.get('SUDOUSER', pwd.getpwuid(os.getuid())[0])
+ADMIN = os.environ.get('SUDOUSER', 'otree_admin')
 
 
 def initialise():
