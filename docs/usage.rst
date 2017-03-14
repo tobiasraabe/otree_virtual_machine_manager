@@ -174,7 +174,7 @@ The below graphic provides an overview of the file structure created in the
 oTree user's home directory and the command relations.
 
 .. image:: static/otree_img_sys.svg
-   :width: 70%
+   :width: 100%
 
 
 The user should not run ``otree runserver`` (which is just for local testing)

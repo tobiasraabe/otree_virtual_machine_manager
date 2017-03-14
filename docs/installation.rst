@@ -73,6 +73,10 @@ The following components need to be present on your system to use ``ovmm``:
     required for ftp access to the account
 :nginx:
     webserver
+:postgresql:
+    database server
+:pip:
+    package manager for Python
 :samba:
     Windows share access
 :screen:
@@ -89,7 +93,7 @@ repositories like so:
 
 .. code-block:: console
 
-    $ sudo apt install ftp nginx samba screen sendmail ssh ufw
+    $ sudo apt install ftp nginx samba screen mailutils ssh ufw postgresql python-pip
 
 Please see the documentation of your Linux distribution for help.
 
