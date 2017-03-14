@@ -16,6 +16,8 @@ The following components need to be present on your system to use ``ovmm``:
 
 :ftp:
     required for ftp access to the account
+:git:
+    version control
 :nginx:
     webserver
 :postgresql (devel):
@@ -39,7 +41,7 @@ repositories like so:
 .. code-block:: console
 
     $ sudo apt install ftp nginx samba screen mailutils ssh \
-                ufw postgresql postgresql-dev-all python-pip
+                ufw postgresql postgresql-dev-all python-pip git
 
 Please see the documentation of your Linux distribution for help.
 
