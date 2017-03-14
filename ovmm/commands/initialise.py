@@ -53,22 +53,23 @@ def initialise():
             "Enter administrator's password.", hide_input=True,
             confirmation_prompt=True)
         click.echo('--> Set information for the postgres database.')
-        psql_user = click.prompt('Enter postgres user with user database '
-                                 'access', default='postgres')
-        psql_database = click.prompt('Enter a database name',
-                                     default='postgres')
+        psql_user = click.prompt(
+            'Enter PostgreSQL superuser name', default='postgres')
+        psql_database = click.prompt(
+            'Enter a database name', default='postgres')
         psql_host = click.prompt('Enter the host', default='localhost')
         psql_port = str(click.prompt('Enter the port', default=5432))
-        psql_table = click.prompt('Enter a name for the user table',
-                                  default='user_table')
+        psql_table = click.prompt(
+            'Enter a name for the user table', default='user_table')
         psql_password = click.prompt(
             'Enter the password for the user', hide_input=True,
             confirmation_prompt=True)
 
-        if click.confirm('If the psql role exist, the password can be set for '
-                         'you?', default=True):
+        if click.confirm('If the PostgreSQL superuser exists, set password?',
+                         default=True):
             sudo['-u', 'postgres', 'psql', '-c',
-                 "ALTER ROLE postgres PASSWORD '{}';".format(psql_password)]()
+                 "ALTER ROLE {} PASSWORD '{}';"
+                 .format(psql_user, psql_password)]()
 
         click.echo('--> The content folder will be created under {}'
                    .format(os.path.join(HOME, OSF)))
