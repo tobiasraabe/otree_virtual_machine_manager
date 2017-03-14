@@ -5,14 +5,10 @@ export OTREE_ADMIN_PASSWORD="{admin_password}"
 export OTREE_PRODUCTION=1
 export OTREE_AUTH_LEVEL='STUDY'
 export DATABASE_URL="postgres://{user_name}:{password}@locahost:5432/{user_name}"
+export USER_MAIL='{email}'
+export DAPHNE_PORT='{daphne_port}'
+export DB_NAME='{user_name}'
 
 # Redis URL for parallel instances of oTree
 export REDIS_URL="redis://localhost:6379/{redis_port}"
 
-# winexe
-# first 3 digits of the clients' IP ending with "."
-export OTREE_MCLIENT="131.220.108."
-# space separated list of the last digits of the clients' IP
-# BEWARE: the order of this list corresponds to the order of labels in
-# econ101.txt and the order in which the clients will be started
-export OTREE_CLIENTS=(10 20 30 40 50 60 70 80 90 100 110 120 130 140 150 160 170 180 190 200 210 220 230 240)
