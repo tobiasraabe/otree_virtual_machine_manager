@@ -84,11 +84,14 @@ def add_user():
     # Check if user exists in system
     try:
         sudo['id', '-u', dict_user['user_name']]()
-    except plumbum.ProcessExecutionError:
+        raise ValueError("User exists")
+    except ValueError:
         click.secho(
-            'ERROR: A user called {} is an existing Ubuntu user.'
+            'ERROR: For user {} the following error occurred: User exists!'
             .format(dict_user['user_name']), fg='red')
         sys.exit(0)
+    except plumbum.ProcessExecutionError:
+        pass
 
     try:
         # Calls the postgres user database
