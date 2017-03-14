@@ -4,13 +4,44 @@
 Installation
 ============
 
-Requirements
-------------
-
 As **oTree Virtual Machine Manager** provides useful commands to
 administrators of the **oTree Virtual Machine Image**, it requires superuser
 rights to perform its actions. Therefore, install ``ovmm`` under the provided
 administrator account.
+
+Requirements
+------------
+
+The following components need to be present on your system to use ``ovmm``:
+
+:ftp:
+    required for ftp access to the account
+:nginx:
+    webserver
+:postgresql:
+    database server
+:pip:
+    package manager for Python
+:samba:
+    Windows share access
+:screen:
+    detachable consoles
+:mailutils:
+    sending mails if otree stops unexpectedly
+:ssh:
+    remote shell access
+:ufw:
+    firewall
+
+In most Debian based Linux environments you can install these packages from the
+repositories like so:
+
+.. code-block:: console
+
+    $ sudo apt install ftp nginx samba screen mailutils ssh \
+                ufw postgresql python-pip
+
+Please see the documentation of your Linux distribution for help.
 
 
 Stable release
@@ -55,47 +86,6 @@ Once you have a copy of the source, you can install it with:
 .. code-block:: console
 
     $ python setup.py install
-
-
-.. _othersystems:
-
-Installing ``ovmm`` on other systems
-------------------------------------
-
-It is possible to use ``ovmm`` on other systems than the by virtual machine
-images provided by university of Bonn.
-However, as ``ovmm`` calls and configures several Linux system tools these need
-to be installed prior to using ``ovmm``.
-
-The following components need to be present on your system to use ``ovmm``:
-
-:ftp:
-    required for ftp access to the account
-:nginx:
-    webserver
-:postgresql:
-    database server
-:pip:
-    package manager for Python
-:samba:
-    Windows share access
-:screen:
-    detachable consoles
-:sendmail:
-    sending mails if otree stops unexpectedly
-:ssh:
-    remote shell access
-:ufw:
-    firewall
-
-In most Debian based Linux environments you can install these packages from the
-repositories like so:
-
-.. code-block:: console
-
-    $ sudo apt install ftp nginx samba screen mailutils ssh ufw postgresql python-pip
-
-Please see the documentation of your Linux distribution for help.
 
 
 .. _Github repo: https://github.com/tobiasraabe/otree_virtual_machine_manager
