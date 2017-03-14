@@ -90,6 +90,8 @@ def add_user():
             'ERROR: For user {} the following error occurred: '
             .format(dict_user['user_name'] + repr(error)), fg='red')
         sys.exit(0)
+    except plumbum.ProcessExecutionError:
+        pass
 
     try:
         # Calls the postgres user database
