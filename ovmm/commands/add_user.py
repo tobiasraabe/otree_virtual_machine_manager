@@ -87,8 +87,8 @@ def add_user():
         raise Exception('User exists!')
     except Exception as error:
         click.secho(
-            'ERROR: For user {} the following error occurred: '
-            .format(dict_user['user_name'] + repr(error)), fg='red')
+            'ERROR: For user {} the following error occurred: User exists!'
+            .format(dict_user['user_name']), fg='red')
         sys.exit(0)
     except plumbum.ProcessExecutionError:
         pass
