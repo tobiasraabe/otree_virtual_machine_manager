@@ -10,7 +10,7 @@ General usage
 
 ``ovmm`` is a complement to the **oTree Virtual Machine Image** provided by
 Felix Albrecht and Holger Gerhardt. Therefore, until now it is only tested on
-this specific image. But, we do provide information (:ref:`othersystems`) on
+this specific image. But, we do provide information (:ref:`requirements`) on
 how to create a similar image which can use ``ovmm``.
 
 Always run ``ovmm`` with ``sudo`` or some commands might not work.
