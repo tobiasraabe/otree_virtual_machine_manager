@@ -34,7 +34,7 @@ Machine Image** provided by Felix Albrecht and Holger Gerhardt.
 Since doing research is time-consuming enough, this tool ensures that
 administrators of an `oTree`_ server do not waste their time on creating fully
 equipped user accounts and similar tedious tasks. Everything breaks down to
-one command.
+a single commandline interface.
 
 .. _oTree: http://www.otree.org
 
@@ -45,16 +45,18 @@ been easier.
 Features
 --------
 
-Create user
+Create users
     Creates a fully equipped experimenter account (clear project structure,
     virtual environment, graphical or point-and-click solutions to many
     oTree-related commands, samba access).
 Back up user
-    Creates a database and/or home folder backup for a user
+    Creates a database and/or home folder backup for users upon account
+    closure so that nothing gets lost.
 Remove user
-    Removes an account
+    Removes otree-server user accounts.
 Behind the scenes
-    - Handles port configuration automatically
+    - Handles port configuration for multiple parallel user accounts on a
+    single virtual host.
 
 
 Contributing
