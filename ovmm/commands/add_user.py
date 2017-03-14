@@ -84,8 +84,8 @@ def add_user():
     # Check if user exists in system
     try:
         sudo['id', '-u', dict_user['user_name']]()
-        raise Exception('User exists!')
-    except Exception as error:
+        raise UserExistsKeyError
+    except UserExistsKeyError:
         click.secho(
             'ERROR: For user {} the following error occurred: User exists!'
             .format(dict_user['user_name']), fg='red')
