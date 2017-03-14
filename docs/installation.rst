@@ -19,6 +19,8 @@ The following components need to be present on your system to use ``ovmm``:
 
 :ftp:
     required for ftp access to the account
+:git:
+    version control
 :nginx:
     webserver
 :postgresql:
