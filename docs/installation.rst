@@ -51,7 +51,7 @@ To install oTree Virtual Machine Manager, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip install ovmm
+    $ pip3 install ovmm
 
 This is the preferred method to install oTree Virtual Machine Manager, as it
 will always install the most recent stable release.
@@ -85,7 +85,7 @@ Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ python setup.py install
+    $ python3 setup.py install
 
 
 .. _Github repo: https://github.com/tobiasraabe/otree_virtual_machine_manager
