@@ -24,6 +24,8 @@ The following components need to be present on your system to use ``ovmm``:
     database server
 :pip:
     package manager for Python
+:python3-venv:
+    virtual environment for Python 3
 :samba:
     Windows share access
 :screen:
@@ -34,14 +36,16 @@ The following components need to be present on your system to use ``ovmm``:
     remote shell access
 :ufw:
     firewall
+:zenity:
+    GTK 3.0 dialog handler
 
 In most Debian based Linux environments you can install these packages from the
 repositories like so:
 
 .. code-block:: console
 
-    $ sudo apt install ftp nginx samba screen mailutils ssh \
-                ufw postgresql postgresql-dev-all python-pip git
+    $ sudo apt install ftp nginx samba screen mailutils ssh ufw postgresql git \
+                postgresql-dev-all python3-pip zenity python3-venv
 
 Please see the documentation of your Linux distribution for help.
 
