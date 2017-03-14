@@ -5,8 +5,8 @@ Credits
 Development Lead
 ----------------
 
-* Felix Albrecht <f.albrecht@uni-bonn.com>
-* Tobias Raabe <tobiasraabe@uni-bonn.de>
+* Felix Albrecht <f.albrecht@uni-bonn.com> (enduser commands/statics)
+* Tobias Raabe <tobiasraabe@uni-bonn.de> (ovmm core)
 
 Contributors
 ------------
