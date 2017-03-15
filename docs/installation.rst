@@ -46,7 +46,10 @@ repositories like so:
 
 .. code-block:: console
 
-    $ sudo apt install ftp git mailutils nginx postgresql postgresql-server-dev-all python3-pip python3-venv redis-server samba screen ssh ufw zenity 
+
+    $ sudo apt install ftp nginx samba screen mailutils ssh ufw postgresql git  \
+                       postgresql-server-dev-all python3-pip zenity             \
+                       python3-venv
 
 Please see the documentation of your Linux distribution for help.
 
