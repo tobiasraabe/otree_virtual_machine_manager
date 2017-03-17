@@ -9,6 +9,8 @@ administrators of the **oTree Virtual Machine Image**, it requires superuser
 rights to perform its actions. Therefore, install ``ovmm`` under the provided
 administrator account.
 
+.. _requirements:
+
 Requirements
 ------------
 
