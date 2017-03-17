@@ -18,6 +18,7 @@ from ovmm.config.settings import ADMIN_PASSWORD
 from ovmm.config.settings import HOME
 from ovmm.config.settings import OSF
 from ovmm.config.settings import PASSWORD_LENGTH
+from ovmm.config.settings import USER_CONFIGS
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
@@ -158,7 +159,7 @@ def add_user():
         sudo['usermod', '-s', '/bin/bash', dict_user['user_name']]()
 
         # create output
-        path = os.path.join(HOME, OSF, 'user_configs')
+        path = os.path.join(HOME, OSF, USER_CONFIGS)
         if not os.path.exists(path):
             os.makedirs(path)
         path_ext = os.path.join(path, '{user_name}.txt'.format(**dict_user))
