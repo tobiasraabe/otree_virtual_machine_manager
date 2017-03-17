@@ -8,6 +8,8 @@ import yaml
 
 HOME = os.path.expanduser('~')
 OSF = 'ovmm_sources'
+USER_CONFIGS = 'user_configs'
+USER_BACKUPS = 'user_backups'
 
 
 def literal_eval_lc(lc_string: str) -> list:
