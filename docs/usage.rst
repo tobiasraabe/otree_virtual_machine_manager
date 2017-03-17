@@ -149,13 +149,15 @@ at hand:
   ``otree collectstatic`` for you  as well as an ``otree resetdb``. Before the
   database reset is executed pg_dump makes a backup of the current state of the
   database and stores a 7zipped version of it in $HOME/DB_BackUps. Finally it
-  runs ``otree runprodserver --port=YOUR_DAPHNE_PORT`` for you to ensure that
+  runs ``otree runprodserver --port=YOUR_DAPHNE_PORT`` or
+  ``otree runserver YOUR_DAPHNE_PORT`` for you to ensure that
   you use the correct port. ``otree_restart`` also comes with a number of
   arguments that help you get started more quickly.
 
 
 :-c: run ``otree collectstatic``
 :-h: help
+:-l: run local (programming) server (runserver)
 :-m: Send emails when otree stops running.
    (Your email is configured in `otree_environ_config`.)
 :-p: skip queries and run ``otree runprodserver --port=YOUR_PORT`` directly
@@ -179,6 +181,29 @@ oTree user's home directory and the command relations.
 
 The user should not run ``otree runserver`` (which is just for local testing)
 or ``otree runprodserver`` (because of the proxy settings).
+
+.. _starting_project:
+
+Starting a new Project as End User
+----------------------------------
+
+You need to complete 2 steps in order start a new project and connect it to
+the server root directory.
+
+**Step 1)**
+
+1. Execute ``otree_startproject``
+
+2. Provide a project name.
+
+3. Choose whether to create a **specialized virtual environment** for this
+   project.
+
+**Step 2)**
+
+1. Execute ``otree_link_experiment``
+
+
 
 .. _running_experiments:
 

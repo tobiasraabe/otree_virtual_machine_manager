@@ -28,6 +28,8 @@ The following components need to be present on your system to use ``ovmm``:
     package manager for Python
 :python3-venv:
     virtual environment for Python 3
+:redis-server:
+    remote dictionary server
 :samba:
     Windows share access
 :screen:
@@ -46,10 +48,10 @@ repositories like so:
 
 .. code-block:: console
 
-    $ sudo apt install ftp nginx samba screen mailutils ssh ufw postgresql git
-                       postgresql-server-dev-all python3-pip zenity
-                       python3-venv
 
+    $ sudo apt install ftp nginx samba screen mailutils ssh ufw postgresql git  \
+                       postgresql-server-dev-all python3-pip zenity             \
+                       python3-venv
 
 Please see the documentation of your Linux distribution for help.
 
