@@ -11,6 +11,7 @@ from ovmm.prompts import parsers
 
 PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
 
+
 @pytest.mark.parametrize('parse_func,input', [
     (getattr(parsers, 'parse_user_name'), 'usern'),
     (getattr(parsers, 'parse_user_name'), '_username'),
@@ -67,5 +68,3 @@ def parse_error(parse_func, input):
     ])
 def parse_check(parse_func, input):
     assert parse_func(input) == input
-
-
