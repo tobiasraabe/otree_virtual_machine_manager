@@ -9,6 +9,8 @@ administrators of the **oTree Virtual Machine Image**, it requires superuser
 rights to perform its actions. Therefore, install ``ovmm`` under the provided
 administrator account.
 
+.. _requirements:
+
 Requirements
 ------------
 
@@ -38,6 +40,8 @@ The following components need to be present on your system to use ``ovmm``:
     remote shell access
 :ufw:
     firewall
+:xterm:
+    Linux terminal emulator
 :zenity:
     GTK 3.0 dialog handler
 
@@ -49,7 +53,7 @@ repositories like so:
 
     $ sudo apt install ftp nginx samba screen mailutils ssh ufw postgresql git  \
                        postgresql-server-dev-all python3-pip zenity             \
-                       python3-venv
+                       python3-venv redis-server xterm
 
 Please see the documentation of your Linux distribution for help.
 
