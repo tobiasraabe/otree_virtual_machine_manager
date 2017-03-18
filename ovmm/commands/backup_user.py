@@ -14,6 +14,7 @@ from ovmm.config.settings import OSF
 from ovmm.config.settings import USER_BACKUPS
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.prompts.defaults import get_dummy_user
+from ovmm.prompts.parsers import parse_user_name
 
 
 def backup_user(strategy: str, user_name: str = None):
@@ -48,7 +49,8 @@ def backup_user(strategy: str, user_name: str = None):
     if user_name is None:
         default = get_dummy_user()
         user_name = click.prompt(
-            'Which user do you want to backup?', default=default['user_name'])
+            'Which user do you want to backup?', default=default['user_name'],
+            value_proc=parse_user_name)
     # Check if user exists
     postgres_check = PostgreSQLDatabaseHandler.get_user(user_name)
     if postgres_check is None:
