@@ -27,7 +27,6 @@ PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
     (getattr(parsers, 'parse_password'), '1234567%'),
     (getattr(parsers, 'parse_password'), 'AbCdEf G'),
     (getattr(parsers, 'parse_password'), 'password'),
-    (getattr(parsers, 'parse_integer'), 'one'),
     (getattr(parsers, 'parse_lower_alpha'), 'abcde'),
     (getattr(parsers, 'parse_lower_alpha'), 'abcdeF'),
     (getattr(parsers, 'parse_lower_alpha'), 'abcde1'),
