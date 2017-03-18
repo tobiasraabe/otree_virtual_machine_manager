@@ -53,6 +53,8 @@ except FileNotFoundError:
         'redis_port': list(
             literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
     }
+
+    PASSWORD_LENGTH = int(os.environ.get('OVMM_PASSWORD_LENGTH'))
 except Exception as e:
     raise e
 else:
