@@ -4,14 +4,17 @@ import os
 import sys
 
 import click
+
 from plumbum.cmd import sudo
 
 from ovmm.commands.backup_user import backup_user
-from ovmm.config.settings import HOME, OSF
+from ovmm.config.settings import HOME
+from ovmm.config.settings import OSF
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
 from ovmm.prompts.defaults import get_dummy_user
+from ovmm.prompts.parsers import parse_user_name
 
 
 def delete_user(dict_user: dict = None, instant_del: bool = False):
@@ -40,7 +43,7 @@ def delete_user(dict_user: dict = None, instant_del: bool = False):
             default = get_dummy_user()
             user_name = click.prompt(
                 'Which user do you want to delete?',
-                default=default['user_name'])
+                default=default['user_name'], value_proc=parse_user_name)
 
             dict_user = PostgreSQLDatabaseHandler.get_user(user_name)
             if dict_user is None:
