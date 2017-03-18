@@ -119,7 +119,7 @@ install the following software packages.
    environment for your oTree apps.
 
 :conky:
-   desktop system monitor
+   Desktop system monitor.
    ovmm statics provides a preconfigured conky configuration file which is
    unzipped into the user's $HOME directory and provides helpful system
    information while running oTree.
