@@ -6,7 +6,15 @@ import pwd
 import click
 import pkg_resources
 import plumbum
+
+from ovmm.prompts.parsers import parse_host
+from ovmm.prompts.parsers import parse_lower_alpha
+from ovmm.prompts.parsers import parse_password
+from ovmm.prompts.parsers import parse_port
+from ovmm.prompts.parsers import parse_table_name
+from ovmm.prompts.parsers import parse_user_name
 from plumbum.cmd import sudo
+
 
 HOME = os.path.expanduser('~')
 OSF = 'ovmm_sources'
@@ -52,19 +60,24 @@ def initialise():
         click.echo("--> Get administrator's password.")
         admin_password = click.prompt(
             "Enter administrator's password.", hide_input=True,
-            confirmation_prompt=True)
+            confirmation_prompt=True, value_proc=parse_password)
         click.echo('--> Set information for the postgres database.')
         psql_user = click.prompt(
-            'Enter PostgreSQL superuser name', default='postgres')
+            'Enter PostgreSQL superuser name', default='postgres',
+            value_proc=parse_user_name)
         psql_database = click.prompt(
-            'Enter a database name', default='postgres')
-        psql_host = click.prompt('Enter the host', default='localhost')
-        psql_port = str(click.prompt('Enter the port', default=5432))
+            'Enter a database name', default='postgres',
+            value_proc=parse_lower_alpha)
+        psql_host = click.prompt(
+            'Enter the host', default='localhost', value_proc=parse_host)
+        psql_port = click.prompt(
+            'Enter the port', default='5432', value_proc=parse_port)
         psql_table = click.prompt(
-            'Enter a name for the user table', default='user_table')
+            'Enter a name for the user table', default='user_table',
+            value_proc=parse_table_name)
         psql_password = click.prompt(
             'Enter the password for the user', hide_input=True,
-            confirmation_prompt=True)
+            confirmation_prompt=True, value_proc=parse_password)
 
         if click.confirm('If the PostgreSQL superuser exists, set password?',
                          default=True):

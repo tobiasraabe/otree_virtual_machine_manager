@@ -18,10 +18,14 @@ from ovmm.config.settings import ADMIN_PASSWORD
 from ovmm.config.settings import HOME
 from ovmm.config.settings import OSF
 from ovmm.config.settings import PASSWORD_LENGTH
+from ovmm.config.settings import USER_CONFIGS
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
 from ovmm.prompts.defaults import get_dummy_user
+from ovmm.prompts.parsers import parse_email
+from ovmm.prompts.parsers import parse_telephone
+from ovmm.prompts.parsers import parse_user_name
 
 
 def add_user():
@@ -59,13 +63,13 @@ def add_user():
     default = get_dummy_user()
     dict_user = {}
     dict_user['user_name'] = click.prompt(
-        'User name (only a-z characters!)', default=default['user_name'])
+        'User name', default=default['user_name'], value_proc=parse_user_name)
     dict_user['full_name'] = click.prompt(
         'Full name', default=default['full_name'])
     dict_user['email'] = click.prompt(
-        'Email', default=default['email'])
+        'Email', default=default['email'], value_proc=parse_email)
     dict_user['telephone'] = click.prompt(
-        'Telephone', default=default['telephone'])
+        'Telephone', default=default['telephone'], value_proc=parse_telephone)
     dict_user['password'] = ''.join(random.SystemRandom().choice(
         string.ascii_lowercase + string.digits) for _ in range(PASSWORD_LENGTH)
     )
@@ -84,14 +88,13 @@ def add_user():
     # Check if user exists in system
     try:
         sudo['id', '-u', dict_user['user_name']]()
-        raise ValueError("User exists")
-    except ValueError:
+    except plumbum.ProcessExecutionError:
+        pass
+    else:
         click.secho(
             'ERROR: For user {} the following error occurred: User exists!'
             .format(dict_user['user_name']), fg='red')
         sys.exit(0)
-    except plumbum.ProcessExecutionError:
-        pass
 
     try:
         # Calls the postgres user database
@@ -158,7 +161,7 @@ def add_user():
         sudo['usermod', '-s', '/bin/bash', dict_user['user_name']]()
 
         # create output
-        path = os.path.join(HOME, OSF, 'user_configs')
+        path = os.path.join(HOME, OSF, USER_CONFIGS)
         if not os.path.exists(path):
             os.makedirs(path)
         path_ext = os.path.join(path, '{user_name}.txt'.format(**dict_user))
