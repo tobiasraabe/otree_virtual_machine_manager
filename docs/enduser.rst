@@ -79,7 +79,7 @@ the server root directory.
 
 1. Execute ``otree_link_experiment``
 
-
+2. Select the path to the project you want to run.
 
 .. _running_experiments:
 
