@@ -65,7 +65,7 @@ To install oTree Virtual Machine Manager, run this command in your terminal:
 
 .. code-block:: console
 
-    $ pip3 install ovmm
+    $ sudo pip3 install ovmm
 
 This is the preferred method to install oTree Virtual Machine Manager, as it
 will always install the most recent stable release.
@@ -99,9 +99,50 @@ Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ python3 setup.py install
+    $ sudo python3 setup.py install
 
 
 .. _Github repo: https://github.com/tobiasraabe/otree_virtual_machine_manager
 .. _tarball: https://github.com/tobiasraabe/otree_virtual_machine_manager/tarball/master
+
+.. _software_recommendations:
+
+Recommendations for Additional Software
+---------------------------------------
+
+To enhance the working experience for the oTree end user we recommend to also
+install the following software packages.
+
+:chromium:
+   Chromium browser is the Open Source version of Chrome browser. As it is the
+   most frequently used browser on the web it is the recommended testing
+   environment for your oTree apps.
+
+:conky:
+   Desktop system monitor.
+   ovmm statics provides a preconfigured conky configuration file which is
+   unzipped into the user's $HOME directory and provides helpful system
+   information while running oTree.
+
+:LightTable:
+   Open Source IDE. More lightweight than many of its brothers while still very
+   powerful it is optimized for Javascript, HTML5, and Python development.
+
+:pgAdmin III:
+   Graphical user interface for postgreSQL database servers. Helps with
+   understanding oTree and data recovery if something goes wrong.
+
+
+In Ubuntu and official derivatives you can install chromium, conky, and pgAdmin
+via the package manager, like so:
+
+.. code-block:: console
+
+    $ sudo apt-get install conky-all chromium pgadmin3
+
+
+It is recommended to obtain LightTable from the official website as the
+community packages are deprecated.
+
+You can find the website here: http://lighttable.com
 
