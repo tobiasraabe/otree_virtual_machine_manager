@@ -6,11 +6,15 @@ import time
 
 import click
 import plumbum
+
 from plumbum.cmd import sudo
 
-from ovmm.config.settings import HOME, OSF
+from ovmm.config.settings import HOME
+from ovmm.config.settings import OSF
+from ovmm.config.settings import USER_BACKUPS
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.prompts.defaults import get_dummy_user
+from ovmm.prompts.parsers import parse_user_name
 
 
 def backup_user(strategy: str, user_name: str = None):
@@ -45,7 +49,8 @@ def backup_user(strategy: str, user_name: str = None):
     if user_name is None:
         default = get_dummy_user()
         user_name = click.prompt(
-            'Which user do you want to backup?', default=default['user_name'])
+            'Which user do you want to backup?', default=default['user_name'],
+            value_proc=parse_user_name)
     # Check if user exists
     postgres_check = PostgreSQLDatabaseHandler.get_user(user_name)
     if postgres_check is None:
@@ -55,15 +60,15 @@ def backup_user(strategy: str, user_name: str = None):
         )
         sys.exit(0)
     # Create necessary directories
-    if not os.path.exists(os.path.join(HOME, OSF, 'user_backups')):
-        os.makedirs(os.path.join(HOME, OSF, 'user_backups'))
+    if not os.path.exists(os.path.join(HOME, OSF, USER_BACKUPS)):
+        os.makedirs(os.path.join(HOME, OSF, USER_BACKUPS))
     # Define filename strings
     tim = time.strftime('%Y-%m-%d_%H-%M-%S')
     db_file_name = (
-        os.path.join(HOME, OSF, 'user_backups', user_name + '_db_dump_' +
+        os.path.join(HOME, OSF, USER_BACKUPS, user_name + '_db_dump_' +
                      tim + '.sql.7z'))
     home_file_name = (
-        os.path.join(HOME, OSF, 'user_backups', user_name + '_home_dump_' +
+        os.path.join(HOME, OSF, USER_BACKUPS, user_name + '_home_dump_' +
                      tim + '.7z'))
     # Run backups
     if strategy in ['home', 'all']:

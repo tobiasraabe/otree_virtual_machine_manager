@@ -8,6 +8,8 @@ import yaml
 
 HOME = os.path.expanduser('~')
 OSF = 'ovmm_sources'
+USER_CONFIGS = 'user_configs'
+USER_BACKUPS = 'user_backups'
 
 
 def literal_eval_lc(lc_string: str) -> list:
@@ -51,6 +53,8 @@ except FileNotFoundError:
         'redis_port': list(
             literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
     }
+
+    PASSWORD_LENGTH = int(os.environ.get('OVMM_PASSWORD_LENGTH'))
 except Exception as e:
     raise e
 else:
