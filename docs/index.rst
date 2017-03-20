@@ -9,6 +9,7 @@ Contents:
    readme
    installation
    usage
+   enduser
    contributing
    authors
    history

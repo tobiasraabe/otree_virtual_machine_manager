@@ -40,8 +40,8 @@ PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
     (getattr(parsers, 'parse_table_name'), '_usertable'),
     (getattr(parsers, 'parse_table_name'), 'User_table'),
     (getattr(parsers, 'parse_table_name'), 'user-table'),
-    ])
-def parse_error(parse_func, input):
+])
+def test_parser_error(parse_func, input):
     with pytest.raises(click.BadParameter):
         parse_func(input)
 
@@ -64,6 +64,6 @@ def parse_error(parse_func, input):
     (getattr(parsers, 'parse_port'), '1324'),
     (getattr(parsers, 'parse_table_name'), 'user_table'),
     (getattr(parsers, 'parse_table_name'), 'Usertable'),
-    ])
-def parse_check(parse_func, input):
+])
+def test_parser_check(parse_func, input):
     assert parse_func(input) == input
