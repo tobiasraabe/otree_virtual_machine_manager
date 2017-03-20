@@ -138,7 +138,7 @@ via the package manager, like so:
 
 .. code-block:: console
 
-    $ sudo apt-get install conky-all chromium pgadmin3
+    $ sudo apt-get install conky-all chromium-browser pgadmin3
 
 
 It is recommended to obtain LightTable from the official website as the

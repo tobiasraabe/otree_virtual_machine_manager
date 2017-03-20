@@ -25,7 +25,7 @@ test_requirements = [
 setup(
     name='ovmm',
     version='0.1.0',
-    description="oTree Virtual Machine Manager helps to manage user accounts.",
+    description='ovmm manages your virtual machine for oTree.',
     long_description=readme + '\n\n' + history,
     author='Tobias Raabe',
     author_email='tobiasraabe@uni-bonn.de',
@@ -58,7 +58,6 @@ setup(
         # 'Development Status :: 5 - Production/Stable',
         # 'Development Status :: 6 - Mature',
         # 'Development Status :: 7 - Inactive'
-        'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',

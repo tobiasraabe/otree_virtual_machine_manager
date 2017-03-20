@@ -9,6 +9,8 @@ Contents:
    readme
    installation
    usage
+   enduser
+   api
    contributing
    authors
    history

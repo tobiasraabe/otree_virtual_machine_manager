@@ -12,7 +12,7 @@ except KeyError:
 
 
 def parse_user_name(user_name):
-    if re.fullmatch(r'^[a-z]+[a-z0-9_]{6,}', user_name):
+    if re.fullmatch(r'^[a-z][a-z0-9_]{5,}', user_name):
         return user_name
     else:
         raise click.BadParameter(
@@ -52,7 +52,7 @@ def parse_lower_alpha(string):
 def parse_host(host):
     if (host == 'localhost'):
         return host
-    elif re.fullmatch(r'^[1-9][0-9]{,4}', host):
+    elif re.fullmatch(r'^[1-9][0-9]{,3}', host):
         return host
     else:
         raise click.BadParameter(
@@ -60,14 +60,14 @@ def parse_host(host):
 
 
 def parse_port(port):
-    if re.fullmatch(r'^[1-9][0-9]{,4}', port):
+    if re.fullmatch(r'^[1-9][0-9]{,3}', port):
         return port
     else:
         raise click.BadParameter('ERROR: Use up to four digits.')
 
 
 def parse_table_name(table_name):
-    if re.fullmatch(r'^[a-z][a-z_]{,6}', table_name):
+    if re.fullmatch(r'^[a-z][a-z_]{5,}', table_name):
         return table_name
     else:
         raise click.BadParameter(
