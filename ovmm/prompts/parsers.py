@@ -12,7 +12,7 @@ except KeyError:
 
 
 def parse_user_name(user_name):
-    if re.fullmatch(r'^[a-z]+[a-z0-9_]*{6,}', user_name):
+    if re.fullmatch(r'^[a-z]+[a-z0-9_]{6,}', user_name):
         return user_name
     else:
         raise click.BadParameter(
@@ -42,7 +42,7 @@ def parse_password(password):
 
 
 def parse_lower_alpha(string):
-    if re.fullmatch(r'[a-z]*{6,}', string):
+    if re.fullmatch(r'[a-z]{6,}', string):
         return string
     else:
         raise click.BadParameter(
@@ -67,7 +67,7 @@ def parse_port(port):
 
 
 def parse_table_name(table_name):
-    if re.fullmatch(r'^[a-z][a-z_]*{,6}', table_name):
+    if re.fullmatch(r'^[a-z][a-z_]{,6}', table_name):
         return table_name
     else:
         raise click.BadParameter(
