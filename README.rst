@@ -55,8 +55,8 @@ Back up user
 Remove user
     Removes otree-server user accounts.
 Behind the scenes
-    - Handles port configuration for multiple parallel user accounts on a
-      single virtual host.
+    Handles port configuration for multiple parallel user accounts on a
+    single virtual host.
 
 
 Contributing
