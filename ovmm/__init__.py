@@ -2,4 +2,4 @@
 
 __author__ = 'Tobias Raabe'
 __email__ = 'tobiasraabe@uni-bonn.de'
-__version__ = '0.1.0'
+__version__ = '0.1.1'

@@ -3,8 +3,8 @@ oTree Virtual Machine Manager
 =============================
 
 
-.. image:: https://img.shields.io/pypi/v/otree_virtual_machine_manager.svg
-        :target: https://pypi.python.org/pypi/otree_virtual_machine_manager
+.. image:: https://img.shields.io/pypi/v/ovmm.svg
+        :target: https://pypi.python.org/pypi/ovmm
 
 .. image:: https://img.shields.io/travis/tobiasraabe/otree_virtual_machine_manager.svg
         :target: https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager
@@ -57,6 +57,20 @@ Remove user
 Behind the scenes
     Handles port configuration for multiple parallel user accounts on a
     single virtual host.
+
+
+Tutorials
+---------
+
+You can find a series of tutorial videos on `Youtube`_.
+  - `Installation of ovmm`_
+  - `Adding a user account with ovmm`_
+  - `Using ovmm as an end user`_
+
+.. _Installation of ovmm: https://youtu.be/CVh-BO2u-ak?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+.. _Adding a user account with ovmm: https://youtu.be/9hC9an9jtYc?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+.. _Using ovmm as an end user: https://youtu.be/IfGKPigrOew?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+.. _Youtube: https://www.youtube.com/playlist?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 
 
 Contributing
