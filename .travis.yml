@@ -35,3 +35,4 @@ deploy:
     condition: "$TOXENV == py35"
     repo: tobiasraabe/otree_virtual_machine_manager
     tags: true
+  skip_upload_docs: true

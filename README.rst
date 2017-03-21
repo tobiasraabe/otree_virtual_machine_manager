@@ -4,18 +4,18 @@ oTree Virtual Machine Manager
 
 
 .. image:: https://img.shields.io/pypi/v/ovmm.svg
-        :target: https://pypi.python.org/pypi/ovmm
+    :target: https://pypi.python.org/pypi/ovmm
 
-.. image:: https://img.shields.io/travis/tobiasraabe/otree_virtual_machine_manager.svg
-        :target: https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager
+.. image:: https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager.svg?branch=master
+    :target: https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager
 
 .. image:: https://readthedocs.org/projects/otree-virtual-machine-manager/badge/?version=latest
-        :target: https://otree-virtual-machine-manager.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
+    :target: https://otree-virtual-machine-manager.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/tobiasraabe/otree_virtual_machine_manager/shield.svg
-     :target: https://pyup.io/repos/github/tobiasraabe/otree_virtual_machine_manager/
-     :alt: Updates
+    :target: https://pyup.io/repos/github/tobiasraabe/otree_virtual_machine_manager/
+    :alt: Updates
 
 
 oTree Virtual Machine Manager helps to manage user accounts.
@@ -71,9 +71,9 @@ You can find a series of tutorial videos on `Youtube`_.
 
 **For administrators**:
 
-  - `Installation of ovmm`_
-  - `Adding a user account with ovmm`_
-  - `Restoring a database`_
+- `Installation of ovmm`_
+- `Adding a user account with ovmm`_
+- `Restoring a database`_
 
 .. _Installation of ovmm: https://youtu.be/CVh-BO2u-ak?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 .. _Adding a user account with ovmm: https://youtu.be/9hC9an9jtYc?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
@@ -81,8 +81,8 @@ You can find a series of tutorial videos on `Youtube`_.
 
 **For end users**:
 
-  - `Using ovmm as an end user`_
-  - `Resetting the database and backups as end user`_
+- `Using ovmm as an end user`_
+- `Resetting the database and backups as end user`_
 
 .. _Using ovmm as an end user: https://youtu.be/IfGKPigrOew?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 .. _Resetting the database and backups as end user: https://youtu.be/p3VmxNWIO0k?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
