@@ -9,6 +9,39 @@ administrators of the **oTree Virtual Machine Image**, it requires superuser
 rights to perform its actions. Therefore, install ``ovmm`` under the provided
 administrator account.
 
+
+.. _images:
+
+Preconfigured Systems
+---------------------
+
+We created three Virtualbox images for oTree users based on **ovmm** and on
+Ubuntu (derivatives). The three images are set up as *minimal*, *lightweight*,
+and *comfortable* systems, using *fluxbox wm*, *LXDE*, ad *Budgie* dekstop
+environments with the respective 64bit hardware requirements.
+
+The images all contain a user account called ``otreeadmin`` that comes
+preconfigured with the set of end user commands provided by **ovmm**.
+The images further each contain an account ``ovmmadmin`` from where **ovmm**
+can be used to create more accounts.
+
+You find the images here: `oTree Virtual Machine Images`_
+
+.. _oTree Virtual Machine Images: https://uni-bonn.sciebo.de/index.php/s/0W9NFn2WfFSidx6
+
+We also spent some time on trying to figure out what tools could be useful
+to the end users. Therefore all images with the following tools preinstalled.
+
+:Chromium:
+  Webbrowser
+:Giggle:
+  GUI for Git,
+:LightTable:
+  IDE optimized for HTML5, JS, Python,
+:pgAdmin 3:
+  GUI for postreSQL database systems
+
+
 .. _requirements:
 
 Requirements
