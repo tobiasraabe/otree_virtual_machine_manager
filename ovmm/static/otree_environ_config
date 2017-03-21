@@ -5,7 +5,7 @@ export OTREE_ADMIN_PASSWORD="{admin_password}"
 export OTREE_PRODUCTION=1
 export OTREE_AUTH_LEVEL='STUDY'
 export DATABASE_URL="postgres://{user_name}:{password}@127.0.0.1:5432/{user_name}"
-export USER_MAIL='{email}'
+export USER_EMAIL='{email}'
 export DAPHNE_PORT='{daphne_port}'
 export DB_NAME='{user_name}'
 
