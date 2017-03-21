@@ -28,8 +28,11 @@ oTree Virtual Machine Manager helps to manage user accounts.
 Overview
 --------
 
-**oTree Virtual Machine Manager** is a complement to the **oTree Virtual
-Machine Image** provided by Felix Albrecht and Holger Gerhardt.
+**oTree Virtual Machine Manager** is a complement to the
+`oTree Virtual Machine Image`_ provided by Felix Albrecht and
+Holger Gerhardt.
+
+.. _oTree Virtual Machine Image: https://uni-bonn.sciebo.de/index.php/s/0W9NFn2WfFSidx6
 
 Since doing research is time-consuming enough, this tool ensures that
 administrators of an `oTree`_ server do not waste their time on creating fully
@@ -63,14 +66,27 @@ Tutorials
 ---------
 
 You can find a series of tutorial videos on `Youtube`_.
+
+.. _Youtube: https://www.youtube.com/playlist?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+
+**For administrators**:
+
   - `Installation of ovmm`_
   - `Adding a user account with ovmm`_
-  - `Using ovmm as an end user`_
+  - `Restoring a database`_
 
 .. _Installation of ovmm: https://youtu.be/CVh-BO2u-ak?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 .. _Adding a user account with ovmm: https://youtu.be/9hC9an9jtYc?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+.. _Restoring a database: https://youtu.be/bKkgbmnaJvk?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+
+**For end users**:
+
+  - `Using ovmm as an end user`_
+  - `Resetting the database and backups as end user`_
+
 .. _Using ovmm as an end user: https://youtu.be/IfGKPigrOew?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
-.. _Youtube: https://www.youtube.com/playlist?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+.. _Resetting the database and backups as end user: https://youtu.be/p3VmxNWIO0k?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+
 
 
 Contributing
