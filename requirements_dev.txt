@@ -1,6 +1,6 @@
 Sphinx==1.5.3
 bumpversion==0.5.3
-doc8==0.7.0
+doc8==0.8.0
 flake8==3.3.0
 pytest==3.0.6
 pytest-cov==2.4.0
