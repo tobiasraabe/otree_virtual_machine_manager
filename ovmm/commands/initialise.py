@@ -59,7 +59,7 @@ def initialise():
     try:
         click.echo("--> Get administrator's password.")
         admin_password = click.prompt(
-            "Enter administrator's password.", hide_input=True,
+            "Enter oTree GUI administrator password", hide_input=True,
             confirmation_prompt=True, value_proc=parse_password)
         click.echo('--> Set information for the postgres database.')
         psql_user = click.prompt(
@@ -76,7 +76,7 @@ def initialise():
             'Enter a name for the user table', default='user_table',
             value_proc=parse_table_name)
         psql_password = click.prompt(
-            'Enter the password for the user', hide_input=True,
+            'Enter PostgreSQL administrator password', hide_input=True,
             confirmation_prompt=True, value_proc=parse_password)
 
         if click.confirm('If the PostgreSQL superuser exists, set password?',
