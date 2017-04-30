@@ -59,7 +59,7 @@ def initialise():
     try:
         click.echo("--> Get administrator's password.")
         admin_password = click.prompt(
-            "Enter oTree GUI administrator password", hide_input=True,
+            "Enter oTree GUI administrator's password", hide_input=True,
             confirmation_prompt=True, value_proc=parse_password)
         click.echo('--> Set information for the postgres database.')
         psql_user = click.prompt(
@@ -121,6 +121,10 @@ def initialise():
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
              os.path.join(HOME, 'nginx_template'),
              os.path.join(HOME, OSF)]()
+
+        # Open ports 80, 443 on initialisation
+        sudo['ufw', 'allow', "'Nginx Full'"]()
+        sudo['service', 'ufw', 'restart']()
 
     except Exception as e:
         click.secho(e, 'red')
