@@ -2,7 +2,7 @@ Sphinx==1.6.2
 bumpversion==0.5.3
 doc8==0.8.0
 flake8==3.3.0
-pytest==3.1.1
+pytest==3.1.2
 pytest-cov==2.5.1
 restructuredtext-lint==1.0.1
 sphinx-rtd-theme==0.2.4
