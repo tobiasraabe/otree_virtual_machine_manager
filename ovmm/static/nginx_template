@@ -5,7 +5,7 @@
 
 # Please, change the commented sections to match your system's configuration.
 
-# Note that DAPHNEPORT, HTTPPORT, OTREEHOME, and SSLPORT are identifiers
+# Note that 8001, 7901, /home/otreeadmin/.oTree, and 7801 are identifiers
 # which will be replaced by the correct values when creating a new user.
 
 map $http_upgrade $connection_upgrade { # Some variables for configuring the protocol switch
@@ -14,22 +14,29 @@ map $http_upgrade $connection_upgrade { # Some variables for configuring the pro
     }
 
 server {
-    listen SSLPORT ssl ;
-    listen [::]:SSLPORT ssl ;
+# HTTPS: add '#' below
+    listen SSLPORT;
+    listen [::]:SSLPORT;
+
+# HTTPS: remove '#' below
+    #listen SSLPORT ssl;
+    #listen [::]:SSLPORT ssl;
+
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
 
-# replace the 2 lines below with your own ssl certificates using e.g. letsencrypt (installed on system)
-    ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
-    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+# HTTPS: replace 2 lines below with your own ssl certificates
+# HTTPS: remove '#' below
+    #ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
+    #ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
 
     add_header Strict_Transport-Secutiry max-age=31536000;
     # ssl_dhparam /etc/nginx/ssl/dhparam.pem;
     ssl_session_cache shared:ssl_session_cache:10m;
 
-# reroute http request on this port to https
-    error_page 497 https://$host:SSLPORT$request_uri;
+# HTTPS: remove '#' below
+    #error_page 497 https://$host:SSLPORT$request_uri;
 
     root OTREEHOME;
     index index.html index.htm index.nginx-debian.html;
