@@ -6,7 +6,7 @@ import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-from ovmm.config.settings import HOME
+from ovmm.config.settings import HOME, OSF
 
 
 class NginxConfigHandler:
@@ -22,8 +22,8 @@ class NginxConfigHandler:
 
     """
 
-    path = os.path.join(HOME, 'nginx_template')
-    nginx_default = os.path.join(HOME, 'nginx_default_template')
+    path = os.path.join(HOME, OSF, 'nginx_template')
+    nginx_default = os.path.join(HOME, OSF, 'nginx_default_template')
 
     def __init__(self):
         self.check_integrity()
