@@ -123,7 +123,7 @@ def initialise():
                                      .replace('__ADMIN__', admin_password))
 
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
-             os.path.join(HOME, 'nginx_template'),
+             #os.path.join(HOME, OSF, 'nginx_template'),
              os.path.join(HOME, OSF)]()
 
         # Open ports 80, 443 on initialisation
