@@ -40,4 +40,4 @@ def route_port(dict_user: dict = None, instant_route: bool = False):
 
     exception_raised = False
 
-    NginxConfigHandler.route_main_port(dict_user)
+    NginxConfigHandler.route_main_port(dict_user=self.dict_user)
