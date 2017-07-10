@@ -102,7 +102,11 @@ def initialise():
 
         nginx_template_path = pkg_resources.resource_filename(
             'ovmm', 'static/nginx_template')
-        sudo['cp', nginx_template_path, os.path.join(HOME, 'nginx_template')]()
+        sudo['cp', nginx_template_path, os.path.join(HOME, OSF, 'nginx_template')]()
+
+        nginx_default_template_path = pkg_resources.resource_filename(
+            'ovmm', 'static/nginx_default_template')
+        sudo['cp', nginx_template_path, os.path.join(HOME, OSF, 'nginx_default_template')]()
 
         ovmm_env_path = pkg_resources.resource_filename(
             'ovmm', 'static/ovmm_conf.yml')
