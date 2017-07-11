@@ -130,6 +130,3 @@ class NginxConfigHandler:
                 )
         # Check integrity after insertion
         self.check_integrity()
-        click.secho('SUCCESS: Port 80 was successfully rerouted.',
-                    fg='green')
-

@@ -104,11 +104,13 @@ def initialise():
 
         nginx_template_path = pkg_resources.resource_filename(
             'ovmm', 'static/nginx_template')
-        sudo['cp', nginx_template_path, os.path.join(HOME, OSF, 'nginx_template')]()
+        sudo['cp', nginx_template_path,
+             os.path.join(HOME, OSF, 'nginx_template')]()
 
         nginx_default_template_path = pkg_resources.resource_filename(
             'ovmm', 'static/nginx_default_template')
-        sudo['cp', nginx_default_template_path, os.path.join(HOME, OSF, 'nginx_default_template')]()
+        sudo['cp', nginx_default_template_path,
+             os.path.join(HOME, OSF, 'nginx_default_template')]()
 
         ovmm_env_path = pkg_resources.resource_filename(
             'ovmm', 'static/ovmm_conf.yml')
@@ -125,15 +127,14 @@ def initialise():
                                      .replace('__ADMIN__', admin_password))
 
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
-             #os.path.join(HOME, OSF, 'nginx_template'),
              os.path.join(HOME, OSF)]()
+        # os.path.join(HOME, OSF, 'nginx_template'), now unnecessary
 
 
-        '''
-            add default nginx config directory
-            create and reroute default port config to port 8000 and current user
-            symlink /opt/nginx_default/default to /etc/nginx_sites-available
-        '''
+        """ add default nginx config directory
+        create and reroute default port config to port 8000 and current user
+        symlink /opt/nginx_default/default to /etc/nginx_sites-available
+        """
 
         nginx_default = os.path.join(HOME, OSF, 'nginx_default_template')
         current_user = getuser()
@@ -150,12 +151,14 @@ def initialise():
                             '/home', current_user, '.oTree'))
                         .replace('DAPHNEPORT', '8000')
                     )
+
+            # move stdrd nginx config to backup & symlink new one
+            sudo['mv', '/etc/nginx/sites-available/default',
+                 '/etc/nginx/sites-available/_bkp_default']
+            sudo['ln', '-s', '/opt/nginx_default/default',
+                 '/etc/nginx/sites-available/default']
             # Check integrity after insertion
             check_integrity()
-            click.secho('SUCCESS: Port 80 was successfully rerouted.',
-                        fg='green')
-
-
 
 
         # Open ports 80, 443 on initialisation
