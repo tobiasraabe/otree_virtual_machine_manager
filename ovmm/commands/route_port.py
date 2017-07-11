@@ -40,5 +40,5 @@ def route_port(dict_user: dict = None, instant_route: bool = False):
 
     exception_raised = False
 
-    nch = NginxConfigHandler()
+    nch = NginxConfigHandler
     nch.route_main_port(dict_user)
