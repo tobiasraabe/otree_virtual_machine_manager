@@ -13,7 +13,7 @@ from ovmm.prompts.parsers import parse_password
 from ovmm.prompts.parsers import parse_port
 from ovmm.prompts.parsers import parse_table_name
 from ovmm.prompts.parsers import parse_user_name
-from ovmm.handlers.nginx import NginxConfigHandler.check_integrity as check_integrity
+from ovmm.handlers.nginx import NginxConfigHandler
 from plumbum.cmd import sudo
 from getpass import getuser
 
@@ -158,7 +158,7 @@ def initialise():
             sudo['ln', '-s', '/opt/nginx_default/default',
                  '/etc/nginx/sites-available/default']
             # Check integrity after insertion
-            check_integrity()
+            NginxConfigHandler.check_integrity()
 
 
         # Open ports 80, 443 on initialisation
