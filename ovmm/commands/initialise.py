@@ -162,7 +162,7 @@ def initialise():
 
 
         # Open ports 80, 443 on initialisation
-        #sudo['ufw', 'allow', "'Nginx Full'"]()
+        #sudo['ufw', 'allow', '"Nginx Full"']()
         #sudo['service', 'ufw', 'restart']()
 
     except Exception as e:
