@@ -154,9 +154,9 @@ def initialise():
 
             # move stdrd nginx config to backup & symlink new one
             sudo['mv', '/etc/nginx/sites-available/default',
-                 '/etc/nginx/sites-available/_bkp_default']
+                 '/etc/nginx/sites-available/_bkp_default']()
             sudo['ln', '-s', '/opt/nginx_default/default',
-                 '/etc/nginx/sites-available/default']
+                 '/etc/nginx/sites-available/default']()
             # Check integrity after insertion
             NginxConfigHandler.check_integrity()
 
