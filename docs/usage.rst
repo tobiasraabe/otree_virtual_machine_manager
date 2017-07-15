@@ -122,4 +122,11 @@ count_user / c
 list_user / l
     Give a list of user names of all currently installed users.
 
+route_port / r
+    Change nginx default config to route port 80 (HTTP) and port 443 (HTTPS)
+    to specific user account in addition to user specific port. Intended for
+    running experiments where router settings prevent the access to
+    non-standard web-ports like 780x.
+
+
 
