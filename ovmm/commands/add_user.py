@@ -128,7 +128,6 @@ def add_user():
         nch.add_user(dict_user)
 
         # firewall - open new port to the web
-        sudo['ufw', 'allow', dict_user['http_port']]()
         sudo['ufw', 'allow', dict_user['ssl_port']]()
 
         # samba
@@ -172,7 +171,6 @@ def add_user():
             file.write('\n\ttelephone:\t{telephone}'.format(**dict_user))
             file.write('\n\tpassword:\t{password}'.format(**dict_user))
             file.write('\n\tdaphne_port:\t{daphne_port}'.format(**dict_user))
-            file.write('\n\thttp_port:\t{http_port}'.format(**dict_user))
             file.write('\n\tssl_port:\t{ssl_port}'.format(**dict_user))
             file.write('\n\tredis_port:\t{redis_port}'.format(**dict_user))
     except Exception:

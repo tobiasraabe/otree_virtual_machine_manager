@@ -67,7 +67,6 @@ class NginxConfigHandler:
                     .replace('OTREEHOME',
                              os.path.join('/home', dict_user['user_name'],
                                           '.oTree'))
-                    .replace('HTTPPORT', str(dict_user['http_port']))
                     .replace('SSLPORT', str(dict_user['ssl_port']))
                     .replace('DAPHNEPORT', str(dict_user['daphne_port']))
                 )

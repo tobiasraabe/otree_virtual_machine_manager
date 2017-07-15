@@ -46,8 +46,6 @@ except FileNotFoundError:
     PORT_RANGES = {
         'daphne_port': list(
             literal_eval_lc(os.environ['OVMM_DAPHNE_RANGE'])),
-        'http_port': list(
-            literal_eval_lc(os.environ['OVMM_HTTP_RANGE'])),
         'ssl_port': list(
             literal_eval_lc(os.environ['OVMM_SSL_RANGE'])),
         'redis_port': list(
@@ -65,8 +63,6 @@ else:
     PORT_RANGES = {
         'daphne_port': list(
             literal_eval_lc(conf['OVMM_DAPHNE_RANGE'])),
-        'http_port': list(
-            literal_eval_lc(conf['OVMM_HTTP_RANGE'])),
         'ssl_port': list(
             literal_eval_lc(conf['OVMM_SSL_RANGE'])),
         'redis_port': list(
