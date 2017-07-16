@@ -9,6 +9,7 @@ from ovmm.prompts.parsers import parse_user_name
 from ovmm.handlers.nginx import NginxConfigHandler
 import sys
 
+
 def route_port(dict_user: dict = None, instant_route: bool = False):
     """This command reroutes the main port 80 to one of the user otrees.
     """
