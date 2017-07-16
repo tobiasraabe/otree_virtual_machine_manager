@@ -89,7 +89,6 @@ def delete_user(dict_user: dict = None, instant_del: bool = False):
         pass
 
     try:
-        sudo['ufw', 'deny', dict_user['http_port']]()
         sudo['ufw', 'deny', dict_user['ssl_port']]()
     except Exception as e:
         click.secho('ERROR: Ports could not be closed.', fg='red')

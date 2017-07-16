@@ -13,7 +13,9 @@ from ovmm.prompts.parsers import parse_password
 from ovmm.prompts.parsers import parse_port
 from ovmm.prompts.parsers import parse_table_name
 from ovmm.prompts.parsers import parse_user_name
+from ovmm.handlers.nginx import NginxConfigHandler
 from plumbum.cmd import sudo
+from getpass import getuser
 
 
 HOME = os.path.expanduser('~')
@@ -102,7 +104,13 @@ def initialise():
 
         nginx_template_path = pkg_resources.resource_filename(
             'ovmm', 'static/nginx_template')
-        sudo['cp', nginx_template_path, os.path.join(HOME, 'nginx_template')]()
+        sudo['cp', nginx_template_path,
+             os.path.join(HOME, OSF, 'nginx_template')]()
+
+        nginx_default_template_path = pkg_resources.resource_filename(
+            'ovmm', 'static/nginx_default_template')
+        sudo['cp', nginx_default_template_path,
+             os.path.join(HOME, OSF, 'nginx_default_template')]()
 
         ovmm_env_path = pkg_resources.resource_filename(
             'ovmm', 'static/ovmm_conf.yml')
@@ -119,11 +127,40 @@ def initialise():
                                      .replace('__ADMIN__', admin_password))
 
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
-             os.path.join(HOME, 'nginx_template'),
              os.path.join(HOME, OSF)]()
+        # os.path.join(HOME, OSF, 'nginx_template'), now unnecessary
+
+        """ add default nginx config directory
+        create and reroute default port config to port 8000 and current user
+        symlink /opt/nginx_default/default to /etc/nginx_sites-available
+        """
+
+        nginx_default = os.path.join(HOME, OSF, 'nginx_default_template')
+        current_user = getuser()
+
+        if os.path.isdir('/opt/nginx_default'):
+            pass
+        else:
+            os.mkdir('/opt/nginx_default')
+            with open('/opt/nginx_default/default', 'w') as file_out:
+                with open(nginx_default) as file_in:
+                    file_out.write(
+                        file_in.read()
+                        .replace('OTREEHOME', os.path.join(
+                            '/home', current_user, '.oTree'))
+                        .replace('DAPHNEPORT', '8000')
+                    )
+
+            # move stdrd nginx config to backup & symlink new one
+            sudo['mv', '/etc/nginx/sites-available/default',
+                 '/etc/nginx/sites-available/_bkp_default']()
+            sudo['ln', '-s', '/opt/nginx_default/default',
+                 '/etc/nginx/sites-available/default']()
+            # Check integrity after insertion
+            NginxConfigHandler.check_integrity()
 
         # Open ports 80, 443 on initialisation
-        sudo['ufw', 'allow', "'Nginx Full'"]()
+        sudo['ufw', 'allow', 'Nginx Full']()
         sudo['service', 'ufw', 'restart']()
 
     except Exception as e:

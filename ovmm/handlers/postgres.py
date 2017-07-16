@@ -30,8 +30,6 @@ class PostgreSQLDatabaseHandler:
         Password of user account (PostgreSQL, Samba)
     daphne_port : smallint
         Daphne port
-    http_port : smallint
-        HTTP port
     ssl_port : smallint
         SSL port
     redis_port : smallint
@@ -88,7 +86,7 @@ class PostgreSQLDatabaseHandler:
         with psycopg2.connect(**PSQL_CONN) as conn:
             cur = conn.cursor()
             cur.execute("""INSERT INTO {} VALUES ('test', 'test', 'test',
-                        'test', 'test', '11111', '11111', '11111', '11111');"""
+                        'test', 'test', '11111', '11111',  '11111');"""
                         .format(PSQL_TABLE))
             conn.rollback()
         conn.close()
@@ -106,7 +104,6 @@ class PostgreSQLDatabaseHandler:
                         user_name TEXT PRIMARY KEY, email TEXT NOT NULL,
                         telephone TEXT NOT NULL, password TEXT NOT NULL,
                         daphne_port SMALLINT UNIQUE,
-                        http_port SMALLINT UNIQUE,
                         ssl_port SMALLINT UNIQUE,
                         redis_port SMALLINT UNIQUE);"""
                         .format(PSQL_TABLE))
@@ -238,7 +235,7 @@ class PostgreSQLDatabaseHandler:
             try:
                 cur.execute("""INSERT INTO {} VALUES (%(full_name)s,
                             %(user_name)s, %(email)s, %(telephone)s,
-                            %(password)s, %(daphne_port)s, %(http_port)s,
+                            %(password)s, %(daphne_port)s,
                             %(ssl_port)s, %(redis_port)s);"""
                             .format(PSQL_TABLE), dict_user)
             except psycopg2.IntegrityError:

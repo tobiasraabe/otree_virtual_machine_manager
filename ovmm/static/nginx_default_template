@@ -8,20 +8,29 @@
 # Note that 8001, 7901, /home/otreeadmin/.oTree, and 7801 are identifiers
 # which will be replaced by the correct values when creating a new user.
 
-map $http_upgrade $connection_upgrade { # Some variables for configuring the protocol switch
-        default upgrade;
-        ''      close;
-    }
+
+map $http_user_agent $limit_bots {
+     default 0;
+     "Mozilla/4.0 (compatible;)" 1;
+     ~*(google|bing|yandex|msnbot) 1;
+     ~*(AltaVista|Googlebot|Slurp|BlackWidow|Bot|ChinaClaw|Custo|DISCo|Download|Demon|eCatch|EirGrabber|EmailSiphon|EmailWolf|SuperHTTP|Surfbot|WebWhacker) 1;
+     ~*(Express|WebPictures|ExtractorPro|EyeNetIE|FlashGet|GetRight|GetWeb!|Go!Zilla|Go-Ahead-Got-It|GrabNet|Grafula|HMView|Go!Zilla|Go-Ahead-Got-It) 1;
+     ~*(rafula|HMView|HTTrack|Stripper|Sucker|Indy|InterGET|Ninja|JetCar|Spider|larbin|LeechFTP|Downloader|tool|Navroad|NearSite|NetAnts|tAkeOut|WWWOFFLE) 1;
+     ~*(GrabNet|NetSpider|Vampire|NetZIP|Octopus|Offline|PageGrabber|Foto|pavuk|pcBrowser|RealDownload|ReGet|SiteSnagger|SmartDownload|SuperBot|WebSpider) 1;
+     ~*(Teleport|VoidEYE|Collector|WebAuto|WebCopier|WebFetch|WebGo|WebLeacher|WebReaper|WebSauger|eXtractor|Quester|WebStripper|WebZIP|Wget|Widow|Zeus) 1;
+     ~*(Twengabot|htmlparser|libwww|Python|perl|urllib|scan|Curl|email|PycURL|Pyth|PyQ|WebCollector|WebCopy|webcraw) 1;
+ }
 
 server {
 # HTTPS: add '#' below
-    listen SSLPORT;
-    listen [::]:SSLPORT;
+    listen 80 ;
+    listen [::]:80 ;
 
 # HTTPS: remove '#' below
-    #listen SSLPORT ssl;
-    #listen [::]:SSLPORT ssl;
-
+    #listen 80 ssl;
+    #listen [::]:80 ssl;
+    #listen 443 ssl;
+    #listen [::]:443 ssl;
 
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
@@ -32,11 +41,11 @@ server {
     #ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
 
     add_header Strict_Transport-Secutiry max-age=31536000;
-    # ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+    #ssl_dhparam /etc/nginx/ssl/dhparam.pem;
     ssl_session_cache shared:ssl_session_cache:10m;
 
 # HTTPS: remove '#' below
-    #error_page 497 https://$host:SSLPORT$request_uri;
+    #error_page 497 https://$host$request_uri;
 
     root OTREEHOME;
     index index.html index.htm index.nginx-debian.html;
@@ -55,7 +64,7 @@ server {
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection $connection_upgrade; # End of the configuration for oTree
 # add ssl port to all server addresses
-            proxy_set_header HOST $host:SSLPORT;
+            proxy_set_header HOST $host;
             proxy_set_header X-Real-Ip $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Host $server_name;

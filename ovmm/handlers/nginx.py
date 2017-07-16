@@ -6,7 +6,7 @@ import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-from ovmm.config.settings import HOME
+from ovmm.config.settings import HOME, OSF
 
 
 class NginxConfigHandler:
@@ -22,7 +22,8 @@ class NginxConfigHandler:
 
     """
 
-    path = os.path.join(HOME, 'nginx_template')
+    path = os.path.join(HOME, OSF, 'nginx_template')
+    nginx_default = os.path.join(HOME, OSF, 'nginx_default_template')
 
     def __init__(self):
         self.check_integrity()
@@ -66,7 +67,6 @@ class NginxConfigHandler:
                     .replace('OTREEHOME',
                              os.path.join('/home', dict_user['user_name'],
                                           '.oTree'))
-                    .replace('HTTPPORT', str(dict_user['http_port']))
                     .replace('SSLPORT', str(dict_user['ssl_port']))
                     .replace('DAPHNEPORT', str(dict_user['daphne_port']))
                 )
@@ -101,3 +101,31 @@ class NginxConfigHandler:
         self.check_integrity()
         click.secho(
             'SUCCESS: Removed user from nginx configuration.', fg='green')
+
+    def route_main_port(self, dict_user: dict):
+        """This functions adds a new user to the Nginx configuration.
+
+        This function creates a configuration file in
+        ``/etc/nginx/sites-available/`` and symlinks the file to
+        ``/etc/nginx/sites-enabled/``. After that, it calls
+        ``def check_integrity``.
+
+        Parameters
+        ----------
+        dict_user : dict
+            A dictionary containing user information
+
+        """
+
+        with open('/opt/nginx_default/default'
+                  .format(**dict_user), 'w') as file_out:
+            with open(self.nginx_default) as file_in:
+                file_out.write(
+                    file_in.read()
+                    .replace('OTREEHOME',
+                             os.path.join('/home', dict_user['user_name'],
+                                          '.oTree'))
+                    .replace('DAPHNEPORT', str(dict_user['daphne_port']))
+                )
+        # Check integrity after insertion
+        self.check_integrity()

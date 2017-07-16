@@ -74,3 +74,10 @@ def list_user():
     """List all user accounts."""
     from .commands.list_user import list_user as list_usr
     list_usr()
+
+
+@main.command()
+def route_port():
+    """Route port 80 & 443 to user account."""
+    from .commands.route_port import route_port as route_port
+    route_port()
