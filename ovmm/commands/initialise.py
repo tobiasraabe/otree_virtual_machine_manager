@@ -130,7 +130,6 @@ def initialise():
              os.path.join(HOME, OSF)]()
         # os.path.join(HOME, OSF, 'nginx_template'), now unnecessary
 
-
         """ add default nginx config directory
         create and reroute default port config to port 8000 and current user
         symlink /opt/nginx_default/default to /etc/nginx_sites-available
@@ -159,7 +158,6 @@ def initialise():
                  '/etc/nginx/sites-available/default']()
             # Check integrity after insertion
             NginxConfigHandler.check_integrity()
-
 
         # Open ports 80, 443 on initialisation
         sudo['ufw', 'allow', 'Nginx Full']()
