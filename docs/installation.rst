@@ -35,8 +35,8 @@ to the end users. Therefore all images with the following tools preinstalled.
   Webbrowser
 :Giggle:
   GUI for Git,
-:LightTable:
-  IDE optimized for HTML5, JS, Python,
+:Atom:
+  Great free IDE with many plugins,
 :pgAdmin 3:
   GUI for postreSQL database systems
 
@@ -156,9 +156,8 @@ install the following software packages.
    unzipped into the user's $HOME directory and provides helpful system
    information while running oTree.
 
-:LightTable:
-   Open Source IDE. More lightweight than many of its brothers while still very
-   powerful it is optimized for Javascript, HTML5, and Python development.
+:Atom:
+   Open Source IDE with many features.
 
 :pgAdmin III:
    Graphical user interface for postgreSQL database servers. Helps with
