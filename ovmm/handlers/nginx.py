@@ -6,9 +6,10 @@ import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-    #from ovmm.config.settings import
+# from ovmm.config.settings import
 HOME = os.path.expanduser('~')
 OSF = 'ovmm_sources'
+
 
 class NginxConfigHandler:
     """This class contains a handler for Nginx configurations.
