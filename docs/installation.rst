@@ -15,10 +15,9 @@ administrator account.
 Preconfigured Systems
 ---------------------
 
-We created three Virtualbox images for oTree users based on **ovmm** and on
-Ubuntu (derivatives). The three images are set up as *minimal*, *lightweight*,
-and *comfortable* systems, using *fluxbox wm*, *LXDE*, ad *Budgie* dekstop
-environments with the respective 64bit hardware requirements.
+We created a Virtualbox image for oTree users based on **ovmm** and on
+"Ubuntu 16.04.2 Server 64bit" and comes with three desktops *Gnome*, *LXDE*, and
+*fluxbox* to allow it to work on systems with varying level RAM.
 
 The images all contain a user account called ``otreeadmin`` that comes
 preconfigured with the set of end user commands provided by **ovmm**.
@@ -36,8 +35,8 @@ to the end users. Therefore all images with the following tools preinstalled.
   Webbrowser
 :Giggle:
   GUI for Git,
-:LightTable:
-  IDE optimized for HTML5, JS, Python,
+:Atom:
+  Great free IDE with many plugins,
 :pgAdmin 3:
   GUI for postreSQL database systems
 
@@ -157,9 +156,8 @@ install the following software packages.
    unzipped into the user's $HOME directory and provides helpful system
    information while running oTree.
 
-:LightTable:
-   Open Source IDE. More lightweight than many of its brothers while still very
-   powerful it is optimized for Javascript, HTML5, and Python development.
+:Atom:
+   Open Source IDE with many features.
 
 :pgAdmin III:
    Graphical user interface for postgreSQL database servers. Helps with
