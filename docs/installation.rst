@@ -15,10 +15,9 @@ administrator account.
 Preconfigured Systems
 ---------------------
 
-We created three Virtualbox images for oTree users based on **ovmm** and on
-Ubuntu (derivatives). The three images are set up as *minimal*, *lightweight*,
-and *comfortable* systems, using *fluxbox wm*, *LXDE*, ad *Budgie* dekstop
-environments with the respective 64bit hardware requirements.
+We created a Virtualbox image for oTree users based on **ovmm** and on
+"Ubuntu 16.04.2 Server 64bit" and comes with three desktops *Gnome*, *LXDE*, and
+*fluxbox* to allow it to work on systems with varying level RAM.
 
 The images all contain a user account called ``otreeadmin`` that comes
 preconfigured with the set of end user commands provided by **ovmm**.
