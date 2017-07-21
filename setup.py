@@ -24,7 +24,7 @@ test_requirements = [
 
 setup(
     name='ovmm',
-    version='0.2.1',
+    version='0.2.2',
     description='ovmm manages your virtual machine for oTree.',
     long_description=readme + '\n\n' + history,
     author='Tobias Raabe',
