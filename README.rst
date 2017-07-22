@@ -69,20 +69,18 @@ You can find a series of tutorial videos on `Youtube`_.
 
 .. _Youtube: https://www.youtube.com/playlist?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 
-**For administrators**:
-
-- `Installation of ovmm`_
-- `Adding a user account with ovmm`_
-- `Restoring a database`_
+**For administrators**
+    - `Installation of ovmm`_
+    - `Adding a user account with ovmm`_
+    - `Restoring a database`_
 
 .. _Installation of ovmm: https://youtu.be/CVh-BO2u-ak?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 .. _Adding a user account with ovmm: https://youtu.be/9hC9an9jtYc?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 .. _Restoring a database: https://youtu.be/bKkgbmnaJvk?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 
-**For end users**:
-
-- `Using ovmm as an end user`_
-- `Resetting the database and backups as end user`_
+**For end users**
+    - `Using ovmm as an end user`_
+    - `Resetting the database and backups as end user`_
 
 .. _Using ovmm as an end user: https://youtu.be/IfGKPigrOew?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
 .. _Resetting the database and backups as end user: https://youtu.be/p3VmxNWIO0k?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
@@ -101,9 +99,14 @@ bit helps, and credit will always be given.
 Credits
 -------
 
+Thanks to all contributors who spent their time on making this project more
+helpful for everyone.
+
+* Jonas Radbruch (Contributions to the documentation)
+
+
 This package was created with Cookiecutter_ and the
 `audreyr/cookiecutter-pypackage`_ project template.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-

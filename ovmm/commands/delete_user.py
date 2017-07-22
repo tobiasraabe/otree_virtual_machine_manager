@@ -4,9 +4,7 @@ import os
 import sys
 
 import click
-
 from plumbum.cmd import sudo
-
 from ovmm.commands.backup_user import backup_user
 from ovmm.commands.list_user import list_user
 from ovmm.config.settings import HOME
