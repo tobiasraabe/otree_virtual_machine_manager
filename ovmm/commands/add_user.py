@@ -107,6 +107,11 @@ def add_user():
             dict_user['user_name'], dict_user['password'])] |
          sudo['chpasswd'])()
 
+        # Add user to sudo group
+        if click.confirm('Do you want to add the user to sudo group?',
+                         default=False, show_default=True):
+            sudo['usermod', '-aG', 'sudo', dict_user['user_name']]()
+
         # Force password change at first login
         sudo['chage', '-d', '0', dict_user['user_name']]()
 
