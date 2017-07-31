@@ -22,8 +22,8 @@ ADMIN = os.path.expanduser('~').split('/')[-1]
 
 @click.command()
 @click.option()
-@click.option('--with-opt-packages/--without-opt-packages', default=False)
-def initialise(with_opt_packages: bool):
+@click.option('--optional/--no-optional', default=False)
+def initialise(optional: bool):
     """Prepares system for ovmm.
 
     This initialisation of the environment is necessary since some of the
@@ -33,7 +33,7 @@ def initialise(with_opt_packages: bool):
 
     Parameter
     ---------
-    with_opt_packages : bool
+    optional : bool
         Flag for optional packages
 
     Warning
@@ -55,7 +55,7 @@ def initialise(with_opt_packages: bool):
     click.echo('Installing Ubuntu dependencies...')
     try:
         software = ['p7zip-full']
-        if with_opt_packages:
+        if optional:
             software += [
                 'ftp', 'nginx', 'samba', 'screen', 'mailutils', 'ssh',
                 'ufw', 'postgresql', 'git', 'postgresql-server-dev-all',
