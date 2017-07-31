@@ -39,7 +39,7 @@ First run
 
 
 #. After running the command, there is a folder called
-   ``/home/<user>/ovmm_sources/`` which contains ``ovmm_conf``.
+   ``/home/<user>/ovmm_sources/`` which contains a bash script ``ovmm_conf``.
    Perform the following checks:
 
     #. Check whether the login information for the PostgreSQL database is
@@ -128,5 +128,9 @@ route_port / r
     running experiments where router settings prevent the access to
     non-standard web-ports like 780x.
 
+--version
+    Returns the version number of ``ovmm``
 
-
+--help / -h
+    Shows the help page. A more detailed version is available for each
+    command with ``sudo ovmm add_user --help / -h``

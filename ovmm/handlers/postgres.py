@@ -5,7 +5,10 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from psycopg2.extras import RealDictCursor
 
-from ovmm.config.settings import PORT_RANGES, PSQL_CONN, PSQL_TABLE
+try:
+    from ovmm.config.environment import PORT_RANGES, PSQL_CONN, PSQL_TABLE
+except ImportError:
+    pass
 
 
 class PostgreSQLDatabaseHandler:
@@ -156,7 +159,7 @@ class PostgreSQLDatabaseHandler:
 
         return free_ports
 
-    def count_user(self):
+    def count_user(self) -> tuple:
         """Returns the number possible additional accounts and the maximal
         number of accounts.
 
@@ -197,7 +200,7 @@ class PostgreSQLDatabaseHandler:
             dict_cur = conn.cursor()
             dict_cur.execute(
                 """SELECT * FROM {} WHERE user_name = '{}';"""
-                .format(PSQL_TABLE, user_name))
+                    .format(PSQL_TABLE, user_name))
             dict_user = dict_cur.fetchone()
         conn.close()
 

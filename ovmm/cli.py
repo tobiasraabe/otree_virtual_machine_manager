@@ -2,7 +2,22 @@
 
 import click
 
+from ovmm import __version__
 
+from .commands.add_user import add_user
+from .commands.backup_user import backup_user
+from .commands.count_user import count_user
+from .commands.delete_user import delete_user
+from .commands.initialise import initialise
+from .commands.list_user import list_user
+from .commands.route_port import route_port
+
+
+# Add multiple help options
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+
+
+# Add shorter aliases for commands
 class AliasedGroup(click.Group):
 
     def get_command(self, ctx, cmd_name):
@@ -18,66 +33,25 @@ class AliasedGroup(click.Group):
         ctx.fail('Too many matches: %s' % ', '.join(sorted(matches)))
 
 
-@click.group(cls=AliasedGroup)
+# Add version flag
+def print_version(ctx, param, value):
+    if not value or ctx.resilient_parsing:
+        return
+    click.echo('Version ' + __version__)
+    ctx.exit()
+
+
+@click.group(cls=AliasedGroup, context_settings=CONTEXT_SETTINGS)
+@click.option('--version', is_flag=True, callback=print_version,
+              expose_value=False, is_eager=True)
 def main():
-    """These scripts help the server admin to perform user related commands."""
+    """These scripts help the server admin to perform user related tasks."""
 
 
-@main.command()
-def add_user():
-    """Create an account for an experimenter."""
-    from .commands.add_user import add_user as add_usr
-    add_usr()
-
-
-@main.command()
-@click.option('--strategy', help='Specify backup strategy.',
-              prompt='Choose a backup strategy',
-              type=click.Choice(['all', 'db', 'home']))
-def backup_user(strategy):
-    """Create a backup of user's content.
-
-    \b
-    Use STRATEGY to specify the target.
-        - all:  Home folder and database
-        - db:   Only database
-        - home: Only home folder (requires more space)
-
-    """
-    from .commands.backup_user import backup_user as backup_usr
-    backup_usr(strategy)
-
-
-@main.command()
-def count_user():
-    """Count all user accounts."""
-    from .commands.count_user import count_user as count_usr
-    count_usr()
-
-
-@main.command()
-def delete_user():
-    """Delete an account of an experimenter."""
-    from .commands.delete_user import delete_user as delete_usr
-    delete_usr()
-
-
-@main.command()
-def initialise():
-    """Configure the system."""
-    from .commands.initialise import initialise as init
-    init()
-
-
-@main.command()
-def list_user():
-    """List all user accounts."""
-    from .commands.list_user import list_user as list_usr
-    list_usr()
-
-
-@main.command()
-def route_port():
-    """Route port 80 & 443 to user account."""
-    from .commands.route_port import route_port as route_port
-    route_port()
+main.add_command(add_user)
+main.add_command(backup_user)
+main.add_command(count_user)
+main.add_command(delete_user)
+main.add_command(initialise)
+main.add_command(list_user)
+main.add_command(route_port)

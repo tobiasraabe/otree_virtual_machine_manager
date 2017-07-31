@@ -14,7 +14,7 @@ export OTREE_ADMIN_PASSWORD="__ADMIN__"
 export OVMM_PSQL_CONN="{user: __USER__, password: __PASSWORD__, dbname: __DBNAME__, host: __HOST__, port: __PORT__}"
 
 ## Name for table containing user account information
-export OVMM_PSQL_TABLE:"__TABLE__"
+export OVMM_PSQL_TABLE="__TABLE__"
 
 ## The available ranges of ports for the Nginx configuration are defined below
 ## in the style of list comprehensions. Adjust the values to your

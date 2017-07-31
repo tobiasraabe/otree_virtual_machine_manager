@@ -15,6 +15,8 @@ Unreleased
 - New format for HISTORY.rst
 - More information in python header file
 - Added credits
+- Overhauled the cli interface and related issues
+- Separated settings into a static and environment dependent part
 
 
 0.2.2 (2017-07-21) [YANKED]

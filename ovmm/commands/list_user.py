@@ -5,9 +5,9 @@ import click
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 
 
+@click.command()
 def list_user():
-    """This command queries user names from the user database and echoes them
-    to shell.
+    """Lists users managed by ovmm.
 
     """
 

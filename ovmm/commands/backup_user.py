@@ -9,46 +9,58 @@ import plumbum
 
 from plumbum.cmd import sudo
 
-from ovmm.config.settings import HOME, OSF, USER_BACKUPS
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.prompts.defaults import get_dummy_user
-from ovmm.prompts.parsers import parse_user_name
+from ovmm.prompts.parsers import validate_user_name
+
+from ovmm.config.static import HOME, OSF, USER_BACKUPS
+
+DUMMY_USER = get_dummy_user()
 
 
-def backup_user(strategy: str, user_name: str = None):
-    """This command performs a database backup for ``user_name``.
+@click.command()
+@click.option('--user_name', '-u', help='Specify user name.',
+              prompt='User name', callback=validate_user_name,
+              default=DUMMY_USER['user_name'])
+@click.option('--strategy', '-s', help='Specify backup strategy.',
+              prompt='Choose a backup strategy',
+              type=click.Choice(['full', 'db', 'home']), default='full')
+def backup_user(user_name: str, strategy: str):
+    """Creates a backup of user data.
 
+    \b
+    Use --strategy to specify the target.
+        - full: Home folder and database
+        - db:   Only database
+        - home: Only home folder (requires more space)
+
+    \b
     Parameters
     ----------
-    strategy : str
-        Specifies the backup strategy. Available options are ``all``, ``db``,
-        and ``home``
     user_name : str
-        Name of the user whose data is backed up
+        User name
+    strategy : str
+        Specifies which backup strategy will be used
 
-
-    .. note::
-        The following steps are performed.
-
-        #. If no user_name is provided, ask for it
-        #. Check if user exists in database, else exit
-        #. If no folder for backups exists, create it
-        #. Dependent on strategy, run the desired backup process
-
+    \b
     Raises
     ------
     plumbum.ProcessExecutionError
         If database backup for user failed.
 
+    \b
+    .. note::
+        The following steps are performed.
+        \b
+        #. If no user_name is provided, ask for it
+        #. Check if user exists in database, else exit
+        #. If no folder for backups exists, create it
+        #. Dependent on strategy, run the desired backup process
+
     """
 
     click.echo('{:-^60}\n'.format(' Process: back_user '))
-    # Check if user_name was passed
-    if user_name is None:
-        default = get_dummy_user()
-        user_name = click.prompt(
-            'Which user do you want to backup?', default=default['user_name'],
-            value_proc=parse_user_name)
+
     # Check if user exists
     postgres_check = PostgreSQLDatabaseHandler.get_user(user_name)
     if postgres_check is None:
@@ -69,7 +81,7 @@ def backup_user(strategy: str, user_name: str = None):
         os.path.join(HOME, OSF, USER_BACKUPS, user_name + '_home_dump_' +
                      tim + '.7z'))
     # Run backups
-    if strategy in ['home', 'all']:
+    if strategy in ['home', 'full']:
         try:
             sudo['7z', 'a', home_file_name, os.path.join('/home', user_name)]()
         except plumbum.ProcessExecutionError:
@@ -78,7 +90,7 @@ def backup_user(strategy: str, user_name: str = None):
                 fg='red'
             )
             raise
-    if strategy in ['db', 'all']:
+    if strategy in ['db', 'full']:
         try:
             (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] |
              sudo['7z', 'a', '-si', db_file_name])()

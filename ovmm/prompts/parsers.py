@@ -5,7 +5,36 @@
 import click
 import re
 
-from ovmm.config.settings import PASSWORD_LENGTH
+from ovmm.config.environment import PASSWORD_LENGTH
+
+
+def validate_user_name(ctx, param, value):
+    if re.fullmatch(r'^[a-z][a-z0-9_]{5,}', value):
+        return value
+    else:
+        raise click.BadParameter(
+            'user names can only contain 0-9, a-z and _.')
+
+
+def validate_email(ctx, param, value):
+    if re.fullmatch(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',
+                    value):
+        return value
+    else:
+        raise click.BadParameter('email address is not valid.')
+
+
+def validate_password(ctx, param, value):
+    if value == ['password', 'hallo123', 'admin']:
+        raise click.BadParameter('ERROR: You are kidding, right?')
+    elif re.fullmatch(r'[A-Za-z0-9]{{{},}}'.format(PASSWORD_LENGTH), value):
+        return value
+    else:
+        raise click.BadParameter('ERROR: Use only alphanumeric characters.')
+
+
+def parse_telephone_number(ctx, param, value):
+    return ''.join(filter(str.isdigit, value))
 
 
 def parse_user_name(user_name):
@@ -17,20 +46,8 @@ def parse_user_name(user_name):
             'digits and underscores.', param=user_name)
 
 
-def parse_email(email):
-    if re.fullmatch(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',
-                    email):
-        return email
-    else:
-        raise click.BadParameter('ERROR: Email address is not valid.')
-
-
-def parse_telephone(telephone_raw):
-    return ''.join(filter(str.isdigit, telephone_raw))
-
-
 def parse_password(password):
-    if password == 'password':
+    if password == ['password', 'hallo123', 'admin']:
         raise click.BadParameter('ERROR: You are kidding, right?')
     elif re.fullmatch(r'[A-Za-z0-9]{{{},}}'.format(PASSWORD_LENGTH), password):
         return password
@@ -47,7 +64,7 @@ def parse_lower_alpha(string):
 
 
 def parse_host(host):
-    if (host == 'localhost'):
+    if host == 'localhost':
         return host
     elif re.fullmatch(r'^[1-9][0-9]{,3}', host):
         return host

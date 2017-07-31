@@ -6,7 +6,7 @@ import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-from ovmm.config.settings import HOME, OSF
+from ovmm.config.static import HOME, OSF
 
 
 class NginxConfigHandler:

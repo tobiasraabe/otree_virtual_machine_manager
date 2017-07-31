@@ -12,7 +12,7 @@ import sys
 import psycopg2
 import pytest
 
-from ovmm.config.settings import PSQL_CONN, PSQL_TABLE
+from ovmm.config.environment import PSQL_CONN, PSQL_TABLE
 from ovmm.handlers import postgres
 from ovmm.prompts.defaults import dummy_users
 

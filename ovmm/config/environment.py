@@ -9,9 +9,8 @@ import click
 def check_list_integer(func):
     """Decorator which checks a list if it contains only integers."""
     def wrap(*args, **kwargs):
-        checked_list = [int(i) for i in unchecked_list]
+        checked_list = [int(i) for i in func(*args, **kwargs)]
         return checked_list
-
     return wrap
 
 
@@ -37,12 +36,6 @@ def literal_eval_lc(lc_string: str) -> list:
     return evaluated_lc
 
 
-# Hard-coded variables
-HOME = os.path.expanduser('~')
-OSF = 'ovmm_sources'
-USER_CONFIGS = 'user_configs'
-USER_BACKUPS = 'user_backups'
-
 try:
     # Miscellaneous
     # Restriction for password length by unix systems
@@ -62,21 +55,21 @@ except ValueError:
 # Environment variables
 try:
     # oTree
-    ADMIN_PASSWORD = os.environ['OTREE_ADMIN_PASSWORD']
+    ADMIN_PASSWORD = os.environ.get('OTREE_ADMIN_PASSWORD', None)
 
     # Database
     PSQL_CONN = dict(ast.literal_eval(os.environ['OVMM_PSQL_CONN']))
     PSQL_TABLE = os.environ['OVMM_PSQL_TABLE']
     PORT_RANGES = {
         'daphne_port': list(
-            literal_eval_lc(os.environ['OVMM_DAPHNE_RANGE'])),
+            literal_eval_lc(os.environ.get('OVMM_DAPHNE_RANGE', None))),
         'ssl_port': list(
             literal_eval_lc(os.environ['OVMM_SSL_RANGE'])),
         'redis_port': list(
             literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
     }
 except KeyError:
-    click.secho('ERROR: Not all environment variables are specified.'
+    click.secho('ERROR: Not all environment variables are specified.\n'
                 'Program does not work! Have you run ovmm initialise?',
                 fg='red')
     pass

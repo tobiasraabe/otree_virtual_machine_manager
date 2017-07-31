@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import pwd
 
 import click
 import pkg_resources
@@ -13,22 +12,29 @@ from ovmm.prompts.parsers import parse_password
 from ovmm.prompts.parsers import parse_port
 from ovmm.prompts.parsers import parse_table_name
 from ovmm.prompts.parsers import parse_user_name
-from ovmm.config.settings import HOME, OSF
 from ovmm.handlers.nginx import NginxConfigHandler
 from plumbum.cmd import sudo
 from getpass import getuser
+from ovmm.config.static import HOME, OSF
 
 
-ADMIN = os.environ.get('SUDOUSER', pwd.getpwuid(os.getuid())[0])
+ADMIN = os.environ['HOME'].split('/')[-1]
 
 
-def initialise():
-    """This command prepares the environment for further commands.
+@click.command()
+@click.option('--with-opt-packages/--without-opt-packages', default=False)
+def initialise(with_opt_packages: bool):
+    """Prepares system for ovmm.
 
     This initialisation of the environment is necessary since some of the
     commands communicate with other parts of the system (e.g.
     PostgreSQL database) or need information about the infrastructure
     (e.g. port handling).
+
+    Parameter
+    ---------
+    with_opt_packages : bool
+        Flag for optional packages
 
     Warning
     -------
@@ -40,16 +46,25 @@ def initialise():
         The following steps are performed.
 
         #. Installing Ubuntu dependencies
-        #. Installing OVMM related content (e.g. ``ovmm_conf.yml``)
+        #. Installing OVMM related content (e.g. ``ovmm_conf``)
 
     """
 
     click.echo('\n{:-^60}'.format(' Process: Init '))
 
-    click.echo('Installing ubuntu dependencies...')
+    click.echo('Installing Ubuntu dependencies...')
     try:
-        click.echo('--> Installing 7z')
-        sudo['apt-get', 'install', 'p7zip-full']()
+        software = ['p7zip-full']
+        if with_opt_packages:
+            software += [
+                'ftp', 'nginx', 'samba', 'screen', 'mailutils', 'ssh',
+                'ufw', 'postgresql', 'git', 'postgresql-server-dev-all',
+                'python3-pip', 'zenity', 'python3-venv', 'redis-server',
+                'xterm', 'pgadmin3']
+        with click.progressbar(software,
+                               label='Installing programs') as bar:
+            for program in bar:
+                sudo['apt-get', 'install', '-y', program]()
     except plumbum.ProcessExecutionError as e:
         click.secho(e, fg='red')
         pass
@@ -132,7 +147,6 @@ def initialise():
 
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
              os.path.join(HOME, OSF)]()
-        # os.path.join(HOME, OSF, 'nginx_template'), now unnecessary
 
         """ add default nginx config directory
         create and reroute default port config to port 8000 and current user

@@ -57,6 +57,9 @@ Back up user
     closure so that nothing gets lost.
 Remove user
     Removes otree-server user accounts.
+Reroutes user
+    Depending on the network it might be necessary to assign the main port
+    to a different user.
 Behind the scenes
     Handles port configuration for multiple parallel user accounts on a
     single virtual host.
