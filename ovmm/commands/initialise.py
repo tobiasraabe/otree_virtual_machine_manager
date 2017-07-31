@@ -1,27 +1,27 @@
 # -*- coding: utf-8 -*-
 
 import os
+from getpass import getuser
 
 import click
 import pkg_resources
 import plumbum
+from plumbum.cmd import sudo
 
+from ovmm.config.static import HOME, OSF
+from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.prompts.parsers import parse_host
 from ovmm.prompts.parsers import parse_lower_alpha
 from ovmm.prompts.parsers import parse_password
 from ovmm.prompts.parsers import parse_port
 from ovmm.prompts.parsers import parse_table_name
 from ovmm.prompts.parsers import parse_user_name
-from ovmm.handlers.nginx import NginxConfigHandler
-from plumbum.cmd import sudo
-from getpass import getuser
-from ovmm.config.static import HOME, OSF
-
 
 ADMIN = os.environ['HOME'].split('/')[-1]
 
 
 @click.command()
+@click.option()
 @click.option('--with-opt-packages/--without-opt-packages', default=False)
 def initialise(with_opt_packages: bool):
     """Prepares system for ovmm.

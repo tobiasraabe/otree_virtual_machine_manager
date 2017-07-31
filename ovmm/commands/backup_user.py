@@ -6,14 +6,12 @@ import time
 
 import click
 import plumbum
-
 from plumbum.cmd import sudo
 
+from ovmm.config.static import HOME, OSF, USER_BACKUPS
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.prompts.defaults import get_dummy_user
-from ovmm.prompts.parsers import validate_user_name
-
-from ovmm.config.static import HOME, OSF, USER_BACKUPS
+from ovmm.prompts.validators import validate_user_name
 
 DUMMY_USER = get_dummy_user()
 

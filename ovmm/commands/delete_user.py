@@ -5,14 +5,14 @@ import sys
 
 import click
 from plumbum.cmd import sudo
+
 from ovmm.commands.backup_user import backup_user
+from ovmm.config.static import HOME, OSF, USER_CONFIGS
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
 from ovmm.prompts.defaults import get_dummy_user
-from ovmm.prompts.parsers import validate_user_name
-
-from ovmm.config.static import HOME, OSF, USER_CONFIGS
+from ovmm.prompts.validators import validate_user_name
 
 DUMMY_USER = get_dummy_user()
 

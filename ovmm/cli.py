@@ -3,7 +3,6 @@
 import click
 
 from ovmm import __version__
-
 from .commands.add_user import add_user
 from .commands.backup_user import backup_user
 from .commands.count_user import count_user
@@ -11,7 +10,6 @@ from .commands.delete_user import delete_user
 from .commands.initialise import initialise
 from .commands.list_user import list_user
 from .commands.route_port import route_port
-
 
 # Add multiple help options
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])

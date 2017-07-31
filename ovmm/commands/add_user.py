@@ -8,23 +8,18 @@ import traceback
 
 import click
 import pkg_resources
-# noinspection PyUnresolvedReferences
 import plumbum
-
 from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
 from ovmm.commands.delete_user import delete_user
+from ovmm.config.static import HOME, OSF, USER_CONFIGS
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
 from ovmm.prompts.defaults import get_dummy_user
-from ovmm.prompts.parsers import parse_telephone_number
-from ovmm.prompts.parsers import validate_user_name
-from ovmm.prompts.parsers import validate_email
-from ovmm.prompts.parsers import validate_password
-
-from ovmm.config.static import HOME, OSF, USER_CONFIGS
+from ovmm.prompts.validators import validate_user_name, validate_email, \
+    validate_password, validate_telephone
 
 try:
     from ovmm.config.environment import ADMIN_PASSWORD, PASSWORD_LENGTH
@@ -47,7 +42,7 @@ PASSWORD = ''.join(random.SystemRandom().choice(
               default=DUMMY_USER['email'])
 @click.option('--telephone', '-t', help='Set telephone number of user',
               prompt='Telephone number of user',
-              callback=parse_telephone_number, default=DUMMY_USER['telephone'])
+              callback=validate_telephone, default=DUMMY_USER['telephone'])
 @click.option('--password', '-p', help='Set password of user',
               callback=validate_password, )
 def add_user(user_name: str, full_name: str, email: str, telephone: str,
