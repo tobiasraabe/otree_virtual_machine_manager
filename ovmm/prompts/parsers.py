@@ -5,10 +5,7 @@
 import click
 import re
 
-try:
-    from ovmm.config.settings import PASSWORD_LENGTH
-except KeyError:
-    PASSWORD_LENGTH = 8
+from ovmm.config.settings import PASSWORD_LENGTH
 
 
 def parse_user_name(user_name):

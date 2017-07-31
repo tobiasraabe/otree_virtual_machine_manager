@@ -39,7 +39,7 @@ First run
 
 
 #. After running the command, there is a folder called
-   ``/home/<user>/ovmm_sources/`` which contains ``ovmm_conf.yml``.
+   ``/home/<user>/ovmm_sources/`` which contains ``ovmm_conf``.
    Perform the following checks:
 
     #. Check whether the login information for the PostgreSQL database is

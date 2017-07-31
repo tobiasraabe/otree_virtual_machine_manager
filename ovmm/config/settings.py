@@ -4,14 +4,18 @@ import ast
 import os
 
 import click
-import yaml
-
-HOME = os.path.expanduser('~')
-OSF = 'ovmm_sources'
-USER_CONFIGS = 'user_configs'
-USER_BACKUPS = 'user_backups'
 
 
+def check_list_integer(func):
+    """Decorator which checks a list if it contains only integers."""
+    def wrap(*args, **kwargs):
+        checked_list = [int(i) for i in unchecked_list]
+        return checked_list
+
+    return wrap
+
+
+@check_list_integer
 def literal_eval_lc(lc_string: str) -> list:
     """Converts safely a list comprehension encapsulated in a string to the
     actual python object.
@@ -33,14 +37,34 @@ def literal_eval_lc(lc_string: str) -> list:
     return evaluated_lc
 
 
+# Hard-coded variables
+HOME = os.path.expanduser('~')
+OSF = 'ovmm_sources'
+USER_CONFIGS = 'user_configs'
+USER_BACKUPS = 'user_backups'
+
 try:
-    with open(os.path.join(HOME, OSF, 'ovmm_conf.yml')) as file:
-        conf = yaml.load(file.read())
-except FileNotFoundError:
+    # Miscellaneous
+    # Restriction for password length by unix systems
+    PASSWORD_LENGTH = int(os.environ.get('OVMM_PASSWORD_LENGTH', 8))
+    if PASSWORD_LENGTH < 8:
+        click.secho('ERROR: Minimal password length is 8.', fg='red')
+        PASSWORD_LENGTH = 8
+        click.secho('WARNING: Password length set to 8.', fg='yellow')
+except ValueError:
     click.secho(
-        'ERROR: Settings could not be loaded.\n'
-        'Collect settings from environment.'
-    )
+        'WARNING: The password is not correctly set and defaults to 8.',
+        fg='yellow')
+    PASSWORD_LENGTH = 8
+    pass
+
+
+# Environment variables
+try:
+    # oTree
+    ADMIN_PASSWORD = os.environ['OTREE_ADMIN_PASSWORD']
+
+    # Database
     PSQL_CONN = dict(ast.literal_eval(os.environ['OVMM_PSQL_CONN']))
     PSQL_TABLE = os.environ['OVMM_PSQL_TABLE']
     PORT_RANGES = {
@@ -51,35 +75,16 @@ except FileNotFoundError:
         'redis_port': list(
             literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
     }
-
-    PASSWORD_LENGTH = int(os.environ.get('OVMM_PASSWORD_LENGTH'))
-except Exception as e:
-    raise e
+except KeyError:
+    click.secho('ERROR: Not all environment variables are specified.'
+                'Program does not work! Have you run ovmm initialise?',
+                fg='red')
+    pass
+except ValueError:
+    click.secho('ERROR: Check if ports and password length are integers\n'
+                'and ports are stored in a valid python dict.\n'
+                'Program does not work!',
+                fg='red')
+    pass
 else:
-    # Required
-    ADMIN_PASSWORD = conf['OTREE_ADMIN_PASSWORD']
-    PSQL_CONN = dict(conf['OVMM_PSQL_CONN'])
-    PSQL_TABLE = conf['OVMM_PSQL_TABLE']
-    PORT_RANGES = {
-        'daphne_port': list(
-            literal_eval_lc(conf['OVMM_DAPHNE_RANGE'])),
-        'ssl_port': list(
-            literal_eval_lc(conf['OVMM_SSL_RANGE'])),
-        'redis_port': list(
-            literal_eval_lc(conf['OVMM_REDIS_RANGE'])),
-    }
-
-    # Optional
-    PASSWORD_LENGTH = int(conf.get('OVMM_PASSWORD_LENGTH', 8))
-    if PASSWORD_LENGTH < 8:
-        click.secho(
-            'ERROR: Minimal password length is 8.', fg='red'
-        )
-        PASSWORD_LENGTH = 8
-        click.secho(
-            'WARNING: Password length set to 8.', fg='yellow'
-        )
-    OSF = conf.get('OVMM_SOURCE_FOLDER', 'ovmm_sources')
-
-    # Miscellaneous
-    HOME = os.path.expanduser('~')
+    click.secho('SUCCESS: Configuration loaded.', fg='green')

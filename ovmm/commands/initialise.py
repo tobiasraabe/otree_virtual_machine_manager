@@ -13,13 +13,12 @@ from ovmm.prompts.parsers import parse_password
 from ovmm.prompts.parsers import parse_port
 from ovmm.prompts.parsers import parse_table_name
 from ovmm.prompts.parsers import parse_user_name
+from ovmm.config.settings import HOME, OSF
 from ovmm.handlers.nginx import NginxConfigHandler
 from plumbum.cmd import sudo
 from getpass import getuser
 
 
-HOME = os.path.expanduser('~')
-OSF = 'ovmm_sources'
 ADMIN = os.environ.get('SUDOUSER', pwd.getpwuid(os.getuid())[0])
 
 
@@ -112,10 +111,11 @@ def initialise():
         sudo['cp', nginx_default_template_path,
              os.path.join(HOME, OSF, 'nginx_default_template')]()
 
+        # Add ovmm_conf
         ovmm_env_path = pkg_resources.resource_filename(
-            'ovmm', 'static/ovmm_conf.yml')
+            'ovmm', 'static/ovmm_conf')
         with open(ovmm_env_path) as file_input:
-            with open(os.path.join(HOME, OSF, 'ovmm_conf.yml'),
+            with open(os.path.join(HOME, OSF, 'ovmm_conf'),
                       'w') as file_output:
                 file_output.write(
                     file_input.read().replace('__USER__', psql_user)
@@ -125,6 +125,10 @@ def initialise():
                                      .replace('__PORT__', psql_port)
                                      .replace('__TABLE__', psql_table)
                                      .replace('__ADMIN__', admin_password))
+        # Add ovmm_conf to admin
+        with open(os.path.join(HOME, '.bashrc'), 'a') as profile:
+            profile.write('\n')
+            profile.write('source ' + os.path.join(HOME, OSF, 'ovmm_conf'))
 
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
              os.path.join(HOME, OSF)]()

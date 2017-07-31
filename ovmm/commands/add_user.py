@@ -14,11 +14,8 @@ from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
 from ovmm.commands.delete_user import delete_user
-from ovmm.config.settings import ADMIN_PASSWORD
-from ovmm.config.settings import HOME
-from ovmm.config.settings import OSF
-from ovmm.config.settings import PASSWORD_LENGTH
-from ovmm.config.settings import USER_CONFIGS
+from ovmm.config.settings import ADMIN_PASSWORD, HOME
+from ovmm.config.settings import OSF, PASSWORD_LENGTH, USER_CONFIGS
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
