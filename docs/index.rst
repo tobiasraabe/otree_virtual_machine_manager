@@ -10,7 +10,6 @@ Contents:
    installation
    usage
    enduser
-   api
    contributing
    authors
    history

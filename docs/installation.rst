@@ -15,14 +15,14 @@ administrator account.
 Preconfigured Systems
 ---------------------
 
-We created a Virtualbox image for oTree users based on **ovmm** and on
-"Ubuntu 16.04.2 Server 64bit" and comes with three desktops *Gnome*, *LXDE*, and
+We created a Virtualbox image for oTree users based on **ovmm** and on "Ubuntu
+16.04.2 Server 64bit" and comes with three desktops *Gnome*, *LXDE*, and
 *fluxbox* to allow it to work on systems with varying level RAM.
 
 The images all contain a user account called ``otreeadmin`` that comes
-preconfigured with the set of end user commands provided by **ovmm**.
-The images further each contain an account ``ovmmadmin`` from where **ovmm**
-can be used to create more accounts.
+preconfigured with the set of end user commands provided by **ovmm**. The
+images further each contain an account ``ovmmadmin`` from where **ovmm** can be
+used to create more accounts.
 
 You find the images here: `oTree Virtual Machine Images`_
 
