@@ -17,7 +17,7 @@ from ovmm.prompts.parsers import parse_port
 from ovmm.prompts.parsers import parse_table_name
 from ovmm.prompts.parsers import parse_user_name
 
-ADMIN = os.environ['HOME'].split('/')[-1]
+ADMIN = os.path.expanduser('~').split('/')[-1]
 
 
 @click.command()
