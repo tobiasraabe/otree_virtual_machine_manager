@@ -17,6 +17,9 @@ Unreleased
 - Added credits
 - Overhauled the cli interface and related issues
 - Separated settings into a static and environment dependent part
+- Added switch to assign user to sudo group during creation
+- Open ftp and samba ports with ufw during initilisation
+- Enhanced Github PR template
 
 
 0.2.2 (2017-07-21) [YANKED]
