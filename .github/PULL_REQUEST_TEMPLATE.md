@@ -19,3 +19,12 @@ your changes and progress.
 
 - [ ] Step 1
 - [ ] Step 2
+
+### Additional checklist
+
+This is an reminder for all the things which come with a new feature.
+
+- [ ] Add feature to HISTORY.rst under Unreleased with denomination of
+      contributors
+- [ ] Document the feature
+- [ ] Add contributors to CONTRIBUTING.rst
