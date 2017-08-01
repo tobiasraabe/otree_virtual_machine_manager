@@ -15,6 +15,7 @@ Unreleased
 - New format for HISTORY.rst
 - More information in python header file
 - Added credits
+- Added switch to assign user to sudo group during creation
 
 
 0.2.2 (2017-07-21) [YANKED]
