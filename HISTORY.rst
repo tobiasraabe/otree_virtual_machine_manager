@@ -16,6 +16,8 @@ Unreleased
 - More information in python header file
 - Added credits
 - Added switch to assign user to sudo group during creation
+- Open ftp and samba ports with ufw during initilisation
+- Enhanced Github PR template
 
 
 0.2.2 (2017-07-21) [YANKED]
