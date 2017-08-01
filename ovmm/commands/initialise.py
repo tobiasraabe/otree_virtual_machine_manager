@@ -160,6 +160,8 @@ def initialise():
             NginxConfigHandler.check_integrity()
 
         # Open ports 80, 443 on initialisation
+        sudo['ufw', 'allow', 'ftp']()
+        sudo['ufw', 'allow', 'samba']()
         sudo['ufw', 'allow', 'Nginx Full']()
         sudo['service', 'ufw', 'restart']()
 
