@@ -9,15 +9,15 @@ import click
 from ovmm.config.environment import PASSWORD_LENGTH
 
 
-def validate_user_name(ctx, param, value):
+def validate_user_name(value):
     if re.fullmatch(r'^[a-z][a-z0-9_]{5,}', value):
         return value
     else:
         raise click.BadParameter(
-            'user names can only contain 0-9, a-z and _.')
+            'User names can only contain 0-9, a-z and _.')
 
 
-def validate_email(ctx, param, value):
+def validate_email(value):
     if re.fullmatch(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',
                     value):
         return value
@@ -25,14 +25,14 @@ def validate_email(ctx, param, value):
         raise click.BadParameter('email address is not valid.')
 
 
-def validate_password(ctx, param, value):
-    if value == ['password', 'hallo123', 'admin']:
-        raise click.BadParameter('ERROR: You are kidding, right?')
+def validate_password(value):
+    if value in ['password', 'hallo123', 'admin']:
+        raise click.BadParameter('You are kidding, right?')
     elif re.fullmatch(r'[A-Za-z0-9]{{{},}}'.format(PASSWORD_LENGTH), value):
         return value
     else:
-        raise click.BadParameter('ERROR: Use only alphanumeric characters.')
+        raise click.BadParameter('Use only alphanumeric characters.')
 
 
-def validate_telephone(ctx, param, value):
+def validate_telephone(value):
     return ''.join(filter(str.isdigit, value))

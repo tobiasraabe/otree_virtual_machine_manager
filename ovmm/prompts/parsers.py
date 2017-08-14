@@ -19,7 +19,7 @@ def parse_user_name(user_name):
 
 
 def parse_password(password):
-    if password == ['password', 'hallo123', 'admin']:
+    if password in ['password', 'hallo123', 'admin']:
         raise click.BadParameter('ERROR: You are kidding, right?')
     elif re.fullmatch(r'[A-Za-z0-9]{{{},}}'.format(PASSWORD_LENGTH), password):
         return password
