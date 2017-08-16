@@ -8,7 +8,7 @@ For :dict:`dummy_users` the template looks like this:
 ``
 name = {
     'full_name': 'forename surname',
-    'user_name': 'forename',
+    'user_name': 'forename',  # at least six characters
     'email': 'forenamesurname@posteo.de',
     'telephone': '04387-238742'
 }
@@ -31,14 +31,14 @@ dummy_users = {
         'telephone': '0049-931-05121901'
     },
 
-    'max': {
+    'maxmax': {
         'full_name': 'Max Born',
         'user_name': 'max',
         'email': 'maxborn@t-online.de',
         'telephone': '0048-71-11121882'
     },
 
-    'louis': {
+    'louis_alexander': {
         'full_name': 'Louis Slotin',
         'user_name': 'louis',
         'email': 'louisslotin@aol.com',
