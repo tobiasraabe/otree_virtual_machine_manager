@@ -15,7 +15,9 @@ how to create a similar image which can use ``ovmm``.
 
 Always run ``ovmm`` with ``sudo`` or some commands might not work.
 
-If you need more information on the commands, run ``ovmm --help``
+If you need more information on the commands, run ``ovmm --help``.
+
+Run ``ovmm --version`` to display the version number.
 
 
 .. _first_run:
