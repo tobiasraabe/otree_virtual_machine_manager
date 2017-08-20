@@ -29,5 +29,5 @@ def test_validate_dummy_users():
             dummy_users[key]['user_name'])
         assert dummy_users[key]['email'] == validate_email(
             dummy_users[key]['email'])
-        assert dummy_users[key]['telephone'] == validate_telephone(
-            dummy_users[key]['telephone'])
+        tel_num = [i for i in dummy_users[key]['telephone'] if i.isdigit()]
+        assert tel_num == validate_telephone(dummy_users[key]['telephone'])

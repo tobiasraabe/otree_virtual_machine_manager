@@ -93,7 +93,7 @@ def test_create_user_2():
         )
         user = cur.fetchone()
         for i in user:
-            assert i in dummy_users['max'].values()
+            assert i in dummy_users['max_born'].values()
     conn.close()
 
 
