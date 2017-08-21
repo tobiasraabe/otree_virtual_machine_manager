@@ -10,6 +10,7 @@ from .commands.delete_user import delete_user
 from .commands.initialise import initialise
 from .commands.list_user import list_user
 from .commands.route_port import route_port
+from .commands.upgrade_statics import upgrade_statics
 
 # Add multiple help options
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -53,3 +54,4 @@ main.add_command(delete_user)
 main.add_command(initialise)
 main.add_command(list_user)
 main.add_command(route_port)
+main.add_command(upgrade_statics)

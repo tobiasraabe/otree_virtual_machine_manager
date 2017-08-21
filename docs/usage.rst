@@ -130,6 +130,10 @@ route_port / r
     running experiments where router settings prevent the access to
     non-standard web-ports like 780x.
 
+upgrade_statics / u
+    Upgrades the statics in each existing user account with the versions in
+    ``ovmm/static/exp_env.7z``. This is done by a simple extract and overwrite.
+
 --version
     Returns the version number of ``ovmm``
 
