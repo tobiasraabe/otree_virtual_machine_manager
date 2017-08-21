@@ -3,6 +3,7 @@
 import os
 
 import click
+import pkg_resources
 from plumbum.cmd import sudo
 
 from ovmm.config.static import HOME
