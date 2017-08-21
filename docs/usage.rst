@@ -51,9 +51,9 @@ First run
        comprehension for bigger ranges.
 
 
-#. Next, go back to your home folder. You should see a file called
-   ``nginx_template``. Read the commentary to adjust the file to your network
-   configuration.
+#. Next, go back to ``ovmm_sources`` in your home folder. You should see a file
+   called ``nginx_template``. Read the commentary to adjust the file to your
+   network configuration.
 
    This file will be reused every time a new user is created. The process will
    fill out the user specific values and place it under
