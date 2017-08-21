@@ -70,7 +70,7 @@ try:
     }
 except KeyError:
     click.secho('ERROR: Not all environment variables are specified.\n'
-                'Program does not work! Have you run ovmm initialise?',
+                '\tProgram does not work! Have you run ovmm initialise?',
                 fg='red')
     pass
 except ValueError:

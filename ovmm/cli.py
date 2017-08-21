@@ -50,8 +50,8 @@ def main():
     """These scripts help the server admin to perform user related tasks."""
     if os.geteuid() != 0:
         click.secho(
-            'ERROR: Start the program with sudo or otherwise commands would '
-            'fail. Exit.', fg='red')
+            'ERROR: Start the program with sudo or otherwise commands\n'
+            'would fail. Forced exit.', fg='red')
         sys.exit(0)
 
 
