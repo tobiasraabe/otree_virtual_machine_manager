@@ -115,16 +115,17 @@ def initialise(optional_packages: bool):
                 pass
 
         for nginx_template in ['nginx_template', 'nginx_default_template']:
+            path_nginx_template = pkg_resources.resource_filename(
+                'ovmm', 'static/{}'.format(nginx_template))
+            path_nginx_user = os.path.join(HOME, OSF, nginx_template)
             if os.path.isfile(os.path.join(HOME, OSF, nginx_template)):
-                click.confirm('WARNING: {} exists. Overwrite?'.format(
-                    nginx_template), default=False):
-                    path = pkg_resources.resource_filename(
-                    'ovmm', 'static/{}'.format(nginx_template))
-                    sudo['cp', nginx_template_path, path]()
+                if click.confirm('WARNING: {} exists. Overwrite?'.format(
+                                 nginx_template), default=False):
+                    sudo['cp', path_nginx_template, path_nginx_user]()
+                else:
+                    pass
             else:
-                path = pkg_resources.resource_filename(
-                    'ovmm', 'static/{}'.format(nginx_template))
-                sudo['cp', nginx_template_path, path]()
+                sudo['cp', path_nginx_template, path_nginx_user]()
 
         # Add ovmm_conf
         ovmm_env_path = pkg_resources.resource_filename(
