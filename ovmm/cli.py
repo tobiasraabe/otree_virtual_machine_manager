@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import os
+import sys
+
 import click
 
 from ovmm import __version__
@@ -45,6 +48,11 @@ def print_version(ctx, param, value):
               expose_value=False, is_eager=True)
 def main():
     """These scripts help the server admin to perform user related tasks."""
+    if os.geteuid() != 0:
+        click.secho(
+            'ERROR: Start the program with sudo or otherwise commands would '
+            'fail. Exit.', fg='red')
+        sys.exit(0)
 
 
 main.add_command(add_user)
