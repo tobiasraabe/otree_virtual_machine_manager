@@ -103,17 +103,16 @@ def initialise(optional_packages: bool):
         click.echo('--> The content folder will be created under {}'
                    .format(os.path.join(HOME, OSF)))
 
-        if os.path.isdir(os.path.join(HOME, OSF)):
-            click.confirm(
-                'WARNING: {} already exists. You could overwrite important'
-                '\nfiles. You Do you want to continue?'
-                .format(os.path.join(HOME, OSF)), abort=True)
-        else:
+        try:
             os.mkdir(os.path.join(HOME, OSF))
+        except (WindowsError, FileExistsError):
+            pass
 
         for folder in ['user_configs', 'user_backups']:
-            if not os.path.isdir(os.path.join(HOME, OSF, folder)):
+            try:
                 os.mkdir(os.path.join(HOME, OSF, folder))
+            except (WindowsError, FileExistsError):
+                pass
 
         for nginx_template in ['nginx_template', 'nginx_default_template']:
             if os.path.isfile(os.path.join(HOME, OSF, nginx_template)):
@@ -149,11 +148,9 @@ def initialise(optional_packages: bool):
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
              os.path.join(HOME, OSF)]()
 
-        """ add default nginx config directory
-        create and reroute default port config to port 8000 and current user
-        symlink /opt/nginx_default/default to /etc/nginx_sites-available
-        """
-
+        # add default nginx config directory create and reroute default port
+        # config to port 8000 and current user symlink
+        # /opt/nginx_default/default to /etc/nginx_sites-available
         nginx_default = os.path.join(HOME, OSF, 'nginx_default_template')
         current_user = getuser()
 
