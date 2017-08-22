@@ -6,6 +6,8 @@ import os
 import click
 import yaml
 
+from .static import HOME, OSF
+
 
 def check_list_integer(func):
     """Decorator which checks a list if it contains only integers."""
@@ -50,7 +52,6 @@ except ValueError:
         'WARNING: The password is not correctly set and defaults to 8.',
         fg='yellow')
     PASSWORD_LENGTH = 8
-    pass
 
 
 # Environment variables
@@ -76,8 +77,8 @@ except FileNotFoundError:
                 literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
         }
     except KeyError:
-        click.secho('ERROR: Environment variables could not be loaded. Have you\n'
-                    'run sudo ovmm initialise?', fg='red')
+        click.secho('ERROR: Environment variables could not be loaded. Have\n'
+                    'you run sudo ovmm initialise?', fg='red')
         pass
 except ValueError:
     click.secho('ERROR: Check if ports and password length are integers\n'
@@ -86,4 +87,17 @@ except ValueError:
                 fg='red')
     pass
 else:
+    # Required
+    ADMIN_PASSWORD = conf['OTREE_ADMIN_PASSWORD']
+    PSQL_CONN = dict(conf['OVMM_PSQL_CONN'])
+    PSQL_TABLE = conf['OVMM_PSQL_TABLE']
+    PORT_RANGES = {
+        'daphne_port': list(
+            literal_eval_lc(conf['OVMM_DAPHNE_RANGE'])),
+        'ssl_port': list(
+            literal_eval_lc(conf['OVMM_SSL_RANGE'])),
+        'redis_port': list(
+            literal_eval_lc(conf['OVMM_REDIS_RANGE'])),
+    }
+
     click.secho('SUCCESS: Configuration loaded.', fg='green')

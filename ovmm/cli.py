@@ -5,7 +5,6 @@ import sys
 
 import click
 
-from ovmm import __version__
 from .commands.add_user import add_user
 from .commands.backup_user import backup_user
 from .commands.count_user import count_user
@@ -35,17 +34,8 @@ class AliasedGroup(click.Group):
         ctx.fail('Too many matches: %s' % ', '.join(sorted(matches)))
 
 
-# Add version flag
-def print_version(ctx, param, value):
-    if not value or ctx.resilient_parsing:
-        return
-    click.echo('Version ' + __version__)
-    ctx.exit()
-
-
 @click.group(cls=AliasedGroup, context_settings=CONTEXT_SETTINGS)
-@click.option('--version', is_flag=True, callback=print_version,
-              expose_value=False, is_eager=True)
+@click.version_option()
 def main():
     """These scripts help the server admin to perform user related tasks."""
     if os.geteuid() != 0:

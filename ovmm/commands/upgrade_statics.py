@@ -32,6 +32,7 @@ def upgrade_statics():
     # Extract and overwrite statics for each user
     for user in user_list:
         sudo['-u', user, '7z', 'x', archive,
-             '-o' + os.path.join(HOME, user), '-y']()
+             '-o' + os.path.join('/home', user), '-y']()
+        click.secho('SUCCESS: Updated statics for {}'.format(user), fg='green')
 
     click.echo('{:-^60}\n'.format(' Process: End '))

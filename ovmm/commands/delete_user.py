@@ -4,6 +4,7 @@ import os
 import sys
 
 import click
+# noinspection PyUnresolvedReferences
 from plumbum.cmd import sudo
 
 from ovmm.commands.backup_user import backup_user
@@ -58,7 +59,8 @@ def delete_user(ctx, user_name: str):
 
     exception_raised = False
     try:
-        sudo['pkill', '-u', dict_user['user_name']](retcode=2)
+        # retcode 1: unkown, retcode 2: invalid user name
+        sudo['pkill', '-u', dict_user['user_name']](retcode=(1, 2))
         sudo['userdel', '--remove', dict_user['user_name']](retcode=(0, 6))
         click.secho('SUCCESS: Removed user and home directory.'
                     .format(dict_user['user_name']), fg='green')
@@ -98,9 +100,10 @@ def delete_user(ctx, user_name: str):
         pass
 
     try:
+        # retcode 0: everythings fine, retcode 1: file not found
         sudo['rm', os.path.join(
             HOME, OSF, USER_CONFIGS,
-            '{}.txt'.format(dict_user['user_name']))](retcode=1)
+            '{}.txt'.format(dict_user['user_name']))](retcode=(0, 1))
     except Exception as e:
         click.secho(
             'ERROR: User configuration text file could not be deleted.',
