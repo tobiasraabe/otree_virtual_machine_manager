@@ -23,7 +23,7 @@ ADMIN = os.path.expanduser('~').split('/')[-1]
 @click.command()
 @click.option('--optional-packages/--no-optional-packages', default=False)
 def initialise(optional_packages: bool):
-    """Prepares system for ovmm.
+    """Sets system up for ovmm.
 
     This initialisation of the environment is necessary since some of the
     commands communicate with other parts of the system (e.g.

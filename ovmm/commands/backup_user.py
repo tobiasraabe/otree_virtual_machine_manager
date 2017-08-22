@@ -24,7 +24,7 @@ DUMMY_USER = get_dummy_user()
               prompt='Choose a backup strategy',
               type=click.Choice(['full', 'db', 'home']), default='full')
 def backup_user(user_name: str, strategy: str):
-    """Creates a backup of user data.
+    """Creates a backup of an user account.
 
     \b
     Use --strategy to specify the target.

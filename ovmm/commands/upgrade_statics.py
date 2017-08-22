@@ -6,13 +6,12 @@ import click
 import pkg_resources
 from plumbum.cmd import sudo
 
-from ovmm.config.static import HOME
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 
 
 @click.command()
 def upgrade_statics():
-    """Upgrades the static files for all users.
+    """Upgrades static files for all users.
 
     This command helps to equip all existing user accounts with updated
     versions of ovmm's desktop helpers, etc..

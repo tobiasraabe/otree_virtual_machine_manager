@@ -23,7 +23,7 @@ DUMMY_USER = get_dummy_user()
               callback=validate_user_name, default=DUMMY_USER['user_name'])
 @click.pass_context
 def delete_user(ctx, user_name: str):
-    """Removes a user from the server.
+    """Removes a user.
 
     Parameter
     ---------
@@ -104,6 +104,7 @@ def delete_user(ctx, user_name: str):
         sudo['rm', os.path.join(
             HOME, OSF, USER_CONFIGS,
             '{}.txt'.format(dict_user['user_name']))](retcode=(0, 1))
+        click.secho('SUCCESS: Removed user config.', fg='green')
     except Exception as e:
         click.secho(
             'ERROR: User configuration text file could not be deleted.',

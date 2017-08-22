@@ -16,7 +16,7 @@ DUMMY_USER = get_dummy_user()
 @click.option('--user_name', '-u', help='Specify user name.', prompt=True,
               callback=validate_user_name, default=DUMMY_USER['user_name'])
 def route_port(user_name: str):
-    """Reroutes the main port 80 to user otree.
+    """Reroutes main port 80 to other user.
 
     This option is needed for networks which restrict access to standard ports.
     The admin has the possibility to assign ports to the experimenter who
