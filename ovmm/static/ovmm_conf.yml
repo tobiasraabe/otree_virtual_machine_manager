@@ -1,4 +1,3 @@
-#!/bin/sh
 
 # **oTree Virtual Machine Manager**
 
@@ -8,24 +7,30 @@
 # REQUIRED:
 
 ## Password of administrator
-export OTREE_ADMIN_PASSWORD="__ADMIN__"
+OTREE_ADMIN_PASSWORD: __ADMIN__
 
 ## This is login information for the PostgreSQL administrator account.
-export OVMM_PSQL_CONN="{user: __USER__, password: __PASSWORD__, dbname: __DBNAME__, host: __HOST__, port: __PORT__}"
+OVMM_PSQL_CONN:
+    user: __USER__
+    password: __PASSWORD__
+    dbname: __DBNAME__
+    host: __HOST__
+    port: __PORT__
 
 ## Name for table containing user account information
-export OVMM_PSQL_TABLE="__TABLE__"
+OVMM_PSQL_TABLE: __TABLE__
 
 ## The available ranges of ports for the Nginx configuration are defined below
 ## in the style of list comprehensions. Adjust the values to your
 ## configuration.
 ## NOTE: Do not include port numbers for the admin
-export OVMM_DAPHNE_RANGE="[i for i in range(8001, 8021)]"
-export OVMM_SSL_RANGE="[i for i in range(7801, 7821)]"
-export OVMM_REDIS_RANGE="[i for i in range(1, 21)]"
+OVMM_DAPHNE_RANGE: "[i for i in range(8001, 8021)]"
+OVMM_SSL_RANGE: "[i for i in range(7801, 7821)]"
+OVMM_REDIS_RANGE: "[i for i in range(1, 21)]"
 
 
-# OPTIONAL: It is recommended stick to defaults.
+# OPTIONAL: (recommendation: stick to defaults. Otherwise, uncomment and set
+#            value)
 
 ## User's password length (min length = 8)
-export OVMM_PASSWORD_LENGTH="8"
+# OVMM_PASSWORD_LENGTH: 8

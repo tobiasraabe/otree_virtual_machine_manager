@@ -4,6 +4,7 @@ import ast
 import os
 
 import click
+import yaml
 
 
 def check_list_integer(func):
@@ -54,28 +55,33 @@ except ValueError:
 
 # Environment variables
 try:
-    # oTree
-    ADMIN_PASSWORD = os.environ.get('OTREE_ADMIN_PASSWORD', None)
+    with open(os.path.join(HOME, OSF, 'ovmm_conf.yml')) as file:
+        conf = yaml.load(file.read())
+except FileNotFoundError:
+    click.secho('WARNING: Setting could not be loaded from ovmm_conf.yml.\n'
+                'Try to collect variables from environment.', fg='yellow')
+    try:
+        # oTree
+        ADMIN_PASSWORD = os.environ.get('OTREE_ADMIN_PASSWORD', None)
 
-    # Database
-    PSQL_CONN = dict(ast.literal_eval(os.environ['OVMM_PSQL_CONN']))
-    PSQL_TABLE = os.environ['OVMM_PSQL_TABLE']
-    PORT_RANGES = {
-        'daphne_port': list(
-            literal_eval_lc(os.environ.get('OVMM_DAPHNE_RANGE', None))),
-        'ssl_port': list(
-            literal_eval_lc(os.environ['OVMM_SSL_RANGE'])),
-        'redis_port': list(
-            literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
-    }
-except KeyError:
-    click.secho('ERROR: Not all environment variables are specified.\n'
-                '\tProgram does not work! Have you run ovmm initialise?',
-                fg='red')
-    pass
+        # Database
+        PSQL_CONN = dict(ast.literal_eval(os.environ['OVMM_PSQL_CONN']))
+        PSQL_TABLE = os.environ['OVMM_PSQL_TABLE']
+        PORT_RANGES = {
+            'daphne_port': list(
+                literal_eval_lc(os.environ.get('OVMM_DAPHNE_RANGE', None))),
+            'ssl_port': list(
+                literal_eval_lc(os.environ['OVMM_SSL_RANGE'])),
+            'redis_port': list(
+                literal_eval_lc(os.environ['OVMM_REDIS_RANGE'])),
+        }
+    except KeyError:
+        click.secho('ERROR: Environment variables could not be loaded. Have you\n'
+                    'run sudo ovmm initialise?', fg='red')
+        pass
 except ValueError:
     click.secho('ERROR: Check if ports and password length are integers\n'
-                'and ports are stored in a valid python dict.\n'
+                'and ports are stored in valid list comprehensions.\n'
                 'Program does not work!',
                 fg='red')
     pass

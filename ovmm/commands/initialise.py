@@ -45,7 +45,7 @@ def initialise(optional_packages: bool):
         The following steps are performed.
 
         #. Installing Ubuntu dependencies
-        #. Installing OVMM related content (e.g. ``ovmm_conf``)
+        #. Installing OVMM related content (e.g. ``ovmm_conf.yml``)
 
     """
 
@@ -127,11 +127,11 @@ def initialise(optional_packages: bool):
             else:
                 sudo['cp', path_nginx_template, path_nginx_user]()
 
-        # Add ovmm_conf
+        # Add ovmm_conf.yml
         ovmm_env_path = pkg_resources.resource_filename(
-            'ovmm', 'static/ovmm_conf')
+            'ovmm', 'static/ovmm_conf.yml')
         with open(ovmm_env_path) as file_input:
-            with open(os.path.join(HOME, OSF, 'ovmm_conf'),
+            with open(os.path.join(HOME, OSF, 'ovmm_conf.yml'),
                       'w') as file_output:
                 file_output.write(
                     file_input.read().replace('__USER__', psql_user)
@@ -141,10 +141,10 @@ def initialise(optional_packages: bool):
                                      .replace('__PORT__', psql_port)
                                      .replace('__TABLE__', psql_table)
                                      .replace('__ADMIN__', admin_password))
-        # Add ovmm_conf to admin
+        # Add ovmm_conf.yml to admin
         with open(os.path.join(HOME, '.bashrc'), 'a') as profile:
             profile.write('\n')
-            profile.write('source ' + os.path.join(HOME, OSF, 'ovmm_conf'))
+            profile.write('source ' + os.path.join(HOME, OSF, 'ovmm_conf.yml'))
 
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
              os.path.join(HOME, OSF)]()
