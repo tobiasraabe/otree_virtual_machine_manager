@@ -105,13 +105,13 @@ def initialise(optional_packages: bool):
 
         try:
             os.mkdir(os.path.join(HOME, OSF))
-        except (WindowsError, FileExistsError):
+        except FileExistsError:
             pass
 
         for folder in ['user_configs', 'user_backups']:
             try:
                 os.mkdir(os.path.join(HOME, OSF, folder))
-            except (WindowsError, FileExistsError):
+            except FileExistsError:
                 pass
 
         for nginx_template in ['nginx_template', 'nginx_default_template']:
