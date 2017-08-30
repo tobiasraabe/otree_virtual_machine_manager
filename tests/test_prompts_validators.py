@@ -29,7 +29,7 @@ PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
 ])
 def test_parser_error(parse_func, input):
     with pytest.raises(click.BadParameter):
-        parse_func(ctx=None, param=None, vallue=input)
+        parse_func(ctx=None, param=None, value=input)
 
 
 @pytest.mark.parametrize('parse_func,input', [
