@@ -26,8 +26,9 @@ def test_validate_dummy_users():
     dummy_users = defaults.dummy_users
     for key in dummy_users.keys():
         assert dummy_users[key]['user_name'] == validate_user_name(
-            dummy_users[key]['user_name'])
+            ctx=None, param=None, value=dummy_users[key]['user_name'])
         assert dummy_users[key]['email'] == validate_email(
-            dummy_users[key]['email'])
+            ctx=None, param=None, value=dummy_users[key]['email'])
         tel_num = ''.join(filter(str.isdigit, dummy_users[key]['telephone']))
-        assert tel_num == validate_telephone(dummy_users[key]['telephone'])
+        assert tel_num == validate_telephone(
+            ctx=None, param=None, value=dummy_users[key]['telephone'])
