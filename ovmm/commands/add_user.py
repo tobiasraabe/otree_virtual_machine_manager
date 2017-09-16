@@ -9,27 +9,47 @@ import traceback
 import click
 import pkg_resources
 import plumbum
-
 from plumbum.cmd import printf
 from plumbum.cmd import sudo
 
 from ovmm.commands.delete_user import delete_user
-from ovmm.config.settings import ADMIN_PASSWORD
-from ovmm.config.settings import HOME
-from ovmm.config.settings import OSF
-from ovmm.config.settings import PASSWORD_LENGTH
-from ovmm.config.settings import USER_CONFIGS
+from ovmm.config.static import HOME, OSF, USER_CONFIGS
+from ovmm.config.environment import PASSWORD_LENGTH
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
 from ovmm.prompts.defaults import get_dummy_user
-from ovmm.prompts.parsers import parse_email
-from ovmm.prompts.parsers import parse_telephone
-from ovmm.prompts.parsers import parse_user_name
+from ovmm.prompts.validators import validate_user_name, validate_email, \
+    validate_password, validate_telephone
+
+try:
+    from ovmm.config.environment import ADMIN_PASSWORD
+except ImportError:
+    pass
+
+DUMMY_USER = get_dummy_user()
+PASSWORD = ''.join(random.SystemRandom().choice(
+    string.ascii_lowercase + string.digits) for _ in range(PASSWORD_LENGTH))
 
 
-def add_user():
-    """This command creates a new user.
+@click.command()
+@click.option('--user_name', '-u', help='Set user name.',
+              prompt='User name', callback=validate_user_name,
+              default=DUMMY_USER['user_name'])
+@click.option('--full_name', '-f', help='Set full name.',
+              prompt='Full name of user', default=DUMMY_USER['full_name'])
+@click.option('--email', '-e', help='Set email of user.',
+              prompt='Email address of user', callback=validate_email,
+              default=DUMMY_USER['email'])
+@click.option('--telephone', '-t', help='Set telephone number of user',
+              prompt='Telephone number of user',
+              callback=validate_telephone, default=DUMMY_USER['telephone'])
+@click.option('--password', '-p', help='Set password of user',
+              prompt='Set password of user', default=PASSWORD,
+              callback=validate_password)
+def add_user(user_name: str, full_name: str, email: str, telephone: str,
+             password: str):
+    """Creates a new user.
 
     .. note::
         The following steps are performed.
@@ -38,14 +58,13 @@ def add_user():
         #. Add user to PSQL database (checks whether user already exists)
         #. Create user and home directory, set password expiration date to now
         #. Unpack additional files to user's home directory
-        #. Set database information in settings.py
+        #. Set database information in environment.py
         #. Set nginx configuration file
         #. Allow access to ports via ufw
         #. Create samba configuration
         #. Add alias to .profile
         #. Set user's default shell to bash
         #. Write user_config to ``ovmm_sources/user_configs/``
-
     """
 
     click.echo('\n{:-^60}'.format(' Process: Add User '))
@@ -60,19 +79,12 @@ def add_user():
         sys.exit(0)
 
     # Generate user information
-    default = get_dummy_user()
-    dict_user = {}
-    dict_user['user_name'] = click.prompt(
-        'User name', default=default['user_name'], value_proc=parse_user_name)
-    dict_user['full_name'] = click.prompt(
-        'Full name', default=default['full_name'])
-    dict_user['email'] = click.prompt(
-        'Email', default=default['email'], value_proc=parse_email)
-    dict_user['telephone'] = click.prompt(
-        'Telephone', default=default['telephone'], value_proc=parse_telephone)
-    dict_user['password'] = ''.join(random.SystemRandom().choice(
-        string.ascii_lowercase + string.digits) for _ in range(PASSWORD_LENGTH)
-    )
+    dict_user = dict()
+    dict_user['user_name'] = user_name
+    dict_user['full_name'] = full_name
+    dict_user['email'] = email
+    dict_user['telephone'] = telephone
+    dict_user['password'] = password
 
     # Check if user exists in database
     postgres_check = PostgreSQLDatabaseHandler.get_user(dict_user['user_name'])

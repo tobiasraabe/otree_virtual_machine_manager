@@ -2,12 +2,12 @@
 
 """
 
-import click
 import os
+
+import click
 import pytest
 
 from ovmm.prompts import parsers
-
 
 PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
 
@@ -19,9 +19,6 @@ PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
     (getattr(parsers, 'parse_user_name'), 'UserName'),
     (getattr(parsers, 'parse_user_name'), 'us-ername'),
     (getattr(parsers, 'parse_user_name'), 'user name'),
-    (getattr(parsers, 'parse_email'), 'user@name'),
-    (getattr(parsers, 'parse_email'), 'user@.de'),
-    (getattr(parsers, 'parse_email'), 'user.de'),
     (getattr(parsers, 'parse_password'), '1234567'),
     (getattr(parsers, 'parse_password'), '1234567%'),
     (getattr(parsers, 'parse_password'), 'AbCdEf G'),
@@ -49,10 +46,6 @@ def test_parser_error(parse_func, input):
     (getattr(parsers, 'parse_user_name'), 'username'),
     (getattr(parsers, 'parse_user_name'), 'user_name'),
     (getattr(parsers, 'parse_user_name'), 'user_1'),
-    (getattr(parsers, 'parse_email'), 'user@name.de'),
-    (getattr(parsers, 'parse_email'), 'user@name.de.de'),
-    (getattr(parsers, 'parse_email'), 'user123@name.de'),
-    (getattr(parsers, 'parse_email'), '1user@na.me'),
     (getattr(parsers, 'parse_password'), 'username'),
     (getattr(parsers, 'parse_password'), 'user1234'),
     (getattr(parsers, 'parse_password'), 'UserName1'),

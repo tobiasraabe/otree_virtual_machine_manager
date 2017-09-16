@@ -15,7 +15,7 @@ name = {
 ``
 
 But pull requests to add a new dummy are only accepted if you recognize the
-pattern and cite the famous source.
+pattern and cite the famous book.
 
 """
 
@@ -31,16 +31,16 @@ dummy_users = {
         'telephone': '0049-931-05121901'
     },
 
-    'maxmax': {
+    'max_born': {
         'full_name': 'Max Born',
-        'user_name': 'max',
+        'user_name': 'max_born',
         'email': 'maxborn@t-online.de',
         'telephone': '0048-71-11121882'
     },
 
     'louis_alexander': {
         'full_name': 'Louis Slotin',
-        'user_name': 'louis',
+        'user_name': 'louis_alexander',
         'email': 'louisslotin@aol.com',
         'telephone': '001-204-01121901'
     },

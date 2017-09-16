@@ -13,7 +13,7 @@ requirements = [
     'Click >= 6.0',
     'psycopg2 >= 2.6.2',
     'plumbum >= 1.6.3',
-    'PyYAML >=3.12',
+    'PyYAML >= 3.12',
 ]
 
 test_requirements = [

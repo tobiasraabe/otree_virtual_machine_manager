@@ -4,21 +4,31 @@ import os
 import sys
 
 import click
+# noinspection PyUnresolvedReferences
 from plumbum.cmd import sudo
+
 from ovmm.commands.backup_user import backup_user
-from ovmm.commands.list_user import list_user
-from ovmm.config.settings import HOME
-from ovmm.config.settings import OSF
-from ovmm.config.settings import USER_CONFIGS
+from ovmm.config.static import HOME, OSF, USER_CONFIGS
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.handlers.samba import SambaConfigHandler
 from ovmm.prompts.defaults import get_dummy_user
-from ovmm.prompts.parsers import parse_user_name
+from ovmm.prompts.validators import validate_user_name
+
+DUMMY_USER = get_dummy_user()
 
 
-def delete_user(dict_user: dict = None, instant_del: bool = False):
-    """This command removes a user existing in the user database.
+@click.command()
+@click.option('--user_name', '-u', help='Specify user name.', prompt=True,
+              callback=validate_user_name, default=DUMMY_USER['user_name'])
+@click.pass_context
+def delete_user(ctx, user_name: str):
+    """Removes a user.
+
+    Parameter
+    ---------
+    user_name : str
+        User name
 
     .. note::
         The following steps are performed.
@@ -36,37 +46,21 @@ def delete_user(dict_user: dict = None, instant_del: bool = False):
 
     click.echo('\n{:-^60}'.format(' Process: Delete User '))
 
-    if instant_del is True:
-        pass
-    else:
-        if click.confirm('Do you want to see a list of users?', default=True):
-            list_user()
-        if dict_user is None:
-            default = get_dummy_user()
-            user_name = click.prompt(
-                'Which user do you want to delete?',
-                default=default['user_name'], value_proc=parse_user_name)
+    dict_user = PostgreSQLDatabaseHandler.get_user(user_name)
+    if dict_user is None:
+        click.secho(
+            'ERROR: User {} does not exist in database!'
+            .format(user_name), fg='red'
+        )
+        sys.exit(0)
 
-            dict_user = PostgreSQLDatabaseHandler.get_user(user_name)
-            if dict_user is None:
-                click.secho(
-                    'ERROR: User {} does not exist in database!'
-                    .format(user_name), fg='red'
-                )
-                sys.exit(0)
-            else:
-                pass
-        else:
-            pass
-
-        if click.confirm('Do you want a database backup?', default=True):
-            backup_user(dict_user['user_name'])
-        else:
-            pass
+    if click.confirm('Do you want a database backup?', default=True):
+        ctx.invoke(backup_user(), user_name=user_name)
 
     exception_raised = False
     try:
-        sudo['pkill', '-u', dict_user['user_name']](retcode=2)
+        # retcode 1: unkown, retcode 2: invalid user name
+        sudo['pkill', '-u', dict_user['user_name']](retcode=(1, 2))
         sudo['userdel', '--remove', dict_user['user_name']](retcode=(0, 6))
         click.secho('SUCCESS: Removed user and home directory.'
                     .format(dict_user['user_name']), fg='green')
@@ -106,9 +100,11 @@ def delete_user(dict_user: dict = None, instant_del: bool = False):
         pass
 
     try:
+        # retcode 0: everythings fine, retcode 1: file not found
         sudo['rm', os.path.join(
             HOME, OSF, USER_CONFIGS,
-            '{}.txt'.format(dict_user['user_name']))](retcode=1)
+            '{}.txt'.format(dict_user['user_name']))](retcode=(0, 1))
+        click.secho('SUCCESS: Removed user config.', fg='green')
     except Exception as e:
         click.secho(
             'ERROR: User configuration text file could not be deleted.',
@@ -127,6 +123,6 @@ def delete_user(dict_user: dict = None, instant_del: bool = False):
     else:
         PostgreSQLDatabaseHandler.delete_user(dict_user['user_name'])
 
-    click.secho('\nWARNING: The deletion process is completed. If an error\n'
+    click.secho('\nWARNING: The deletion process is complete. If an error\n'
                 'occurred, check it manually.\n', fg='yellow')
     click.echo('{:-^60}\n'.format(' Process: End '))

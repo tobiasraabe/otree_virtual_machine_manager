@@ -12,7 +12,7 @@ import sys
 import psycopg2
 import pytest
 
-from ovmm.config.settings import PSQL_CONN, PSQL_TABLE
+from ovmm.config.environment import PSQL_CONN, PSQL_TABLE
 from ovmm.handlers import postgres
 from ovmm.prompts.defaults import dummy_users
 
@@ -81,28 +81,28 @@ def test_count_user_1():
 @pytest.mark.order6
 def test_create_user_2():
     psql = postgres.PostgreSQLDatabaseHandler()
-    dummy_users['max'].update({'password': '98765'})
-    psql.create_user(dummy_users['max'])
+    dummy_users['max_born'].update({'password': '98765'})
+    psql.create_user(dummy_users['max_born'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_TABLE, **dummy_users['max'])
+            .format(PSQL_TABLE, **dummy_users['max_born'])
         )
         user = cur.fetchone()
         for i in user:
-            assert i in dummy_users['max'].values()
+            assert i in dummy_users['max_born'].values()
     conn.close()
 
 
 @pytest.mark.order7
 def test_create_duplicate_user():
     psql = postgres.PostgreSQLDatabaseHandler()
-    dummy_users['max'].update({'password': '98765'})
+    dummy_users['max_born'].update({'password': '98765'})
     with pytest.raises(psycopg2.IntegrityError):
-        psql.create_user(dummy_users['max'])
+        psql.create_user(dummy_users['max_born'])
 
 
 @pytest.mark.order8
@@ -117,7 +117,7 @@ def test_count_user_2():
 def test_list_user():
     user_list = postgres.PostgreSQLDatabaseHandler.list_user()
     assert 'werner' in user_list
-    assert 'max' in user_list
+    assert 'max_born' in user_list
 
 
 @pytest.mark.order10
@@ -144,7 +144,7 @@ def test_delete_user():
         assert temp is None
     conn.close()
 
-# Exclude for now. Don't why password is not changed within the first
+# Exclude for now. Don't know why password is not changed within the first
 # with statement
 # @pytest.mark.order12
 # def test_init_missing_connection():

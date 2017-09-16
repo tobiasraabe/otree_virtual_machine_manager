@@ -5,13 +5,13 @@ import click
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 
 
+@click.command()
 def count_user():
-    """This command gives you information about the current number of accounts
-    and the limit of additional accounts.
+    """Prints current/possible number of accounts.
 
     It subtracts the minimum number of available ports of all ports
-    (Daphne, Http, SSL, Redis) with the current number of user accounts in the
-    user database.
+    (Daphne, SSL, Redis) with the current number of user accounts in the
+    user database and prints the results.
 
     """
 

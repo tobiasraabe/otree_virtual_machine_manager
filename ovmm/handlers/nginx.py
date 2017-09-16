@@ -6,9 +6,7 @@ import click
 from plumbum import ProcessExecutionError
 from plumbum.cmd import sudo
 
-# from ovmm.config.settings import
-HOME = os.path.expanduser('~')
-OSF = 'ovmm_sources'
+from ovmm.config.static import HOME, OSF
 
 
 class NginxConfigHandler:
@@ -105,7 +103,7 @@ class NginxConfigHandler:
             'SUCCESS: Removed user from nginx configuration.', fg='green')
 
     def route_main_port(self, dict_user: dict):
-        """This functions adds a new user to the Nginx configuration.
+        """This functions routes the main ports to an existing user.
 
         This function creates a configuration file in
         ``/etc/nginx/sites-available/`` and symlinks the file to
@@ -119,8 +117,7 @@ class NginxConfigHandler:
 
         """
 
-        with open('/opt/nginx_default/default'
-                  .format(**dict_user), 'w') as file_out:
+        with open('/opt/nginx_default/default', 'w') as file_out:
             with open(self.nginx_default) as file_in:
                 file_out.write(
                     file_in.read()

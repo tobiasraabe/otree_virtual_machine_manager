@@ -1,35 +1,39 @@
 # -*- coding: utf-8 -*-
 
 import os
-import pwd
+from getpass import getuser
 
 import click
 import pkg_resources
 import plumbum
+from plumbum.cmd import sudo
 
+from ovmm.config.static import HOME, OSF
+from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.prompts.parsers import parse_host
 from ovmm.prompts.parsers import parse_lower_alpha
 from ovmm.prompts.parsers import parse_password
 from ovmm.prompts.parsers import parse_port
 from ovmm.prompts.parsers import parse_table_name
 from ovmm.prompts.parsers import parse_user_name
-from ovmm.handlers.nginx import NginxConfigHandler
-from plumbum.cmd import sudo
-from getpass import getuser
+
+ADMIN = os.path.expanduser('~').split('/')[-1]
 
 
-HOME = os.path.expanduser('~')
-OSF = 'ovmm_sources'
-ADMIN = os.environ.get('SUDOUSER', pwd.getpwuid(os.getuid())[0])
-
-
-def initialise():
-    """This command prepares the environment for further commands.
+@click.command()
+@click.option('--optional-packages/--no-optional-packages', default=False)
+def initialise(optional_packages: bool):
+    """Sets system up for ovmm.
 
     This initialisation of the environment is necessary since some of the
     commands communicate with other parts of the system (e.g.
     PostgreSQL database) or need information about the infrastructure
     (e.g. port handling).
+
+    Parameter
+    ---------
+    optional : bool
+        Flag for optional packages
 
     Warning
     -------
@@ -47,10 +51,19 @@ def initialise():
 
     click.echo('\n{:-^60}'.format(' Process: Init '))
 
-    click.echo('Installing ubuntu dependencies...')
+    click.echo('Installing Ubuntu dependencies...')
     try:
-        click.echo('--> Installing 7z')
-        sudo['apt-get', 'install', 'p7zip-full']()
+        software = ['p7zip-full']
+        if optional_packages:
+            software += [
+                'ftp', 'nginx', 'samba', 'screen', 'mailutils', 'ssh',
+                'ufw', 'postgresql', 'git', 'postgresql-server-dev-all',
+                'python3-pip', 'zenity', 'python3-venv', 'redis-server',
+                'xterm', 'pgadmin3']
+        with click.progressbar(software,
+                               label='Installing programs') as bar:
+            for program in bar:
+                sudo['apt-get', 'install', '-y', program]()
     except plumbum.ProcessExecutionError as e:
         click.secho(e, fg='red')
         pass
@@ -90,28 +103,31 @@ def initialise():
         click.echo('--> The content folder will be created under {}'
                    .format(os.path.join(HOME, OSF)))
 
-        if os.path.isdir(os.path.join(HOME, OSF)):
-            click.confirm(
-                'WARNING: {} already exists. You could overwrite important'
-                '\nfiles. You Do you want to continue?'
-                .format(os.path.join(HOME, OSF)), abort=True)
-        else:
+        try:
             os.mkdir(os.path.join(HOME, OSF))
+        except FileExistsError:
+            pass
 
         for folder in ['user_configs', 'user_backups']:
-            if not os.path.isdir(os.path.join(HOME, OSF, folder)):
+            try:
                 os.mkdir(os.path.join(HOME, OSF, folder))
+            except FileExistsError:
+                pass
 
-        nginx_template_path = pkg_resources.resource_filename(
-            'ovmm', 'static/nginx_template')
-        sudo['cp', nginx_template_path,
-             os.path.join(HOME, OSF, 'nginx_template')]()
+        for nginx_template in ['nginx_template', 'nginx_default_template']:
+            path_nginx_template = pkg_resources.resource_filename(
+                'ovmm', 'static/{}'.format(nginx_template))
+            path_nginx_user = os.path.join(HOME, OSF, nginx_template)
+            if os.path.isfile(os.path.join(HOME, OSF, nginx_template)):
+                if click.confirm('WARNING: {} exists. Overwrite?'.format(
+                                 nginx_template), default=False):
+                    sudo['cp', path_nginx_template, path_nginx_user]()
+                else:
+                    pass
+            else:
+                sudo['cp', path_nginx_template, path_nginx_user]()
 
-        nginx_default_template_path = pkg_resources.resource_filename(
-            'ovmm', 'static/nginx_default_template')
-        sudo['cp', nginx_default_template_path,
-             os.path.join(HOME, OSF, 'nginx_default_template')]()
-
+        # Add ovmm_conf.yml
         ovmm_env_path = pkg_resources.resource_filename(
             'ovmm', 'static/ovmm_conf.yml')
         with open(ovmm_env_path) as file_input:
@@ -125,16 +141,17 @@ def initialise():
                                      .replace('__PORT__', psql_port)
                                      .replace('__TABLE__', psql_table)
                                      .replace('__ADMIN__', admin_password))
+        # Add ovmm_conf.yml to admin
+        with open(os.path.join(HOME, '.bashrc'), 'a') as profile:
+            profile.write('\n')
+            profile.write('source ' + os.path.join(HOME, OSF, 'ovmm_conf.yml'))
 
         sudo['chown', '-R', '{0}:{0}'.format(ADMIN),
              os.path.join(HOME, OSF)]()
-        # os.path.join(HOME, OSF, 'nginx_template'), now unnecessary
 
-        """ add default nginx config directory
-        create and reroute default port config to port 8000 and current user
-        symlink /opt/nginx_default/default to /etc/nginx_sites-available
-        """
-
+        # add default nginx config directory create and reroute default port
+        # config to port 8000 and current user symlink
+        # /opt/nginx_default/default to /etc/nginx_sites-available
         nginx_default = os.path.join(HOME, OSF, 'nginx_default_template')
         current_user = getuser()
 

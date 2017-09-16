@@ -15,7 +15,9 @@ how to create a similar image which can use ``ovmm``.
 
 Always run ``ovmm`` with ``sudo`` or some commands might not work.
 
-If you need more information on the commands, run ``ovmm --help``
+If you need more information on the commands, run ``ovmm --help``.
+
+Run ``ovmm --version`` to display the version number.
 
 
 .. _first_run:
@@ -39,7 +41,7 @@ First run
 
 
 #. After running the command, there is a folder called
-   ``/home/<user>/ovmm_sources/`` which contains ``ovmm_conf.yml``.
+   ``/home/<user>/ovmm_sources/`` which contains a bash script ``ovmm_conf``.
    Perform the following checks:
 
     #. Check whether the login information for the PostgreSQL database is
@@ -49,9 +51,9 @@ First run
        comprehension for bigger ranges.
 
 
-#. Next, go back to your home folder. You should see a file called
-   ``nginx_template``. Read the commentary to adjust the file to your network
-   configuration.
+#. Next, go back to ``ovmm_sources`` in your home folder. You should see a file
+   called ``nginx_template``. Read the commentary to adjust the file to your
+   network configuration.
 
    This file will be reused every time a new user is created. The process will
    fill out the user specific values and place it under
@@ -128,5 +130,13 @@ route_port / r
     running experiments where router settings prevent the access to
     non-standard web-ports like 780x.
 
+upgrade_statics / u
+    Upgrades the statics in each existing user account with the versions in
+    ``ovmm/static/exp_env.7z``. This is done by a simple extract and overwrite.
 
+--version
+    Returns the version number of ``ovmm``
 
+--help / -h
+    Shows the help page. A more detailed version is available for each
+    command with ``sudo ovmm add_user --help / -h``

@@ -2,6 +2,13 @@
 
 import os
 
+# Static variables
+HOME = os.path.expanduser('~')
+OSF = 'ovmm_sources'
+USER_CONFIGS = 'user_configs'
+USER_BACKUPS = 'user_backups'
+
+# Environmental variables
 os.environ['OVMM_PSQL_CONN'] = (
     "{'dbname': 'postgres', 'user': 'postgres', 'host': 'localhost'}")
 os.environ['OVMM_PSQL_TABLE'] = 'user_table'

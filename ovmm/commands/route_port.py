@@ -1,46 +1,43 @@
 # -*- coding: utf-8 -*-
 
-import click
 import sys
 
-from ovmm.commands.list_user import list_user
+import click
+
 from ovmm.handlers.nginx import NginxConfigHandler
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 from ovmm.prompts.defaults import get_dummy_user
-from ovmm.prompts.parsers import parse_user_name
+from ovmm.prompts.validators import validate_user_name
+
+DUMMY_USER = get_dummy_user()
 
 
-def route_port(dict_user: dict = None, instant_route: bool = False):
-    """This command reroutes the main port 80 to one of the user otrees. This
-    option is needed for networks which restrict access to standard ports.
+@click.command()
+@click.option('--user_name', '-u', help='Specify user name.', prompt=True,
+              callback=validate_user_name, default=DUMMY_USER['user_name'])
+def route_port(user_name: str):
+    """Reroutes main port 80 to other user.
+
+    This option is needed for networks which restrict access to standard ports.
+    The admin has the possibility to assign ports to the experimenter who
+    wants to run an experiment.
+
+    Parameter
+    ---------
+    user_name : str
+        User name
 
     """
 
     click.echo('\n{:-^60}'.format(' Process: Route Main Port'))
 
-    if instant_route is True:
-        pass
+    dict_user = PostgreSQLDatabaseHandler.get_user(user_name)
+    if dict_user is None:
+        click.secho(
+            'ERROR: User {} does not exist in database!'
+            .format(user_name), fg='red'
+        )
+        sys.exit(0)
     else:
-        if click.confirm('Do you want to see a list of user accounts?',
-                         default=True):
-            list_user()
-        if dict_user is None:
-            default = get_dummy_user()
-            user_name = click.prompt(
-                'Provide the user account to route port 80 to?',
-                default=default['user_name'], value_proc=parse_user_name)
-
-            dict_user = PostgreSQLDatabaseHandler.get_user(user_name)
-            if dict_user is None:
-                click.secho(
-                    'ERROR: User {} does not exist in database!'
-                    .format(user_name), fg='red'
-                )
-                sys.exit(0)
-            else:
-                pass
-        else:
-            pass
-
-    nch = NginxConfigHandler()
-    nch.route_main_port(dict_user)
+        nch = NginxConfigHandler()
+        nch.route_main_port(dict_user)
