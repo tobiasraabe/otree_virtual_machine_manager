@@ -11,7 +11,7 @@ dist: trusty
 addons:
   postgresql: "9.5"
 
-# Configure python versions
+# Configure build matrix
 language: python
 python:
   - "3.4"
@@ -19,7 +19,6 @@ python:
   - "3.6"
   - "3.6-dev"
   - "3.7-dev"
-  - "nightly"
 
 matrix:
   include:
@@ -30,7 +29,7 @@ matrix:
 
 # Configure install
 install:
-  - pip install -r requirements_dev.txt
+  - pip install -U pip
   - pip install tox-travis
 
 # Configure script phase
