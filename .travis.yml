@@ -1,30 +1,39 @@
+
+# Configure notification
 notifications:
   email:
     on_success: never
     on_failure: never
 
+# Configure os
 sudo: false
 dist: trusty
 addons:
-  postgresql: '9.5'
-install: make
+  postgresql: "9.5"
+
+# Configure build matrix
 language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.6-dev"
+  - "3.7-dev"
 
 matrix:
   include:
-  - python: 3.4
-    env: TOXENV=py34
-  - python: 3.5
-    env: TOXENV=py35
-  - python: 3.6
-    env: TOXENV=py36
-  - python: 3.5
-    env: TOXENV=linters
+    - python: "3.6"
+      env: TOXENV=linters
+    - python: "3.6"
+      env: TOXENV=sphinx
 
-before_script: pip install -U tox
+# Configure install
+install: pip install tox-travis
 
-script: tox -e ${TOXENV}
+# Configure script phase
+script: tox
 
+# Define what happens on deploy
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
@@ -32,7 +41,7 @@ deploy:
   password:
     secure: u/iaGJ7K5oUSgOnbP9r6R7HxIKxzL48Mtgi1MbfF6ebeJMRabaEFZ2AweviZCTRJMTID7Qn/lbOzEtS6WVOkWoMfcd5f8EskERwM0fmWiHeyI4LWgaOUpQY/Fw8kZBRtCKFrKxcoEYKoUOpfGZeS9quXWf936DrZgYsScojXfilZYzI26EYvyfhkJg4lK0fMhELsPKjLZwkBA+LEW0TyNtxNwkBWPHyNay0HcYDL4wz7htOwhiJgW3FK+T0bZHpdPIdfRjDTpHzVEbJSN6NSeiHz8dOYIMxlRb1AUsBH3MRSf1Yz5MKE3G8h7rQfx5JpA5C8NRjqlpHHyfJ1M8REEueVolGqec5rL4P2RyYyEwNhkGQYy5HLs2R/VSR7tPhbxpoaJRWvQVM6xYhx0kHnoFMkbsJMNk+yvDyq6iNgpiU1YFggLrDYP3wdSeEnkLIVvQetMn8OMbraw4QoVyQEQm8rBI6SgrO0ZDbaWeJPN/l8BOun8Uk9md//1t86/ttjAzZCIReYY1EDOebKHEfKbP/LJv8w5hJJvQ/jvvSgurhVhffHXU4pTkxTWnVFfIa3DSKLks6wO/YYTS5WfDNbNg7lvFBeGqgls6RGn6KFJQ+14pfEjRJcrtiXDEpowwXN2sa/JCd33Kf2AQsHBxEYVIigBT74rNpuHBqKFNkgAOg=
   on:
-    condition: "$TOXENV == py35"
+    condition: $TRAVIS_PYTHON_VERSION == "3.6"
     repo: tobiasraabe/otree_virtual_machine_manager
     tags: true
   skip_upload_docs: true
