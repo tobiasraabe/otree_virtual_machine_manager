@@ -12,7 +12,6 @@ The format is based on `Keep A Changelog`_ and this project adheres to
 
 Unreleased
 ----------
-
 - Overhauled CLI
     - new command: upgrade_statics
     - version flag with ``ovmm --version``
@@ -27,7 +26,7 @@ Unreleased
     - More information in python header file
     - Added credits
     - Enhanced Github PR template
-
+    - Small adjustements to documentation tests and build
 
 
 0.2.2 (2017-07-21) [YANKED]

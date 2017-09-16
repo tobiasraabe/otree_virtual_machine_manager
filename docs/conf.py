@@ -15,7 +15,10 @@
 
 import sys
 import os
-import sphinx_rtd_theme
+
+
+# We want to change some of the behavior for Read the docs.
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
 
 # If extensions (or modules to document with autodoc) are in another
 # directory, add these directories to sys.path here. If the directory is
@@ -112,6 +115,14 @@ pygments_style = 'sphinx'
 # documents.
 # keep_warnings = False
 
+# If true, `todo` and `todoList` produce output, else they produce nothing. We
+# want to supress the output on readthedocs.
+if on_rtd:
+    todo_include_todos = True
+else:
+    todo_include_todos = True
+
+suppress_warnings = ['image.nonlocal_uri']
 
 # -- Options for HTML output -------------------------------------------
 
@@ -125,7 +136,7 @@ html_theme = 'sphinx_rtd_theme'
 # html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+# html_theme_path = []
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -194,17 +205,19 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'otree_ubuntu_server_managerdoc'
+htmlhelp_basename = 'ovmmdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------
 
 latex_elements = {
+    # Should remove blank pages from pdf output
+    'classoptions': ',openany,oneside',
     # The paper size ('letterpaper' or 'a4paper').
-    # 'papersize': 'letterpaper',
+    'papersize': 'a4paper',
 
     # The font size ('10pt', '11pt' or '12pt').
-    # 'pointsize': '10pt',
+    'pointsize': '11pt',
 
     # Additional stuff for the LaTeX preamble.
     # 'preamble': '',
