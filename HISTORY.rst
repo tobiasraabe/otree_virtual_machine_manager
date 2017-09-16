@@ -18,6 +18,7 @@ Unreleased
 - Added switch to assign user to sudo group during creation
 - Open ftp and samba ports with ufw during initilisation
 - Enhanced Github PR template
+- Small adjustements to documentation tests and build
 
 
 0.2.2 (2017-07-21) [YANKED]
