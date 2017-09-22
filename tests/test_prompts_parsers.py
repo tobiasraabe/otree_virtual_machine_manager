@@ -12,7 +12,7 @@ from ovmm.prompts import parsers
 PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
 
 
-@pytest.mark.parametrize('parse_func,input', [
+@pytest.mark.parametrize('parse_func,inp', [
     (getattr(parsers, 'parse_user_name'), 'usern'),
     (getattr(parsers, 'parse_user_name'), '_username'),
     (getattr(parsers, 'parse_user_name'), '1username'),
@@ -37,12 +37,12 @@ PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
     (getattr(parsers, 'parse_table_name'), 'User_table'),
     (getattr(parsers, 'parse_table_name'), 'user-table'),
 ])
-def test_parser_error(parse_func, input):
+def test_parser_error(parse_func, inp):
     with pytest.raises(click.BadParameter):
-        parse_func(input)
+        parse_func(inp)
 
 
-@pytest.mark.parametrize('parse_func,input', [
+@pytest.mark.parametrize('parse_func,inp', [
     (getattr(parsers, 'parse_user_name'), 'username'),
     (getattr(parsers, 'parse_user_name'), 'user_name'),
     (getattr(parsers, 'parse_user_name'), 'user_1'),
@@ -57,5 +57,5 @@ def test_parser_error(parse_func, input):
     (getattr(parsers, 'parse_port'), '1324'),
     (getattr(parsers, 'parse_table_name'), 'user_table'),
 ])
-def test_parser_check(parse_func, input):
-    assert parse_func(input) == input
+def test_parser_check(parse_func, inp):
+    assert parse_func(inp) == inp

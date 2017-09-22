@@ -57,7 +57,7 @@ except ValueError:
 # Environment variables
 try:
     with open(os.path.join(HOME, OSF, 'ovmm_conf.yml')) as file:
-        conf = yaml.load(file.read())
+        conf = yaml.safe_load(file.read())
 except FileNotFoundError:
     click.secho('WARNING: Setting could not be loaded from ovmm_conf.yml.\n'
                 'Try to collect variables from environment.', fg='yellow')
@@ -79,13 +79,11 @@ except FileNotFoundError:
     except KeyError:
         click.secho('ERROR: Environment variables could not be loaded. Have\n'
                     'you run sudo ovmm initialise?', fg='red')
-        pass
 except ValueError:
     click.secho('ERROR: Check if ports and password length are integers\n'
                 'and ports are stored in valid list comprehensions.\n'
                 'Program does not work!',
                 fg='red')
-    pass
 else:
     # Required
     ADMIN_PASSWORD = conf['OTREE_ADMIN_PASSWORD']
