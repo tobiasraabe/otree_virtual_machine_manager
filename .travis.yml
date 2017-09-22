@@ -28,7 +28,7 @@ matrix:
       env: TOXENV=sphinx
 
 # Configure install
-install: pip install tox-travis
+install: pip install tox-travis codacy-coverage
 
 # Configure script phase
 script: tox
