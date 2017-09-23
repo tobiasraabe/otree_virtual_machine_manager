@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the ``upgrade_statics`` command.
+
+"""
+
 import os
 
 import click

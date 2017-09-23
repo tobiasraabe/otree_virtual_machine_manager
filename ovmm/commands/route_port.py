@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the ``route_port`` command.
+
+"""
+
 import sys
 
 import click

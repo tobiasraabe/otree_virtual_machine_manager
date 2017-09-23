@@ -22,9 +22,9 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 class AliasedGroup(click.Group):
 
     def get_command(self, ctx, cmd_name):
-        rv = click.Group.get_command(self, ctx, cmd_name)
-        if rv is not None:
-            return rv
+        temp_command = click.Group.get_command(self, ctx, cmd_name)
+        if temp_command is not None:
+            return temp_command
         matches = [x for x in self.list_commands(ctx)
                    if x.startswith(cmd_name)]
         if not matches:

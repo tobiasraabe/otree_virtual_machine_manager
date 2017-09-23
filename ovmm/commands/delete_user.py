@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the ``delete_user`` command.
+
+"""
+
 import os
 import sys
 

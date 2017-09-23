@@ -67,23 +67,23 @@ def fetch_public_key(repo):
 def prepend_line(filepath, line):
     """Rewrite a file adding a line to its beginning.
     """
-    with open(filepath) as f:
-        lines = f.readlines()
+    with open(filepath) as file:
+        lines = file.readlines()
 
     lines.insert(0, line)
 
-    with open(filepath, 'w') as f:
-        f.writelines(lines)
+    with open(filepath, 'w') as file:
+        file.writelines(lines)
 
 
 def load_yaml_config(filepath):
-    with open(filepath) as f:
-        return yaml.safe_load(f)
+    with open(filepath) as file:
+        return yaml.safe_load(file)
 
 
 def save_yaml_config(filepath, config):
-    with open(filepath, 'w') as f:
-        yaml.dump(config, f, default_flow_style=False)
+    with open(filepath, 'w') as file:
+        yaml.dump(config, file, default_flow_style=False)
 
 
 def update_travis_deploy_password(encrypted_password):

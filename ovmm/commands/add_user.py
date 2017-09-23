@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the ``add_user`` command.
+
+"""
+
 import os
 import random
 import string

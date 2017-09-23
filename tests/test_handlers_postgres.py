@@ -14,7 +14,7 @@ import pytest
 
 from ovmm.config.environment import PSQL_CONN, PSQL_TABLE
 from ovmm.handlers import postgres
-from ovmm.prompts.defaults import dummy_users
+from ovmm.prompts.defaults import DUMMY_USERS
 
 # Variable is used to skip postgres tests if not on Ubuntu
 pytestmark = pytest.mark.skipif(
@@ -54,19 +54,19 @@ def test_check_connection_2():
 @pytest.mark.order4
 def test_create_user_1():
     psql = postgres.PostgreSQLDatabaseHandler()
-    dummy_users['werner'].update({'password': '1234'})
-    psql.create_user(dummy_users['werner'])
+    DUMMY_USERS['werner'].update({'password': '1234'})
+    psql.create_user(DUMMY_USERS['werner'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_TABLE, **dummy_users['werner'])
+            .format(PSQL_TABLE, **DUMMY_USERS['werner'])
         )
         user = cur.fetchone()
         for i in user:
-            assert i in dummy_users['werner'].values()
+            assert i in DUMMY_USERS['werner'].values()
     conn.close()
 
 
@@ -81,28 +81,28 @@ def test_count_user_1():
 @pytest.mark.order6
 def test_create_user_2():
     psql = postgres.PostgreSQLDatabaseHandler()
-    dummy_users['max_born'].update({'password': '98765'})
-    psql.create_user(dummy_users['max_born'])
+    DUMMY_USERS['max_born'].update({'password': '98765'})
+    psql.create_user(DUMMY_USERS['max_born'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_TABLE, **dummy_users['max_born'])
+            .format(PSQL_TABLE, **DUMMY_USERS['max_born'])
         )
         user = cur.fetchone()
         for i in user:
-            assert i in dummy_users['max_born'].values()
+            assert i in DUMMY_USERS['max_born'].values()
     conn.close()
 
 
 @pytest.mark.order7
 def test_create_duplicate_user():
     psql = postgres.PostgreSQLDatabaseHandler()
-    dummy_users['max_born'].update({'password': '98765'})
+    DUMMY_USERS['max_born'].update({'password': '98765'})
     with pytest.raises(psycopg2.IntegrityError):
-        psql.create_user(dummy_users['max_born'])
+        psql.create_user(DUMMY_USERS['max_born'])
 
 
 @pytest.mark.order8
@@ -123,22 +123,22 @@ def test_list_user():
 @pytest.mark.order10
 def test_get_user():
     dict_user = postgres.PostgreSQLDatabaseHandler.get_user(
-        dummy_users['werner']['user_name'])
-    for key in dummy_users['werner'].keys():
-        assert dict_user[key] == dummy_users['werner'][key]
+        DUMMY_USERS['werner']['user_name'])
+    for key in DUMMY_USERS['werner'].keys():
+        assert dict_user[key] == DUMMY_USERS['werner'][key]
 
 
 @pytest.mark.order11
 def test_delete_user():
     postgres.PostgreSQLDatabaseHandler.delete_user(
-        dummy_users['werner']['user_name'])
+        DUMMY_USERS['werner']['user_name'])
 
     with psycopg2.connect(**PSQL_CONN) as conn:
         cur = conn.cursor()
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_TABLE, **dummy_users['werner'])
+            .format(PSQL_TABLE, **DUMMY_USERS['werner'])
         )
         temp = cur.fetchone()
         assert temp is None

@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the ``list_user`` command.
+
+"""
+
 import click
 
 from ovmm.handlers.postgres import PostgreSQLDatabaseHandler

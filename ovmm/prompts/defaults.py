@@ -22,7 +22,7 @@ pattern and cite the famous book.
 import random
 
 
-dummy_users = {
+DUMMY_USERS = {
 
     'werner': {
         'full_name': 'Werner Heisenberg',
@@ -63,5 +63,5 @@ def get_dummy_user() -> dict:
         A dictionary of a dummy user
 
     """
-    key = random.choice(list(dummy_users.keys()))
-    return dummy_users[key]
+    key = random.choice(list(DUMMY_USERS.keys()))
+    return DUMMY_USERS[key]

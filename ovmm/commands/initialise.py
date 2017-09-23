@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the ``initialise`` command.
+
+"""
+
 import os
 from getpass import getuser
 
