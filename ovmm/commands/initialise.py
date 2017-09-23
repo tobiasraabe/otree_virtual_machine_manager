@@ -187,7 +187,6 @@ def initialise(optional_packages: bool):
 
     except Exception as e:
         click.secho(e, 'red')
-        pass
     else:
         click.secho('SUCCESS: Requirement satisfied.', fg='green')
 

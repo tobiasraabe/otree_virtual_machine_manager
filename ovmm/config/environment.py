@@ -57,7 +57,7 @@ except ValueError:
 # Environment variables
 try:
     with open(os.path.join(HOME, OSF, 'ovmm_conf.yml')) as file:
-        conf = yaml.safe_load(file.read())
+        config = yaml.safe_load(file.read())
 except FileNotFoundError:
     click.secho('WARNING: Setting could not be loaded from ovmm_conf.yml.\n'
                 'Try to collect variables from environment.', fg='yellow')
@@ -86,16 +86,16 @@ except ValueError:
                 fg='red')
 else:
     # Required
-    ADMIN_PASSWORD = conf['OTREE_ADMIN_PASSWORD']
-    PSQL_CONN = dict(conf['OVMM_PSQL_CONN'])
-    PSQL_TABLE = conf['OVMM_PSQL_TABLE']
+    ADMIN_PASSWORD = config['OTREE_ADMIN_PASSWORD']
+    PSQL_CONN = dict(config['OVMM_PSQL_CONN'])
+    PSQL_TABLE = config['OVMM_PSQL_TABLE']
     PORT_RANGES = {
         'daphne_port': list(
-            literal_eval_lc(conf['OVMM_DAPHNE_RANGE'])),
+            literal_eval_lc(config['OVMM_DAPHNE_RANGE'])),
         'ssl_port': list(
-            literal_eval_lc(conf['OVMM_SSL_RANGE'])),
+            literal_eval_lc(config['OVMM_SSL_RANGE'])),
         'redis_port': list(
-            literal_eval_lc(conf['OVMM_REDIS_RANGE'])),
+            literal_eval_lc(config['OVMM_REDIS_RANGE'])),
     }
 
     click.secho('SUCCESS: Configuration loaded.', fg='green')
