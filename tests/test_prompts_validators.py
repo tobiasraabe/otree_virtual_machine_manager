@@ -12,7 +12,7 @@ from ovmm.prompts import validators
 PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
 
 
-@pytest.mark.parametrize('parse_func,input', [
+@pytest.mark.parametrize('parse_func,inp', [
     (getattr(validators, 'validate_user_name'), 'usern'),
     (getattr(validators, 'validate_user_name'), '_username'),
     (getattr(validators, 'validate_user_name'), '1username'),
@@ -27,12 +27,12 @@ PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
     (getattr(validators, 'validate_password'), 'AbCdEf G'),
     (getattr(validators, 'validate_password'), 'password'),
 ])
-def test_parser_error(parse_func, input):
+def test_parser_error(parse_func, inp):
     with pytest.raises(click.BadParameter):
-        parse_func(ctx=None, param=None, value=input)
+        parse_func(ctx=None, param=None, value=inp)
 
 
-@pytest.mark.parametrize('parse_func,input', [
+@pytest.mark.parametrize('parse_func,inp', [
     (getattr(validators, 'validate_user_name'), 'username'),
     (getattr(validators, 'validate_user_name'), 'user_name'),
     (getattr(validators, 'validate_user_name'), 'user_1'),
@@ -45,5 +45,5 @@ def test_parser_error(parse_func, input):
     (getattr(validators, 'validate_password'), 'UserName1'),
     (getattr(validators, 'validate_telephone'), '67512635')
 ])
-def test_parser_check(parse_func, input):
-    assert parse_func(ctx=None, param=None, value=input) == input
+def test_parser_check(parse_func, inp):
+    assert parse_func(ctx=None, param=None, value=inp) == inp

@@ -3,6 +3,9 @@ oTree Virtual Machine Manager
 =============================
 
 
+.. image:: https://img.shields.io/github/license/mashape/apistatus.svg
+   :target: https://github.com/tobiasraabe/otree_virtual_machine_manager/blob/master/LICENSE
+
 .. image:: https://img.shields.io/pypi/v/ovmm.svg
     :target: https://pypi.python.org/pypi/ovmm
 
@@ -13,9 +16,8 @@ oTree Virtual Machine Manager
     :target: https://otree-virtual-machine-manager.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/tobiasraabe/otree_virtual_machine_manager/shield.svg
-    :target: https://pyup.io/repos/github/tobiasraabe/otree_virtual_machine_manager/
-    :alt: Updates
+.. image:: https://api.codacy.com/project/badge/Grade/e90efb9803ed4f51bd3d196e73b386c9
+    :target: https://www.codacy.com/app/tobiasraabe/otree_virtual_machine_manager?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tobiasraabe/otree_virtual_machine_manager&amp;utm_campaign=Badge_Grade
 
 
 oTree Virtual Machine Manager helps to manage user accounts.

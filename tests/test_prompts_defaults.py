@@ -19,11 +19,11 @@ def test_get_dummy_user():
     dummy_user = defaults.get_dummy_user()
     user_name = dummy_user['user_name']
     for key in dummy_user.keys():
-        assert dummy_user[key] == defaults.dummy_users[user_name][key]
+        assert dummy_user[key] == defaults.DUMMY_USERS[user_name][key]
 
 
 def test_validate_dummy_users():
-    dummy_users = defaults.dummy_users
+    dummy_users = defaults.DUMMY_USERS
     for key in dummy_users.keys():
         assert dummy_users[key]['user_name'] == validate_user_name(
             ctx=None, param=None, value=dummy_users[key]['user_name'])

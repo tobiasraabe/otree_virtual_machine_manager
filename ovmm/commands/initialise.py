@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the ``initialise`` command.
+
+"""
+
 import os
 from getpass import getuser
 
@@ -66,7 +70,6 @@ def initialise(optional_packages: bool):
                 sudo['apt-get', 'install', '-y', program]()
     except plumbum.ProcessExecutionError as e:
         click.secho(e, fg='red')
-        pass
     else:
         click.secho('SUCCESS: Requirement satisfied.', fg='green')
 
@@ -184,7 +187,6 @@ def initialise(optional_packages: bool):
 
     except Exception as e:
         click.secho(e, 'red')
-        pass
     else:
         click.secho('SUCCESS: Requirement satisfied.', fg='green')
 

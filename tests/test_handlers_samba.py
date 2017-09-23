@@ -10,7 +10,7 @@ test_handlers_samba
 import pytest
 
 from ovmm.handlers import samba
-from ovmm.prompts.defaults import dummy_users
+from ovmm.prompts.defaults import DUMMY_USERS
 
 
 @pytest.fixture(autouse=True)
@@ -32,7 +32,7 @@ def patching(monkeypatch, tmpdir):
 def test_add_user(tmpdir):
     # with open(tmpdir.join('smb.conf'), 'w') as file:
     #     file.write('')
-    dummy_user_1 = dummy_users['werner']
+    dummy_user_1 = DUMMY_USERS['werner']
 
     smb = samba.SambaConfigHandler()
     smb.add_user(dummy_user_1)

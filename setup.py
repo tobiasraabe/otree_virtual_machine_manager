@@ -10,7 +10,7 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'Click >= 6.0',
+    'click >= 6.0',
     'psycopg2 >= 2.6.2',
     'plumbum >= 1.6.3',
     'PyYAML >= 3.12',

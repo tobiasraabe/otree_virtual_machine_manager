@@ -132,7 +132,6 @@ class SambaConfigHandler:
                 for i, line in enumerate(input_file):
                     if line.startswith('[{}]'.format(user_name)):
                         arr.extend([i + j for j in range(5)])
-                        pass
                     elif i in arr:
                         pass
                     else:

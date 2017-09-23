@@ -20,17 +20,43 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 # Add shorter aliases for commands
 class AliasedGroup(click.Group):
+    """This class lets CLI users type in abbreviations of existing commands.
+    If there is only one possible match among registered commands,
+    the command will be executed. If there multiple matches, an error is
+    shown.
+
+    Examples
+    --------
+    - ``ovmm init`` is equal to ``ovmm initialise``
+    - ``ovmm a`` is equal to ``ovmm add_user``
+
+    """
 
     def get_command(self, ctx, cmd_name):
-        rv = click.Group.get_command(self, ctx, cmd_name)
-        if rv is not None:
-            return rv
+        """This function checks whether ``cmd_name`` can be matched to one
+        of the registered commands.
+
+        Parameters
+        ----------
+        cmd_name : str
+            Input string from the command line.
+
+        Returns
+        -------
+        matched_command : click.Command
+            Returns matched command
+
+        """
+        matched_command = click.Group.get_command(self, ctx, cmd_name)
+        if matched_command is not None:
+            return matched_command
         matches = [x for x in self.list_commands(ctx)
                    if x.startswith(cmd_name)]
         if not matches:
             return None
         elif len(matches) == 1:
-            return click.Group.get_command(self, ctx, matches[0])
+            matched_command = click.Group.get_command(self, ctx, matches[0])
+            return matched_command
         ctx.fail('Too many matches: %s' % ', '.join(sorted(matches)))
 
 

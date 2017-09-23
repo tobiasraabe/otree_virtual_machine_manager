@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains the ``add_user`` command.
+
+"""
+
 import os
 import random
 import string
@@ -47,7 +51,8 @@ PASSWORD = ''.join(random.SystemRandom().choice(
 @click.option('--password', '-p', help='Set password of user',
               prompt='Set password of user', default=PASSWORD,
               callback=validate_password)
-def add_user(user_name: str, full_name: str, email: str, telephone: str,
+@click.pass_context
+def add_user(ctx, user_name: str, full_name: str, email: str, telephone: str,
              password: str):
     """Creates a new user.
 
@@ -195,7 +200,7 @@ def add_user(user_name: str, full_name: str, email: str, telephone: str,
             'ERROR: An error occurred while creating the user.\n'
             'The system is rolled back to the previous state.\n', fg='red')
         click.secho(str(traceback.format_exc()), fg='red')
-        delete_user(dict_user=dict_user, instant_del=True)
+        ctx.invoke(delete_user, user_name=user_name)
     else:
         click.secho(
             'SUCCESS: {user_name} was created!'.format(**dict_user),

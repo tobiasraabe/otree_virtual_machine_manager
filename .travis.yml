@@ -28,7 +28,7 @@ matrix:
       env: TOXENV=sphinx
 
 # Configure install
-install: pip install tox-travis
+install: pip install tox-travis codacy-coverage coverage
 
 # Configure script phase
 script: tox
@@ -45,3 +45,6 @@ deploy:
     repo: tobiasraabe/otree_virtual_machine_manager
     tags: true
   skip_upload_docs: true
+
+after_script:
+  - python-codacy-coverage -r coverage.xml
