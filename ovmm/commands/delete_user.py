@@ -61,8 +61,8 @@ def delete_user(ctx, user_name: str):
         # retcode 1: unkown, retcode 2: invalid user name
         sudo['pkill', '-u', dict_user['user_name']](retcode=(1, 2))
         sudo['userdel', '--remove', dict_user['user_name']](retcode=(0, 6))
-        click.secho('SUCCESS: Removed user and home directory.'
-                    .format(dict_user['user_name']), fg='green')
+        click.secho('SUCCESS: Removed user {} and home directory.'
+                    .format(user_name), fg='green')
     except Exception as e:
         click.secho('ERROR: User could not be deleted.', fg='red')
         click.echo(e)
@@ -70,7 +70,7 @@ def delete_user(ctx, user_name: str):
 
     try:
         nch = NginxConfigHandler()
-        nch.delete_user(dict_user['user_name'])
+        nch.delete_user(user_name)
     except Exception as e:
         click.secho(
             'ERROR: Nginx configuration could not be deleted.', fg='red')
@@ -86,7 +86,7 @@ def delete_user(ctx, user_name: str):
 
     try:
         samba = SambaConfigHandler()
-        samba.delete_user(dict_user['user_name'])
+        samba.delete_user(user_name)
     except Exception as e:
         click.secho(
             'ERROR: User could not be deleted from Samba configuration',
@@ -115,7 +115,7 @@ def delete_user(ctx, user_name: str):
             fg='red'
         )
     else:
-        PostgreSQLDatabaseHandler.delete_user(dict_user['user_name'])
+        PostgreSQLDatabaseHandler.delete_user(user_name)
 
     click.secho('\nWARNING: The deletion process is complete. If an error\n'
                 'occurred, check it manually.\n', fg='yellow')
