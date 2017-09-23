@@ -15,6 +15,10 @@ from ovmm import cli
 
 
 def test_command_line_interface():
+    """This command checks whether the command line interface can be reached
+    and the help string is shown in its expected way.
+
+    """
     runner = CliRunner()
     result = runner.invoke(cli.main)
     assert result.exit_code == 0
