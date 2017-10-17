@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""This is the setup.py for ovmm."""
+
 from setuptools import setup
 
 with open('README.rst') as readme_file:

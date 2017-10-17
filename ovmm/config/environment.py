@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains functions for parsing environment variables."""
+
 import ast
 import os
 
@@ -12,6 +14,7 @@ from .static import HOME, OSF
 def check_list_integer(func):
     """Decorator which checks a list if it contains only integers."""
     def wrap(*args, **kwargs):
+        """Wrapped function call."""
         checked_list = [int(i) for i in func(*args, **kwargs)]
         return checked_list
     return wrap

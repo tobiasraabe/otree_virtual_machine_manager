@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This document contains everything related to Samba operations.
-
-"""
+"""This document contains everything related to Samba."""
 
 import click
 import plumbum

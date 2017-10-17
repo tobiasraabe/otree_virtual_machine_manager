@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains everything related to the PostgreSQL database."""
+
 import click
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
@@ -174,7 +176,7 @@ class PostgreSQLDatabaseHandler:
 
         num_free_ports = 10000
         num_max_ports = 10000
-        for port_name in PORT_RANGES.keys():
+        for port_name in PORT_RANGES:
             num1 = len(self.get_free_ports(port_name))
             if (num1 < num_free_ports) | (num_free_ports is None):
                 num_free_ports = num1
@@ -200,7 +202,7 @@ class PostgreSQLDatabaseHandler:
             dict_cur = conn.cursor()
             dict_cur.execute(
                 """SELECT * FROM {} WHERE user_name = '{}';"""
-                    .format(PSQL_TABLE, user_name))
+                .format(PSQL_TABLE, user_name))
             dict_user = dict_cur.fetchone()
         conn.close()
 
@@ -228,7 +230,7 @@ class PostgreSQLDatabaseHandler:
 
         """
 
-        for port_name in PORT_RANGES.keys():
+        for port_name in PORT_RANGES:
             dict_user[port_name] = min(self.get_free_ports(port_name))
 
         with psycopg2.connect(**PSQL_CONN) as conn:
