@@ -11,6 +11,7 @@ Contents:
    usage
    enduser
    contributing
+   structure
    authors
    history
 
