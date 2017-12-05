@@ -34,7 +34,11 @@ Implement Features
 ~~~~~~~~~~~~~~~~~~
 
 Look through the GitHub issues for features. Anything tagged with
-"enhancement" and "help wanted" is open to whoever wants to implement it.
+"FEATURE_REQUEST", "FEATURE_IDEA" and "HELP_WANTED" is open to whoever wants to
+implement it.
+
+Furthermore, have a look at :doc:`structure` to see how your
+implementation fits into the current design of ovmm.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~

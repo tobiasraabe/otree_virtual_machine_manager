@@ -84,7 +84,9 @@ def validate_password(ctx, param, value: str) -> str:
     elif re.fullmatch(r'[A-Za-z0-9]{{{},}}'.format(PASSWORD_LENGTH), value):
         return value
     else:
-        raise click.BadParameter('Use only alphanumeric characters.')
+        raise click.BadParameter(
+            'Use only alphanumeric and at least {} characters'.format(
+                PASSWORD_LENGTH))
 
 
 def validate_telephone(ctx, param, value: str) -> str:

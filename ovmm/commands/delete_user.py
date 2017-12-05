@@ -62,8 +62,8 @@ def delete_user(ctx, user_name: str):
 
     exception_raised = False
     try:
-        # retcode 1: unkown, retcode 2: invalid user name
-        sudo['pkill', '-u', dict_user['user_name']](retcode=(1, 2))
+        # retcode 0: unknown, retcode 1: unkown, retcode 2: invalid user name
+        sudo['pkill', '-u', dict_user['user_name']](retcode=(0, 1, 2))
         sudo['userdel', '--remove', dict_user['user_name']](retcode=(0, 6))
         click.secho('SUCCESS: Removed user {} and home directory.'
                     .format(user_name), fg='green')
