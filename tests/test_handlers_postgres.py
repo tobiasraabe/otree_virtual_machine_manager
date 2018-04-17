@@ -39,8 +39,7 @@ def test_create_table():
             """SELECT EXISTS (
             SELECT 1
             FROM pg_tables
-            WHERE tablename = '{}');""".format(PSQL_TABLE)
-        )
+            WHERE tablename = '{}');""".format(PSQL_TABLE))
         table_name = cur.fetchone()
         assert table_name[0]
     conn.close()
@@ -62,8 +61,7 @@ def test_create_user_1():
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_TABLE, **DUMMY_USERS['werner'])
-        )
+            .format(PSQL_TABLE, **DUMMY_USERS['werner']))
         user = cur.fetchone()
         for i in user:
             assert i in DUMMY_USERS['werner'].values()
@@ -89,8 +87,7 @@ def test_create_user_2():
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_TABLE, **DUMMY_USERS['max_born'])
-        )
+            .format(PSQL_TABLE, **DUMMY_USERS['max_born']))
         user = cur.fetchone()
         for i in user:
             assert i in DUMMY_USERS['max_born'].values()
@@ -138,8 +135,7 @@ def test_delete_user():
         cur.execute(
             """SELECT * FROM {}
             WHERE user_name = '{user_name}';"""
-            .format(PSQL_TABLE, **DUMMY_USERS['werner'])
-        )
+            .format(PSQL_TABLE, **DUMMY_USERS['werner']))
         temp = cur.fetchone()
         assert temp is None
     conn.close()
@@ -175,8 +171,7 @@ def test_init_missing_table():
             """SELECT EXISTS (
             SELECT 1
             FROM pg_tables
-            WHERE tablename = '{}');""".format(PSQL_TABLE)
-        )
+            WHERE tablename = '{}');""".format(PSQL_TABLE))
         table_name = cur.fetchone()
         assert table_name[0] == 0
     conn.close()
@@ -189,8 +184,7 @@ def test_init_missing_table():
             """SELECT EXISTS (
             SELECT 1
             FROM pg_tables
-            WHERE tablename = '{}');""".format(PSQL_TABLE)
-        )
+            WHERE tablename = '{}');""".format(PSQL_TABLE))
         table_name = cur.fetchone()
         assert table_name[0] == 1
     conn.close()

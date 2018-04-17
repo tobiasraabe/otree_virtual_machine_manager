@@ -70,8 +70,7 @@ class NginxConfigHandler:
                              os.path.join('/home', dict_user['user_name'],
                                           '.oTree'))
                     .replace('SSLPORT', str(dict_user['ssl_port']))
-                    .replace('DAPHNEPORT', str(dict_user['daphne_port']))
-                )
+                    .replace('DAPHNEPORT', str(dict_user['daphne_port'])))
         # Enable new page via symlink to sites-enabled
         sudo['ln', '-s', '/etc/nginx/sites-available/{user_name}'
              .format(**dict_user), '/etc/nginx/sites-enabled/']()
@@ -126,7 +125,6 @@ class NginxConfigHandler:
                     .replace('OTREEHOME',
                              os.path.join('/home', dict_user['user_name'],
                                           '.oTree'))
-                    .replace('DAPHNEPORT', str(dict_user['daphne_port']))
-                )
+                    .replace('DAPHNEPORT', str(dict_user['daphne_port'])))
         # Check integrity after insertion
         self.check_integrity()

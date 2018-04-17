@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-
 """This is the entry point for the CLI."""
-
 
 import os
 import sys
@@ -20,7 +17,7 @@ from .commands.upgrade_statics import upgrade_statics
 # Add multiple help options
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
-# Add shorter aliases for commands
+
 class AliasedGroup(click.Group):
     """Lets CLI users type in abbreviations of existing commands.
     If there is only one possible match among registered commands,

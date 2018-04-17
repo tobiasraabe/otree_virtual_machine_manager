@@ -24,7 +24,7 @@ from ovmm.prompts.parsers import parse_user_name
 ADMIN = os.path.expanduser('~').split('/')[-1]
 
 
-@click.command()
+@click.command()  # noqa: C901
 @click.option('--optional-packages/--no-optional-packages', default=False)
 def initialise(optional_packages: bool):
     """Sets system up for ovmm.
@@ -168,8 +168,7 @@ def initialise(optional_packages: bool):
                         file_in.read()
                         .replace('OTREEHOME', os.path.join(
                             '/home', current_user, '.oTree'))
-                        .replace('DAPHNEPORT', '8000')
-                    )
+                        .replace('DAPHNEPORT', '8000'))
 
             # move stdrd nginx config to backup & symlink new one
             sudo['mv', '/etc/nginx/sites-available/default',

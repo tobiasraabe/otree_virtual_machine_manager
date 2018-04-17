@@ -43,7 +43,7 @@ def test_parser_error(parse_func, inp):
     (getattr(validators, 'validate_password'), 'username'),
     (getattr(validators, 'validate_password'), 'user1234'),
     (getattr(validators, 'validate_password'), 'UserName1'),
-    (getattr(validators, 'validate_telephone'), '67512635')
+    (getattr(validators, 'validate_telephone'), '67512635'),
 ])
 def test_parser_check(parse_func, inp):
     assert parse_func(ctx=None, param=None, value=inp) == inp

@@ -39,8 +39,7 @@ def route_port(user_name: str):
     if dict_user is None:
         click.secho(
             'ERROR: User {} does not exist in database!'
-            .format(user_name), fg='red'
-        )
+            .format(user_name), fg='red')
         sys.exit(0)
     else:
         nch = NginxConfigHandler()

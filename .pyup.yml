@@ -1,5 +1,0 @@
-# Control what's being updated
-update: all
-
-# Schedule updates
-schedule: "every month"

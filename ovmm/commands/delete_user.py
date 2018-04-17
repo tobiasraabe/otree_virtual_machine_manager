@@ -21,7 +21,7 @@ from ovmm.prompts.validators import validate_user_name
 DUMMY_USER = get_dummy_user()
 
 
-@click.command()
+@click.command()  # noqa: C901
 @click.option('--user_name', '-u', help='Specify user name.', prompt=True,
               callback=validate_user_name, default=DUMMY_USER['user_name'])
 @click.pass_context
@@ -53,8 +53,7 @@ def delete_user(ctx, user_name: str):
     if dict_user is None:
         click.secho(
             'ERROR: User {} does not exist in database!'
-            .format(user_name), fg='red'
-        )
+            .format(user_name), fg='red')
         sys.exit(0)
 
     if click.confirm('Do you want a database backup?', default=True):
@@ -116,8 +115,7 @@ def delete_user(ctx, user_name: str):
             'ERROR: An exception was raised during the deletion process.\n'
             'Please, fix the problem manually. After that, run the command\n'
             'again, so that the user will also be deleted from database.',
-            fg='red'
-        )
+            fg='red')
     else:
         PostgreSQLDatabaseHandler.delete_user(user_name)
 
