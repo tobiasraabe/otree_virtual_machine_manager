@@ -1,18 +1,16 @@
 
-# Configure notification
 notifications:
   email:
     on_success: never
     on_failure: never
 
-# Configure os
 sudo: false
 dist: trusty
 addons:
   postgresql: "9.5"
 
-# Configure build matrix
 language: python
+
 python:
   - "3.4"
   - "3.5"
@@ -27,10 +25,10 @@ matrix:
     - python: "3.6"
       env: TOXENV=sphinx
 
-# Configure script phase
+install: pip install tox-travis
+
 script: tox
 
-# Define what happens on deploy
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
