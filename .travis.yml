@@ -12,11 +12,16 @@ addons:
 language: python
 
 python:
+  - "3.4"
+  - "3.5"
   - "3.6"
   - "3.6-dev"
   - "3.7-dev"
 
-install: pip install tox-travis
+install:
+  - pip install tox-travis
+  # Temporary fix for Python 3.7
+  - pip install git+https://github.com/yaml/pyyaml.git
 
 script: tox
 
