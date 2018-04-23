@@ -12,8 +12,6 @@ addons:
 language: python
 
 python:
-  - "3.4"
-  - "3.5"
   - "3.6"
   - "3.6-dev"
   - "3.7-dev"
