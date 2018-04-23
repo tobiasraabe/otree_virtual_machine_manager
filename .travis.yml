@@ -16,13 +16,6 @@ python:
   - "3.6-dev"
   - "3.7-dev"
 
-matrix:
-  include:
-    - python: "3.6"
-      env: TOXENV=linters
-    - python: "3.6"
-      env: TOXENV=sphinx
-
 install: pip install tox-travis
 
 script: tox
