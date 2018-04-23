@@ -4,8 +4,8 @@
 Contributing
 ============
 
-Contributions are welcome, and they are greatly appreciated! Every
-little bit helps, and credit will always be given.
+Contributions are welcome, and they are greatly appreciated! Every little bit
+helps, and credit will always be given.
 
 You can contribute in many ways:
 
@@ -37,24 +37,27 @@ Look through the GitHub issues for features. Anything tagged with
 "FEATURE_REQUEST", "FEATURE_IDEA" and "HELP_WANTED" is open to whoever wants to
 implement it.
 
-Furthermore, have a look at :doc:`structure` to see how your
-implementation fits into the current design of ovmm.
+Furthermore, have a look at :doc:`structure` to see how your implementation
+fits into the current design of OVMI and OVMM.
 
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-oTree Virtual Machine Manager could always use more documentation, whether as
-part of the official oTree Virtual Machine Manager docs, in docstrings, or
-even on the web in blog posts, articles, and such.
+OVMI and OVMM could always use more documentation, whether as part of the
+official docs, in docstrings, or even on the web in blog posts, articles, and
+such.
 
-If you want to participate by writing docstrings, please, follow the guidelines
-for `NumPy Style Python Docstrings
-<http://www.sphinx-doc.org/en/1.5.2/ext/napoleon.html>`_. For a complete
-example, follow this link (`Example NumPy Docstring
-<http://www.sphinx-doc.org/en/1.5.2/ext/example_numpy.html#example-numpy>`_).
+The documentation is written with reStructuredText and a short tutorial
+can be found `here <http://docutils.sourceforge.net/docs/user/rst/demo.txt>`_.
 
-A more general tutorial for reStructuredText can be found
-`here <http://docutils.sourceforge.net/docs/user/rst/demo.txt>`_.
+Record Videos
+~~~~~~~~~~~~~
+
+Explaining OVMI and OVMM in text is one thing, but most of the time a
+visualization is even better (as with research). Use `ScreenToGif`_ to make
+recordings of your screen while you are demonstrating a certain feature.
+
+.. _ScreenToGif: http://www.screentogif.com/
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
@@ -130,10 +133,9 @@ Before you submit a pull request, check that it meets these guidelines:
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
-   feature to the list in README.rst.
-3. The pull request should work for Python 3.4, 3.5 and 3.6, and for PyPy.
-   Check https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager/pull_requests
-   and make sure that the tests pass for all supported Python versions.
+   feature to the list in HISTORY.rst.
+3. The pull request has to suffice some tests before it can be merged. Review
+   the errors in the log file and correct them.
 
 Tips
 ----
@@ -141,4 +143,3 @@ Tips
 To run a subset of tests::
 
 $ py.test tests.test_otree_virtual_machine_manager
-

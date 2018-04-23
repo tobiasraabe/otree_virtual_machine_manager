@@ -41,8 +41,10 @@ Unreleased
 
 0.2.0 (2017-07-16)
 ------------------
+
 Added
 ~~~~~
+
 * ``route_port`` command to change standard ports to a different user. (Thanks,
   Felix)
 

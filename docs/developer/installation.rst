@@ -1,6 +1,3 @@
-.. highlight:: shell
-
-============
 Installation
 ============
 
@@ -90,53 +87,6 @@ repositories like so:
 Please see the documentation of your Linux distribution for help.
 
 
-Stable release
---------------
-
-To install oTree Virtual Machine Manager, run this command in your terminal:
-
-.. code-block:: console
-
-    $ sudo pip3 install ovmm
-
-This is the preferred method to install oTree Virtual Machine Manager, as it
-will always install the most recent stable release.
-
-If you don't have `pip`_ installed, this `Python installation guide`_ can
-guide you through the process.
-
-.. _pip: https://pip.pypa.io
-.. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
-
-
-From sources
-------------
-
-The sources for oTree Virtual Machine Manager can be downloaded from the
-`Github repo`_.
-
-You can either clone the public repository:
-
-.. code-block:: console
-
-    $ git clone git://github.com/tobiasraabe/otree_virtual_machine_manager
-
-Or download the `tarball`_:
-
-.. code-block:: console
-
-    $ curl  -OL https://github.com/tobiasraabe/otree_virtual_machine_manager/tarball/master
-
-Once you have a copy of the source, you can install it with:
-
-.. code-block:: console
-
-    $ sudo python3 setup.py install
-
-
-.. _Github repo: https://github.com/tobiasraabe/otree_virtual_machine_manager
-.. _tarball: https://github.com/tobiasraabe/otree_virtual_machine_manager/tarball/master
-
 .. _software_recommendations:
 
 Recommendations for Additional Software
@@ -176,4 +126,3 @@ It is recommended to obtain LightTable from the official website as the
 community packages are deprecated.
 
 You can find the website here: http://lighttable.com
-

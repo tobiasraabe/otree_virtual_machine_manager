@@ -1,6 +1,5 @@
------------------
-End User Desktop
------------------
+Getting Started
+===============
 
 Apart from the standard otree commands we created a set of commands for the end
 user to improve usability. The commands are available via command line and via
@@ -51,7 +50,7 @@ When you call up a command the command will guide you through the process.
 The below graphic provides an overview of the file structure created in the
 oTree user's home directory and the command relations.
 
-.. image:: static/otree_img_sys.svg
+.. image:: ../static/otree_img_sys.svg
    :width: 100%
 
 
@@ -103,3 +102,13 @@ change the necessary parameters in the ``otree_environ_config``.
 ``otree_restart`` sources ``otree_environ_config`` each time it is called. You
 don't need to manually source it to activate the new settings.
 
+
+Youtube tutorials
+-----------------
+
+**For end users**
+    - `Using ovmm as an end user`_
+    - `Resetting the database and backups as end user`_
+
+.. _Using ovmm as an end user: https://youtu.be/IfGKPigrOew?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+.. _Resetting the database and backups as end user: https://youtu.be/p3VmxNWIO0k?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
