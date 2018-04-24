@@ -5,7 +5,7 @@ Welcome to the documentation of OVMI and OVMM!
    :target: https://github.com/tobiasraabe/otree_virtual_machine_manager/blob/master/LICENSE
 
 .. image:: https://img.shields.io/pypi/v/ovmm.svg
-    :target: https://pypi.python.org/pypi/ovmm
+    :target: https://pypi.org/project/ovmm/
 
 .. image:: https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager.svg?branch=master
     :target: https://travis-ci.org/tobiasraabe/otree_virtual_machine_manager
