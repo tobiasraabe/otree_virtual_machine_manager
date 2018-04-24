@@ -16,12 +16,10 @@ python:
   - "3.5"
   - "3.6"
   - "3.6-dev"
-  - "3.7-dev"
+  # - "3.7-dev"  # Fix for Python 3.7 (https://github.com/yaml/pyyaml/issues/126)
 
 install:
   - pip install tox-travis
-  # Temporary fix for Python 3.7 (https://github.com/yaml/pyyaml/issues/126)
-  - pip install git+https://github.com/yaml/pyyaml.git
 
 script: tox
 
