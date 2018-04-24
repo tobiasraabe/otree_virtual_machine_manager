@@ -1,6 +1,4 @@
-"""Collection of validators used for click.options callbacks.
-
-"""
+"""Collection of validators used for click.options callbacks."""
 
 import re
 
@@ -10,8 +8,7 @@ from ovmm.config.environment import PASSWORD_LENGTH
 
 
 def validate_user_name(ctx, param, value: str) -> str:
-    """Validates if ``value`` is a correct user name.
-
+    """Validate if ``value`` is a correct user name.
 
     Parameters
     ----------
@@ -37,7 +34,7 @@ def validate_user_name(ctx, param, value: str) -> str:
 
 
 def validate_email(ctx, param, value: str) -> str:
-    """Validates if ``value`` is a valid email address.
+    """Validate if ``value`` is a valid email address.
 
     Parameters
     ----------
@@ -53,6 +50,7 @@ def validate_email(ctx, param, value: str) -> str:
     ------
     click.BadParameter
         If email address is not valid.
+
     """
     if re.fullmatch(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',
                     value):
@@ -62,7 +60,7 @@ def validate_email(ctx, param, value: str) -> str:
 
 
 def validate_password(ctx, param, value: str) -> str:
-    """Validates if ``value`` is valid password.
+    """Validate if ``value`` is valid password.
 
     Parameters
     ----------
@@ -78,6 +76,7 @@ def validate_password(ctx, param, value: str) -> str:
     ------
     click.BadParameter
         If password is not valid for unix systems.
+
     """
     if value in ['password', 'hallo123', 'admin']:
         raise click.BadParameter('You are kidding, right?')
@@ -90,8 +89,10 @@ def validate_password(ctx, param, value: str) -> str:
 
 
 def validate_telephone(ctx, param, value: str) -> str:
-    """Receives ``value``, filters digits, and returns a string containing
-    the filtered digits.
+    """Validate if ``value`` is valid telephone number.
+
+    The telephone number is not really validated, but digits in ``value``
+    are filtered.
 
     Parameters
     ----------
@@ -108,5 +109,6 @@ def validate_telephone(ctx, param, value: str) -> str:
     This is not really a validation method but since the telephone
     number is more or less optional, empty strings, etc. are
     accepted.
+
     """
     return ''.join(filter(str.isdigit, value))

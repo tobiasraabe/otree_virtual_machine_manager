@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""This is the setup.py for ovmm."""
+
 from setuptools import setup
 
 with open('README.rst') as readme_file:
@@ -19,7 +21,7 @@ requirements = [
 test_requirements = [
     'pytest',
     'pytest-ordering',
-    'pytest-cov'
+    'pytest-cov',
 ]
 
 setup(
@@ -42,7 +44,7 @@ setup(
     entry_points={
         'console_scripts': [
             'ovmm=ovmm.cli:main',
-        ]
+        ],
     },
     include_package_data=True,
     install_requires=requirements,
@@ -66,5 +68,5 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     test_suite='tests',
-    tests_require=test_requirements
+    tests_require=test_requirements,
 )

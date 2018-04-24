@@ -1,1 +1,1 @@
-# -*- coding: utf-8 -*-
+"""This module includes everything related to the configuration."""

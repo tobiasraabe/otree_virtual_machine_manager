@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""This module contains static configuration values."""
+
 import os
 
 
