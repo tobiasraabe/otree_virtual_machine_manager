@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-"""This module contains the ``initialise`` command.
-
-"""
+"""This module contains the ``initialise`` command."""
 
 import os
 from getpass import getuser
@@ -27,7 +23,7 @@ ADMIN = os.path.expanduser('~').split('/')[-1]
 @click.command()  # noqa: C901
 @click.option('--optional-packages/--no-optional-packages', default=False)
 def initialise(optional_packages: bool):
-    """Sets system up for ovmm.
+    """Set system up for ovmm.
 
     This initialisation of the environment is necessary since some of the
     commands communicate with other parts of the system (e.g.
@@ -52,7 +48,6 @@ def initialise(optional_packages: bool):
         #. Installing OVMM related content (e.g. ``ovmm_conf.yml``)
 
     """
-
     click.echo('\n{:-^60}'.format(' Process: Init '))
 
     click.echo('Installing Ubuntu dependencies...')

@@ -50,7 +50,7 @@ PASSWORD = ''.join(random.SystemRandom().choice(
 @click.pass_context
 def add_user(ctx, user_name: str, full_name: str, email: str, telephone: str,
              password: str):
-    """Creates a new user.
+    """Create a new user.
 
     .. note::
         The following steps are performed.
@@ -66,8 +66,8 @@ def add_user(ctx, user_name: str, full_name: str, email: str, telephone: str,
         #. Add alias to .profile
         #. Set user's default shell to bash
         #. Write user_config to ``ovmm_sources/user_configs/``
-    """
 
+    """
     click.echo('\n{:-^60}'.format(' Process: Add User '))
 
     # Check if additional user can be created

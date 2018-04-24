@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-"""This module contains the ``list_user`` command.
-
-"""
+"""This module contains the ``list_user`` command."""
 
 import click
 
@@ -11,10 +7,7 @@ from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 
 @click.command()
 def list_user():
-    """Lists users managed by ovmm.
-
-    """
-
+    """List users managed by ovmm."""
     click.echo('\n{:-^60}'.format(' Process: List Users '))
 
     postgres = PostgreSQLDatabaseHandler()

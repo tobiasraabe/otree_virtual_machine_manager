@@ -19,10 +19,10 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 
 class AliasedGroup(click.Group):
-    """Lets CLI users type in abbreviations of existing commands.
-    If there is only one possible match among registered commands,
-    the command will be executed. If there multiple matches, an error is
-    shown.
+    """Let CLI users type in abbreviations of existing commands.
+
+    If there is only one possible match among registered commands, the command
+    will be executed. If there multiple matches, an error is shown.
 
     Examples
     --------
@@ -32,8 +32,7 @@ class AliasedGroup(click.Group):
     """
 
     def get_command(self, ctx, cmd_name):
-        """This function checks whether ``cmd_name`` can be matched to one
-        of the registered commands.
+        """Check whether ``cmd_name`` is short for one registered command.
 
         Parameters
         ----------
@@ -62,7 +61,7 @@ class AliasedGroup(click.Group):
 @click.group(cls=AliasedGroup, context_settings=CONTEXT_SETTINGS)
 @click.version_option()
 def main():
-    """These scripts help the server admin to perform user related tasks."""
+    """Help server administrators to perform user related tasks."""
     if os.geteuid() != 0:
         click.secho(
             'ERROR: Start the program with sudo or otherwise commands\n'

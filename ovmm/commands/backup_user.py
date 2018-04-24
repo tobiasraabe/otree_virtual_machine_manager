@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+"""This module contains the ``backup_user`` command."""
 
 import os
 import sys
@@ -24,7 +24,7 @@ DUMMY_USER = get_dummy_user()
               prompt='Choose a backup strategy',
               type=click.Choice(['full', 'db', 'home']), default='full')
 def backup_user(user_name: str, strategy: str):
-    """Creates a backup of an user account.
+    r"""Create a backup of an user account.
 
     \b
     Use --strategy to specify the target.
@@ -56,7 +56,6 @@ def backup_user(user_name: str, strategy: str):
         #. Dependent on strategy, run the desired backup process
 
     """
-
     click.echo('{:-^60}\n'.format(' Process: back_user '))
 
     # Check if user exists
@@ -93,6 +92,6 @@ def backup_user(user_name: str, strategy: str):
                         .format(user_name), fg='red')
             raise
 
-    click.secho("A backup of the database was successfully created",
+    click.secho('A backup of the database was successfully created',
                 fg='green')
     click.echo('{:-^60}\n'.format(' Process: End '))

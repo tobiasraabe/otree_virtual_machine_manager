@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-"""This module contains the ``delete_user`` command.
-
-"""
+"""This module contains the ``delete_user`` command."""
 
 import os
 import sys
@@ -26,7 +22,7 @@ DUMMY_USER = get_dummy_user()
               callback=validate_user_name, default=DUMMY_USER['user_name'])
 @click.pass_context
 def delete_user(ctx, user_name: str):
-    """Removes a user.
+    """Remove a user.
 
     Parameter
     ---------
@@ -46,7 +42,6 @@ def delete_user(ctx, user_name: str):
         #. Remove entry from PostgreSQL table
 
     """
-
     click.echo('\n{:-^60}'.format(' Process: Delete User '))
 
     dict_user = PostgreSQLDatabaseHandler.get_user(user_name)

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+"""This is the configuration file for the tests."""
 
 import os
 

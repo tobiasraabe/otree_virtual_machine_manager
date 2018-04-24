@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-"""This module contains the ``count_user`` command.
-
-"""
+"""This module contains the ``count_user`` command."""
 
 import click
 
@@ -11,14 +7,13 @@ from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 
 @click.command()
 def count_user():
-    """Prints current/possible number of accounts.
+    """Print current/possible number of accounts.
 
     It subtracts the minimum number of available ports of all ports
     (Daphne, SSL, Redis) with the current number of user accounts in the
     user database and prints the results.
 
     """
-
     click.echo('\n{:-^60}'.format(' Process: Count User '))
     postgres = PostgreSQLDatabaseHandler()
     number_free_ports, number_max_ports = postgres.count_user()

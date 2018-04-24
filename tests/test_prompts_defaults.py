@@ -1,12 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-"""
-test_prompts_defaults
----------------------
-
-"""
-
+"""This module contains all tests related to prompts."""
 
 from ovmm.prompts import defaults
 
@@ -16,6 +8,7 @@ from ovmm.prompts.validators import validate_telephone
 
 
 def test_get_dummy_user():
+    """Test whether a retrieved user is equal to an imported one."""
     dummy_user = defaults.get_dummy_user()
     user_name = dummy_user['user_name']
     for key in dummy_user.keys():
@@ -23,6 +16,7 @@ def test_get_dummy_user():
 
 
 def test_validate_dummy_users():
+    """Test whether the validation works as expected."""
     dummy_users = defaults.DUMMY_USERS
     for key in dummy_users.keys():
         assert dummy_users[key]['user_name'] == validate_user_name(

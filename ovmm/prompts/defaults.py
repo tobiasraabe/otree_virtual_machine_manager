@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """This file contains default values for prompts.
 
 Example
@@ -55,7 +54,7 @@ DUMMY_USERS = {
 
 
 def get_dummy_user() -> dict:
-    """Returns one of the dummy user in :dict:`dummy_users`.
+    """Return one of the dummy user in :dict:`dummy_users`.
 
     Returns
     -------

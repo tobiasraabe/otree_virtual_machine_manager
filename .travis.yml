@@ -20,7 +20,7 @@ python:
 
 install:
   - pip install tox-travis
-  # Temporary fix for Python 3.7
+  # Temporary fix for Python 3.7 (https://github.com/yaml/pyyaml/issues/126)
   - pip install git+https://github.com/yaml/pyyaml.git
 
 script: tox

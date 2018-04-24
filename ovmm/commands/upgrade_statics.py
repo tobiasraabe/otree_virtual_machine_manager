@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-"""This module contains the ``upgrade_statics`` command.
-
-"""
+"""This module contains the ``upgrade_statics`` command."""
 
 import os
 
@@ -15,13 +11,12 @@ from ovmm.handlers.postgres import PostgreSQLDatabaseHandler
 
 @click.command()
 def upgrade_statics():
-    """Upgrades static files for all users.
+    """Upgrade static files for all users.
 
     This command helps to equip all existing user accounts with updated
     versions of ovmm's desktop helpers, etc..
 
     """
-
     click.echo('\n{:-^60}'.format(' Process: Upgrade Statics '))
 
     # Collect all user names
