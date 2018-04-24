@@ -1,6 +1,4 @@
-"""Collection of parsers used for click prompts.
-
-"""
+"""Collection of parsers used for click prompts."""
 
 import re
 
@@ -10,7 +8,7 @@ from ovmm.config.environment import PASSWORD_LENGTH
 
 
 def parse_user_name(user_name: str) -> str:
-    """Checks if ``user_name`` is valid.
+    """Check if ``user_name`` is valid.
 
     Parameters
     ----------
@@ -37,7 +35,7 @@ def parse_user_name(user_name: str) -> str:
 
 
 def parse_password(password: str) -> str:
-    """Checks if ``password`` is suffiently strong.
+    """Check if ``password`` is suffiently strong.
 
     Parameters
     ----------
@@ -63,7 +61,7 @@ def parse_password(password: str) -> str:
 
 
 def parse_lower_alpha(string: str) -> str:
-    """Checks if ``string`` consists out of at least of 6 characters.
+    """Check if ``string`` consists out of at least of 6 characters.
 
     Parameters
     ----------
@@ -89,7 +87,7 @@ def parse_lower_alpha(string: str) -> str:
 
 
 def parse_host(host: str) -> str:
-    """Checks if host is valid.
+    """Check if host is valid.
 
     Parameters
     ----------
@@ -119,7 +117,7 @@ def parse_host(host: str) -> str:
 
 
 def parse_port(port: str) -> str:
-    """Checks if port is valid.
+    """Check if port is valid.
 
     Parameters
     ----------
@@ -145,7 +143,7 @@ def parse_port(port: str) -> str:
 
 
 def parse_table_name(table_name: str) -> str:
-    """Checks if ``table_name`` is a valid name for a PostgreSQL table.
+    """Check if ``table_name`` is a valid name for a PostgreSQL table.
 
     Parameters
     ----------

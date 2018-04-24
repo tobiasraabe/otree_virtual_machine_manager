@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-"""This module contains the ``add_user`` command.
-
-"""
+"""This module contains the ``add_user`` command."""
 
 import os
 import random
@@ -54,7 +50,7 @@ PASSWORD = ''.join(random.SystemRandom().choice(
 @click.pass_context
 def add_user(ctx, user_name: str, full_name: str, email: str, telephone: str,
              password: str):
-    """Creates a new user.
+    """Create a new user.
 
     .. note::
         The following steps are performed.
@@ -70,8 +66,8 @@ def add_user(ctx, user_name: str, full_name: str, email: str, telephone: str,
         #. Add alias to .profile
         #. Set user's default shell to bash
         #. Write user_config to ``ovmm_sources/user_configs/``
-    """
 
+    """
     click.echo('\n{:-^60}'.format(' Process: Add User '))
 
     # Check if additional user can be created
@@ -94,10 +90,8 @@ def add_user(ctx, user_name: str, full_name: str, email: str, telephone: str,
     # Check if user exists in database
     postgres_check = PostgreSQLDatabaseHandler.get_user(dict_user['user_name'])
     if postgres_check is not None:
-        click.secho(
-            'ERROR: user {} already exists in database!'
-            .format(dict_user['user_name']), fg='red'
-        )
+        click.secho('ERROR: user {} already exists in database!'
+                    .format(dict_user['user_name']), fg='red')
         sys.exit(0)
     else:
         path_user = os.path.join('/home', dict_user['user_name'])
@@ -174,9 +168,7 @@ def add_user(ctx, user_name: str, full_name: str, email: str, telephone: str,
         with open(path_profile) as file_input:
             with open(os.path.join('/home', dict_user['user_name'],
                                    '.profile'), 'w') as file_output:
-                file_output.write(
-                    file_input.read().format(**dict_user)
-                )
+                file_output.write(file_input.read().format(**dict_user))
 
         # set user's default shell to bash
         sudo['usermod', '-s', '/bin/bash', dict_user['user_name']]()

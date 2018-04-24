@@ -1,39 +1,28 @@
 
-# Configure notification
 notifications:
   email:
     on_success: never
     on_failure: never
 
-# Configure os
 sudo: false
 dist: trusty
 addons:
   postgresql: "9.5"
 
-# Configure build matrix
 language: python
+
 python:
   - "3.4"
   - "3.5"
   - "3.6"
   - "3.6-dev"
-  - "3.7-dev"
+  # - "3.7-dev"  # Fix for Python 3.7 (https://github.com/yaml/pyyaml/issues/126)
 
-matrix:
-  include:
-    - python: "3.6"
-      env: TOXENV=linters
-    - python: "3.6"
-      env: TOXENV=sphinx
+install:
+  - pip install tox-travis
 
-# Configure install
-install: pip install tox-travis codacy-coverage coverage
-
-# Configure script phase
 script: tox
 
-# Define what happens on deploy
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
@@ -45,6 +34,3 @@ deploy:
     repo: tobiasraabe/otree_virtual_machine_manager
     tags: true
   skip_upload_docs: true
-
-after_script:
-  - python-codacy-coverage -r coverage.xml

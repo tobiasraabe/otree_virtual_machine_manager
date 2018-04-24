@@ -1,6 +1,4 @@
-"""Tests for ovmm.prompts.parsers
-
-"""
+"""This module contains all tests related to prompt validators."""
 
 import os
 
@@ -28,6 +26,7 @@ PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
     (getattr(validators, 'validate_password'), 'password'),
 ])
 def test_parser_error(parse_func, inp):
+    """Test whether validators raise errors."""
     with pytest.raises(click.BadParameter):
         parse_func(ctx=None, param=None, value=inp)
 
@@ -43,7 +42,8 @@ def test_parser_error(parse_func, inp):
     (getattr(validators, 'validate_password'), 'username'),
     (getattr(validators, 'validate_password'), 'user1234'),
     (getattr(validators, 'validate_password'), 'UserName1'),
-    (getattr(validators, 'validate_telephone'), '67512635')
+    (getattr(validators, 'validate_telephone'), '67512635'),
 ])
 def test_parser_check(parse_func, inp):
+    """Test whether validators raise no error."""
     assert parse_func(ctx=None, param=None, value=inp) == inp

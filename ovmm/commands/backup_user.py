@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+"""This module contains the ``backup_user`` command."""
 
 import os
 import sys
@@ -24,7 +24,7 @@ DUMMY_USER = get_dummy_user()
               prompt='Choose a backup strategy',
               type=click.Choice(['full', 'db', 'home']), default='full')
 def backup_user(user_name: str, strategy: str):
-    """Creates a backup of an user account.
+    r"""Create a backup of an user account.
 
     \b
     Use --strategy to specify the target.
@@ -56,16 +56,13 @@ def backup_user(user_name: str, strategy: str):
         #. Dependent on strategy, run the desired backup process
 
     """
-
     click.echo('{:-^60}\n'.format(' Process: back_user '))
 
     # Check if user exists
     postgres_check = PostgreSQLDatabaseHandler.get_user(user_name)
     if postgres_check is None:
-        click.secho(
-            'ERROR: user {} does not exist in database!'
-            .format(user_name), fg='red'
-        )
+        click.secho('ERROR: user {} does not exist in database!'
+                    .format(user_name), fg='red')
         sys.exit(0)
     # Create necessary directories
     if not os.path.exists(os.path.join(HOME, OSF, USER_BACKUPS)):
@@ -83,22 +80,18 @@ def backup_user(user_name: str, strategy: str):
         try:
             sudo['7z', 'a', home_file_name, os.path.join('/home', user_name)]()
         except plumbum.ProcessExecutionError:
-            click.secho(
-                'ERROR: {} does not exist in the database!'.format(user_name),
-                fg='red'
-            )
+            click.secho('ERROR: {} does not exist in the database!'
+                        .format(user_name), fg='red')
             raise
     if strategy in ['db', 'full']:
         try:
             (sudo['su', '-', 'postgres', '-c', 'pg_dump', user_name] |
              sudo['7z', 'a', '-si', db_file_name])()
         except plumbum.ProcessExecutionError:
-            click.secho(
-                'ERROR: {} does not exist in the database!'.format(user_name),
-                fg='red'
-            )
+            click.secho('ERROR: {} does not exist in the database!'
+                        .format(user_name), fg='red')
             raise
 
-    click.secho(
-        "A backup of the database was successfully created", fg='green')
+    click.secho('A backup of the database was successfully created',
+                fg='green')
     click.echo('{:-^60}\n'.format(' Process: End '))

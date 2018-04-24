@@ -1,16 +1,18 @@
-# -*- coding: utf-8 -*-
+"""This module contains functions for parsing environment variables."""
 
 import ast
-import os
-
 import click
+import functools
+import os
 import yaml
 
-from .static import HOME, OSF
+from .static import HOME
+from .static import OSF
 
 
 def check_list_integer(func):
-    """Decorator which checks a list if it contains only integers."""
+    """Check a list if it consists only out of integers."""
+    @functools.wraps
     def wrap(*args, **kwargs):
         checked_list = [int(i) for i in func(*args, **kwargs)]
         return checked_list
@@ -19,8 +21,7 @@ def check_list_integer(func):
 
 @check_list_integer
 def literal_eval_lc(lc_string: str) -> list:
-    """Converts safely a list comprehension encapsulated in a string to the
-    actual python object.
+    """Convert a string to a list comprehension.
 
     Parameters
     ----------
@@ -33,7 +34,6 @@ def literal_eval_lc(lc_string: str) -> list:
         The evaluated expression of the list comprehension.
 
     """
-
     temp = ast.parse(lc_string, mode='eval')
     evaluated_lc = eval(compile(temp, '', 'eval'))
     return evaluated_lc

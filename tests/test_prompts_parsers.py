@@ -1,6 +1,4 @@
-"""Tests for ovmm.prompts.parsers
-
-"""
+"""This module contains all tests related to prompt parsers."""
 
 import os
 
@@ -38,6 +36,7 @@ PASSWORD_LENGTH = os.environ.get('OVMM_PASSWORD_LENGTH')
     (getattr(parsers, 'parse_table_name'), 'user-table'),
 ])
 def test_parser_error(parse_func, inp):
+    """Test whether inputs raise errors in parsers."""
     with pytest.raises(click.BadParameter):
         parse_func(inp)
 
@@ -58,4 +57,5 @@ def test_parser_error(parse_func, inp):
     (getattr(parsers, 'parse_table_name'), 'user_table'),
 ])
 def test_parser_check(parse_func, inp):
+    """Test whether parsers raise no error."""
     assert parse_func(inp) == inp
