@@ -1,7 +1,5 @@
-=====
-Usage
-=====
-
+Gettings Started
+================
 
 .. _general_usage:
 
@@ -140,3 +138,16 @@ upgrade_statics / u
 --help / -h
     Shows the help page. A more detailed version is available for each
     command with ``sudo ovmm add_user --help / -h``
+
+
+Youtube tutorials
+-----------------
+
+**For administrators**
+    - `Installation of ovmm`_
+    - `Adding a user account with ovmm`_
+    - `Restoring a database`_
+
+.. _Installation of ovmm: https://youtu.be/CVh-BO2u-ak?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+.. _Adding a user account with ovmm: https://youtu.be/9hC9an9jtYc?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB
+.. _Restoring a database: https://youtu.be/bKkgbmnaJvk?list=PLLsWdtzzDdAS3c7mQi6DmlPTV4Kiw-sqB

@@ -1,5 +1,3 @@
-
-=========
 Structure
 =========
 
@@ -28,8 +26,8 @@ The tree structure of ovmm currently looks like this::
 In this view, we have only included the most relevant parts and cover each part
 separately in the following sections.
 
-``ovmm/``
----------
+OVMM
+----
 
 .. code-block:: shell
 
@@ -87,36 +85,21 @@ files for configuration values which can be static or dependent on the specific
 environment. At last, ``static/`` contains everything which needs to be copied
 to the executing account or to users accounts created by ``ovmm``.
 
-``docs/``
----------
+Documentation
+-------------
 
 .. code-block:: shell
 
     otree_virtual_machine_manager
     ├───docs
-    │   │   authors.rst
-    │   │   conf.py
-    │   │   contributing.rst
-    │   │   enduser.rst
-    │   │   history.rst
-    │   │   index.rst
-    │   │   installation.rst
-    │   │   make.bat
-    │   │   Makefile
-    │   │   readme.rst
-    │   │   structure.rst
-    │   │   usage.rst
-    │   │
-    │   ├───static
-    │   │       otree_img_sys.svg
 
 The ``docs/`` folder contains the documentation of the project as well as this
 document. New documents must be included in ``docs/index.rst`` to be compiled
 as part of the documentation. Static images, etc. have to be placed in
 ``docs/static/``.
 
-``tests/``
-----------
+Tests
+-----
 
 .. code-block:: shell
 
