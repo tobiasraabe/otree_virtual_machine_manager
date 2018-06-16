@@ -21,7 +21,7 @@ system. The setup file will be downloaded.
 Second, execute the installer and let all boxes checked or unchecked as they
 are. A short video shows the installation process
 
-.. image:: ../static/virtualbox.gif
+.. image:: ../_static/img/virtualbox.gif
     :alt: Installing VirtualBox
     :align: center
 
@@ -39,13 +39,26 @@ sure that you have enough space available on your machine.
 After the download, you need to unzip the folder which requires additional 11GB
 of space. The extraction is easily done within the context menu.
 
-.. image:: ../static/ovmi.gif
+.. image:: ../_static/img/ovmi.gif
     :alt: Extracting OVMI
     :align: center
 
 
-Opening OVMI with VirtualBox
-----------------------------
+Configuring VirtualBox with OVMI
+--------------------------------
+
+We have to add OMVI to VirtualBox and set the network configuration. We want to
+have access to the web from within the virtual machine and we would like to
+have a connection between your base OS (the host) and the OS inside the virtual
+machine (the guest). The last step allows us to quickly transfer files into and
+out of the virtual machine.
+
+1. Start VirtualBox.
+2. Select *Machine* from the top menu and choose *Add*. In the opening file
+   manager, navigate to the extracted folder and select *otree-lxle.vbox*.
+   After opening the file, an item called *otree-lxle* will be shown in a list
+   on the left side of VirtualBox.
+3.
 
 - show how to set up an internet connection for your vm and a connection
   between host and guest

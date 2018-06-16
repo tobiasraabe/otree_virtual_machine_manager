@@ -1,6 +1,9 @@
 Getting Started
 ===============
 
+Now, we will walk you through all steps starting the virtual machine to running
+your oTree experiment with OVMI.
+
 Apart from the standard otree commands we created a set of commands for the end
 user to improve usability. The commands are available via command line and via
 desktop launcher providing an easy to use GUI that guides the user through the
@@ -50,7 +53,7 @@ When you call up a command the command will guide you through the process.
 The below graphic provides an overview of the file structure created in the
 oTree user's home directory and the command relations.
 
-.. image:: ../static/otree_img_sys.svg
+.. image:: ../_static/img/otree_img_sys.svg
    :width: 100%
 
 

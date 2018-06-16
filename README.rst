@@ -33,11 +33,11 @@ need a slower transition.
 
 .. _OVMI: https://otree-virtual-machine-manager.readthedocs.io/en/latest/ovmi/introduction.html
 
-In contrast to that `OVMM`_ is directed at server administrators of research labs.
-After the server is set up with OVMI and OVMM is installed, the administrator
-can quickly create, delete, backup accounts for experimenters where all the
-routines are reduced to one command. In the background, OVMM will take care of
-the network configuration.
+In contrast to that `OVMM`_ is directed at server administrators of research
+labs. After the server is set up with OVMI and OVMM is installed, the
+administrator can quickly create, delete, backup accounts for experimenters
+where all the routines are reduced to one command. In the background, OVMM will
+take care of the network configuration.
 
 .. _OVMM: https://otree-virtual-machine-manager.readthedocs.io/en/latest/ovmm/introduction.html
 
